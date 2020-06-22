@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace API_ExpenseManagement.Models
 {
-    public class Category
+    public class Trip
     {
         [Key]
-        public int Id_Cate { get; set; }
-        public string NameCate { get; set; }
-        public string ImageCate { get; set; }
+        public int Id_Trip { get; set; }
+        public string Name_Trip { get; set; }
+        public string Image_Trip { get; set; }
         public ICollection<Income_Outcome> Income_Outcomes { get; set; }
-        public ICollection<UserCategory> UserCategories { get; set; }
     }
 }

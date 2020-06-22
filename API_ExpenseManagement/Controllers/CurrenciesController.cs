@@ -12,56 +12,56 @@ namespace API_ExpenseManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TypeCategoriesController : ControllerBase
+    public class CurrenciesController : ControllerBase
     {
         private readonly ExpenseManagementContext _context;
 
-        public TypeCategoriesController(ExpenseManagementContext context)
+        public CurrenciesController(ExpenseManagementContext context)
         {
             _context = context;
         }
 
-        // GET: api/TypeCategories
+        // GET: api/Currencies
         [HttpGet]
-        public IEnumerable<TypeCategory> GetTypeCategories()
+        public IEnumerable<Currency> GetCurrencies()
         {
-            return _context.TypeCategories;
+            return _context.Currencies;
         }
 
-        // GET: api/TypeCategories/5
+        // GET: api/Currencies/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTypeCategory([FromRoute] int id)
+        public async Task<IActionResult> GetCurrency([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var typeCategory = await _context.TypeCategories.FindAsync(id);
+            var currency = await _context.Currencies.FindAsync(id);
 
-            if (typeCategory == null)
+            if (currency == null)
             {
                 return NotFound();
             }
 
-            return Ok(typeCategory);
+            return Ok(currency);
         }
 
-        // PUT: api/TypeCategories/5
+        // PUT: api/Currencies/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTypeCategory([FromRoute] int id, [FromBody] TypeCategory typeCategory)
+        public async Task<IActionResult> PutCurrency([FromRoute] int id, [FromBody] Currency currency)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != typeCategory.Id)
+            if (id != currency.Id_Cur)
             {
                 return BadRequest();
             }
 
-            _context.Entry(typeCategory).State = EntityState.Modified;
+            _context.Entry(currency).State = EntityState.Modified;
 
             try
             {
@@ -69,7 +69,7 @@ namespace API_ExpenseManagement.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TypeCategoryExists(id))
+                if (!CurrencyExists(id))
                 {
                     return NotFound();
                 }
@@ -82,45 +82,45 @@ namespace API_ExpenseManagement.Controllers
             return NoContent();
         }
 
-        // POST: api/TypeCategories
+        // POST: api/Currencies
         [HttpPost]
-        public async Task<IActionResult> PostTypeCategory([FromBody] TypeCategory typeCategory)
+        public async Task<IActionResult> PostCurrency([FromBody] Currency currency)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.TypeCategories.Add(typeCategory);
+            _context.Currencies.Add(currency);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTypeCategory", new { id = typeCategory.Id }, typeCategory);
+            return CreatedAtAction("GetCurrency", new { id = currency.Id_Cur }, currency);
         }
 
-        // DELETE: api/TypeCategories/5
+        // DELETE: api/Currencies/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTypeCategory([FromRoute] int id)
+        public async Task<IActionResult> DeleteCurrency([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var typeCategory = await _context.TypeCategories.FindAsync(id);
-            if (typeCategory == null)
+            var currency = await _context.Currencies.FindAsync(id);
+            if (currency == null)
             {
                 return NotFound();
             }
 
-            _context.TypeCategories.Remove(typeCategory);
+            _context.Currencies.Remove(currency);
             await _context.SaveChangesAsync();
 
-            return Ok(typeCategory);
+            return Ok(currency);
         }
 
-        private bool TypeCategoryExists(int id)
+        private bool CurrencyExists(int id)
         {
-            return _context.TypeCategories.Any(e => e.Id == id);
+            return _context.Currencies.Any(e => e.Id_Cur == id);
         }
     }
 }

@@ -12,56 +12,56 @@ namespace API_ExpenseManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TypeCategoriesController : ControllerBase
+    public class LoansController : ControllerBase
     {
         private readonly ExpenseManagementContext _context;
 
-        public TypeCategoriesController(ExpenseManagementContext context)
+        public LoansController(ExpenseManagementContext context)
         {
             _context = context;
         }
 
-        // GET: api/TypeCategories
+        // GET: api/Loans
         [HttpGet]
-        public IEnumerable<TypeCategory> GetTypeCategories()
+        public IEnumerable<Loan> GetLoans()
         {
-            return _context.TypeCategories;
+            return _context.Loans;
         }
 
-        // GET: api/TypeCategories/5
+        // GET: api/Loans/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTypeCategory([FromRoute] int id)
+        public async Task<IActionResult> GetLoan([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var typeCategory = await _context.TypeCategories.FindAsync(id);
+            var loan = await _context.Loans.FindAsync(id);
 
-            if (typeCategory == null)
+            if (loan == null)
             {
                 return NotFound();
             }
 
-            return Ok(typeCategory);
+            return Ok(loan);
         }
 
-        // PUT: api/TypeCategories/5
+        // PUT: api/Loans/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTypeCategory([FromRoute] int id, [FromBody] TypeCategory typeCategory)
+        public async Task<IActionResult> PutLoan([FromRoute] int id, [FromBody] Loan loan)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != typeCategory.Id)
+            if (id != loan.Id_Loan)
             {
                 return BadRequest();
             }
 
-            _context.Entry(typeCategory).State = EntityState.Modified;
+            _context.Entry(loan).State = EntityState.Modified;
 
             try
             {
@@ -69,7 +69,7 @@ namespace API_ExpenseManagement.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TypeCategoryExists(id))
+                if (!LoanExists(id))
                 {
                     return NotFound();
                 }
@@ -82,45 +82,45 @@ namespace API_ExpenseManagement.Controllers
             return NoContent();
         }
 
-        // POST: api/TypeCategories
+        // POST: api/Loans
         [HttpPost]
-        public async Task<IActionResult> PostTypeCategory([FromBody] TypeCategory typeCategory)
+        public async Task<IActionResult> PostLoan([FromBody] Loan loan)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.TypeCategories.Add(typeCategory);
+            _context.Loans.Add(loan);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTypeCategory", new { id = typeCategory.Id }, typeCategory);
+            return CreatedAtAction("GetLoan", new { id = loan.Id_Loan }, loan);
         }
 
-        // DELETE: api/TypeCategories/5
+        // DELETE: api/Loans/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTypeCategory([FromRoute] int id)
+        public async Task<IActionResult> DeleteLoan([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var typeCategory = await _context.TypeCategories.FindAsync(id);
-            if (typeCategory == null)
+            var loan = await _context.Loans.FindAsync(id);
+            if (loan == null)
             {
                 return NotFound();
             }
 
-            _context.TypeCategories.Remove(typeCategory);
+            _context.Loans.Remove(loan);
             await _context.SaveChangesAsync();
 
-            return Ok(typeCategory);
+            return Ok(loan);
         }
 
-        private bool TypeCategoryExists(int id)
+        private bool LoanExists(int id)
         {
-            return _context.TypeCategories.Any(e => e.Id == id);
+            return _context.Loans.Any(e => e.Id_Loan == id);
         }
     }
 }

@@ -12,56 +12,56 @@ namespace API_ExpenseManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TypeCategoriesController : ControllerBase
+    public class IncomeContactsController : ControllerBase
     {
         private readonly ExpenseManagementContext _context;
 
-        public TypeCategoriesController(ExpenseManagementContext context)
+        public IncomeContactsController(ExpenseManagementContext context)
         {
             _context = context;
         }
 
-        // GET: api/TypeCategories
+        // GET: api/IncomeContacts
         [HttpGet]
-        public IEnumerable<TypeCategory> GetTypeCategories()
+        public IEnumerable<IncomeContact> GetIncomeContacts()
         {
-            return _context.TypeCategories;
+            return _context.IncomeContacts;
         }
 
-        // GET: api/TypeCategories/5
+        // GET: api/IncomeContacts/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTypeCategory([FromRoute] int id)
+        public async Task<IActionResult> GetIncomeContact([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var typeCategory = await _context.TypeCategories.FindAsync(id);
+            var incomeContact = await _context.IncomeContacts.FindAsync(id);
 
-            if (typeCategory == null)
+            if (incomeContact == null)
             {
                 return NotFound();
             }
 
-            return Ok(typeCategory);
+            return Ok(incomeContact);
         }
 
-        // PUT: api/TypeCategories/5
+        // PUT: api/IncomeContacts/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTypeCategory([FromRoute] int id, [FromBody] TypeCategory typeCategory)
+        public async Task<IActionResult> PutIncomeContact([FromRoute] int id, [FromBody] IncomeContact incomeContact)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != typeCategory.Id)
+            if (id != incomeContact.Id_IncomeContact)
             {
                 return BadRequest();
             }
 
-            _context.Entry(typeCategory).State = EntityState.Modified;
+            _context.Entry(incomeContact).State = EntityState.Modified;
 
             try
             {
@@ -69,7 +69,7 @@ namespace API_ExpenseManagement.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TypeCategoryExists(id))
+                if (!IncomeContactExists(id))
                 {
                     return NotFound();
                 }
@@ -82,45 +82,45 @@ namespace API_ExpenseManagement.Controllers
             return NoContent();
         }
 
-        // POST: api/TypeCategories
+        // POST: api/IncomeContacts
         [HttpPost]
-        public async Task<IActionResult> PostTypeCategory([FromBody] TypeCategory typeCategory)
+        public async Task<IActionResult> PostIncomeContact([FromBody] IncomeContact incomeContact)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.TypeCategories.Add(typeCategory);
+            _context.IncomeContacts.Add(incomeContact);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTypeCategory", new { id = typeCategory.Id }, typeCategory);
+            return CreatedAtAction("GetIncomeContact", new { id = incomeContact.Id_IncomeContact }, incomeContact);
         }
 
-        // DELETE: api/TypeCategories/5
+        // DELETE: api/IncomeContacts/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTypeCategory([FromRoute] int id)
+        public async Task<IActionResult> DeleteIncomeContact([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var typeCategory = await _context.TypeCategories.FindAsync(id);
-            if (typeCategory == null)
+            var incomeContact = await _context.IncomeContacts.FindAsync(id);
+            if (incomeContact == null)
             {
                 return NotFound();
             }
 
-            _context.TypeCategories.Remove(typeCategory);
+            _context.IncomeContacts.Remove(incomeContact);
             await _context.SaveChangesAsync();
 
-            return Ok(typeCategory);
+            return Ok(incomeContact);
         }
 
-        private bool TypeCategoryExists(int id)
+        private bool IncomeContactExists(int id)
         {
-            return _context.TypeCategories.Any(e => e.Id == id);
+            return _context.IncomeContacts.Any(e => e.Id_IncomeContact == id);
         }
     }
 }

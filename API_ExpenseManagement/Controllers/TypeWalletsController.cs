@@ -12,56 +12,56 @@ namespace API_ExpenseManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TypeCategoriesController : ControllerBase
+    public class TypeWalletsController : ControllerBase
     {
         private readonly ExpenseManagementContext _context;
 
-        public TypeCategoriesController(ExpenseManagementContext context)
+        public TypeWalletsController(ExpenseManagementContext context)
         {
             _context = context;
         }
 
-        // GET: api/TypeCategories
+        // GET: api/TypeWallets
         [HttpGet]
-        public IEnumerable<TypeCategory> GetTypeCategories()
+        public IEnumerable<TypeWallet> GetTypeWallets()
         {
-            return _context.TypeCategories;
+            return _context.TypeWallets;
         }
 
-        // GET: api/TypeCategories/5
+        // GET: api/TypeWallets/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTypeCategory([FromRoute] int id)
+        public async Task<IActionResult> GetTypeWallet([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var typeCategory = await _context.TypeCategories.FindAsync(id);
+            var typeWallet = await _context.TypeWallets.FindAsync(id);
 
-            if (typeCategory == null)
+            if (typeWallet == null)
             {
                 return NotFound();
             }
 
-            return Ok(typeCategory);
+            return Ok(typeWallet);
         }
 
-        // PUT: api/TypeCategories/5
+        // PUT: api/TypeWallets/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTypeCategory([FromRoute] int id, [FromBody] TypeCategory typeCategory)
+        public async Task<IActionResult> PutTypeWallet([FromRoute] int id, [FromBody] TypeWallet typeWallet)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != typeCategory.Id)
+            if (id != typeWallet.Id_Type_Wallet)
             {
                 return BadRequest();
             }
 
-            _context.Entry(typeCategory).State = EntityState.Modified;
+            _context.Entry(typeWallet).State = EntityState.Modified;
 
             try
             {
@@ -69,7 +69,7 @@ namespace API_ExpenseManagement.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TypeCategoryExists(id))
+                if (!TypeWalletExists(id))
                 {
                     return NotFound();
                 }
@@ -82,45 +82,45 @@ namespace API_ExpenseManagement.Controllers
             return NoContent();
         }
 
-        // POST: api/TypeCategories
+        // POST: api/TypeWallets
         [HttpPost]
-        public async Task<IActionResult> PostTypeCategory([FromBody] TypeCategory typeCategory)
+        public async Task<IActionResult> PostTypeWallet([FromBody] TypeWallet typeWallet)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.TypeCategories.Add(typeCategory);
+            _context.TypeWallets.Add(typeWallet);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTypeCategory", new { id = typeCategory.Id }, typeCategory);
+            return CreatedAtAction("GetTypeWallet", new { id = typeWallet.Id_Type_Wallet }, typeWallet);
         }
 
-        // DELETE: api/TypeCategories/5
+        // DELETE: api/TypeWallets/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTypeCategory([FromRoute] int id)
+        public async Task<IActionResult> DeleteTypeWallet([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var typeCategory = await _context.TypeCategories.FindAsync(id);
-            if (typeCategory == null)
+            var typeWallet = await _context.TypeWallets.FindAsync(id);
+            if (typeWallet == null)
             {
                 return NotFound();
             }
 
-            _context.TypeCategories.Remove(typeCategory);
+            _context.TypeWallets.Remove(typeWallet);
             await _context.SaveChangesAsync();
 
-            return Ok(typeCategory);
+            return Ok(typeWallet);
         }
 
-        private bool TypeCategoryExists(int id)
+        private bool TypeWalletExists(int id)
         {
-            return _context.TypeCategories.Any(e => e.Id == id);
+            return _context.TypeWallets.Any(e => e.Id_Type_Wallet == id);
         }
     }
 }
