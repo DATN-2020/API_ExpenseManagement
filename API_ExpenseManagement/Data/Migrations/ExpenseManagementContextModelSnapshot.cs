@@ -90,6 +90,8 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<int?>("TripId_Trip");
 
+                    b.Property<int?>("TypeCategoryId");
+
                     b.Property<int?>("WalletId_Wallet");
 
                     b.HasKey("Id_come");
@@ -99,6 +101,8 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasIndex("LoanId_Loan");
 
                     b.HasIndex("TripId_Trip");
+
+                    b.HasIndex("TypeCategoryId");
 
                     b.HasIndex("WalletId_Wallet");
 
@@ -271,6 +275,10 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasOne("API_ExpenseManagement.Models.Trip")
                         .WithMany("Income_Outcomes")
                         .HasForeignKey("TripId_Trip");
+
+                    b.HasOne("API_ExpenseManagement.Models.TypeCategory")
+                        .WithMany("Income_Outcomes")
+                        .HasForeignKey("TypeCategoryId");
 
                     b.HasOne("API_ExpenseManagement.Models.Wallet")
                         .WithMany("Income_Outcomes")

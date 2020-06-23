@@ -209,6 +209,7 @@ namespace API_ExpenseManagement.Data.Migrations
                     CategoryId_Cate = table.Column<int>(nullable: true),
                     LoanId_Loan = table.Column<int>(nullable: true),
                     TripId_Trip = table.Column<int>(nullable: true),
+                    TypeCategoryId = table.Column<int>(nullable: true),
                     WalletId_Wallet = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -231,6 +232,12 @@ namespace API_ExpenseManagement.Data.Migrations
                         column: x => x.TripId_Trip,
                         principalTable: "Trips",
                         principalColumn: "Id_Trip",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Income_Outcomes_TypeCategories_TypeCategoryId",
+                        column: x => x.TypeCategoryId,
+                        principalTable: "TypeCategories",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Income_Outcomes_Wallets_WalletId_Wallet",
@@ -285,6 +292,11 @@ namespace API_ExpenseManagement.Data.Migrations
                 name: "IX_Income_Outcomes_TripId_Trip",
                 table: "Income_Outcomes",
                 column: "TripId_Trip");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Income_Outcomes_TypeCategoryId",
+                table: "Income_Outcomes",
+                column: "TypeCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Income_Outcomes_WalletId_Wallet",
