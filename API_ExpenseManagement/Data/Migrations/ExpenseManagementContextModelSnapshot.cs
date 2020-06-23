@@ -82,7 +82,7 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<string>("Date_come");
 
-                    b.Property<int>("Description_come");
+                    b.Property<string>("Description_come");
 
                     b.Property<bool>("Is_Come");
 
@@ -181,9 +181,9 @@ namespace API_ExpenseManagement.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Image_Type_Wallet");
+                    b.Property<string>("Image_Type_Wallet");
 
-                    b.Property<int>("Name_Type_Wallet");
+                    b.Property<string>("Name_Type_Wallet");
 
                     b.HasKey("Id_Type_Wallet");
 

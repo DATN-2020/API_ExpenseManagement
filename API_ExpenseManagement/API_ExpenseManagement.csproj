@@ -5,7 +5,65 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <None Include="wwwroot\Image\burger.png" />
+    <None Include="wwwroot\Image\category_agreement.png" />
+    <None Include="wwwroot\Image\category_car-insurance.png" />
+    <None Include="wwwroot\Image\category_cat.png" />
+    <None Include="wwwroot\Image\category_coffee-cup.png" />
+    <None Include="wwwroot\Image\category_doctor.png" />
+    <None Include="wwwroot\Image\category_dog.png" />
+    <None Include="wwwroot\Image\category_electricity.png" />
+    <None Include="wwwroot\Image\category_fashion.png" />
+    <None Include="wwwroot\Image\category_fast-food.png" />
+    <None Include="wwwroot\Image\category_fire.png" />
+    <None Include="wwwroot\Image\category_game-controller.png" />
+    <None Include="wwwroot\Image\category_game.png" />
+    <None Include="wwwroot\Image\category_gas.png" />
+    <None Include="wwwroot\Image\category_gift.png" />
+    <None Include="wwwroot\Image\category_house.png" />
+    <None Include="wwwroot\Image\category_insurance.png" />
+    <None Include="wwwroot\Image\category_internet.png" />
+    <None Include="wwwroot\Image\category_milk.png" />
+    <None Include="wwwroot\Image\category_mobile.png" />
+    <None Include="wwwroot\Image\category_money.png" />
+    <None Include="wwwroot\Image\category_monitor.png" />
+    <None Include="wwwroot\Image\category_movie.png" />
+    <None Include="wwwroot\Image\category_parking.png" />
+    <None Include="wwwroot\Image\category_phone.png" />
+    <None Include="wwwroot\Image\category_pills.png" />
+    <None Include="wwwroot\Image\category_renthouse.png" />
+    <None Include="wwwroot\Image\category_shoe.png" />
+    <None Include="wwwroot\Image\category_shopping-cart.png" />
+    <None Include="wwwroot\Image\category_sofa.png" />
+    <None Include="wwwroot\Image\category_spa.png" />
+    <None Include="wwwroot\Image\category_sport.png" />
+    <None Include="wwwroot\Image\category_student.png" />
+    <None Include="wwwroot\Image\category_sunglasses.png" />
+    <None Include="wwwroot\Image\category_taxi.png" />
+    <None Include="wwwroot\Image\category_travel.png" />
+    <None Include="wwwroot\Image\category_use_money.png" />
+    <None Include="wwwroot\Image\category_visitor.png" />
+    <None Include="wwwroot\Image\category_water.png" />
+    <None Include="wwwroot\Image\salary.png" />
+    <None Include="wwwroot\Image\type_category_animal.png" />
+    <None Include="wwwroot\Image\type_category_baby.png" />
+    <None Include="wwwroot\Image\type_category_bonus.png" />
+    <None Include="wwwroot\Image\type_category_borrow.png" />
+    <None Include="wwwroot\Image\type_category_eating.png" />
+    <None Include="wwwroot\Image\type_category_flower.png" />
+    <None Include="wwwroot\Image\type_category_go borrow.png" />
+    <None Include="wwwroot\Image\type_category_home.png" />
+    <None Include="wwwroot\Image\type_category_hospital.png" />
+    <None Include="wwwroot\Image\type_category_interest.png" />
+    <None Include="wwwroot\Image\type_category_livingservice.png" />
+    <None Include="wwwroot\Image\type_category_location.png" />
+    <None Include="wwwroot\Image\type_category_other.png" />
+    <None Include="wwwroot\Image\type_category_person.png" />
+    <None Include="wwwroot\Image\type_category_saving.png" />
+    <None Include="wwwroot\Image\type_category_thuno.png" />
+    <None Include="wwwroot\Image\type_category_trano.png" />
+    <None Include="wwwroot\Image\type_category_travel.png" />
+    <None Include="wwwroot\Image\type_category_uniform.png" />
   </ItemGroup>
 
   <ItemGroup>

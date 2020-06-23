@@ -25,7 +25,7 @@ namespace API_ExpenseManagement.Controllers
         [HttpGet]
         public IEnumerable<TypeCategory> GetTypeCategories()
         {
-            return _context.TypeCategories;
+            return _context.TypeCategories.Include(m => m.Categories);
         }
 
         // GET: api/TypeCategories/5

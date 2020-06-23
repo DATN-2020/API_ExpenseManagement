@@ -71,8 +71,8 @@ namespace API_ExpenseManagement.Data.Migrations
                 {
                     Id_Type_Wallet = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name_Type_Wallet = table.Column<int>(nullable: false),
-                    Image_Type_Wallet = table.Column<int>(nullable: false)
+                    Name_Type_Wallet = table.Column<string>(nullable: true),
+                    Image_Type_Wallet = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -204,7 +204,7 @@ namespace API_ExpenseManagement.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Amount = table.Column<float>(nullable: false),
                     Date_come = table.Column<string>(nullable: true),
-                    Description_come = table.Column<int>(nullable: false),
+                    Description_come = table.Column<string>(nullable: true),
                     Is_Come = table.Column<bool>(nullable: false),
                     CategoryId_Cate = table.Column<int>(nullable: true),
                     LoanId_Loan = table.Column<int>(nullable: true),

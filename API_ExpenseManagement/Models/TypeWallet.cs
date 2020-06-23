@@ -10,8 +10,8 @@ namespace API_ExpenseManagement.Models
     {
         [Key]
         public int Id_Type_Wallet { get; set; }
-        public int Name_Type_Wallet { get; set; }
-        public int Image_Type_Wallet { get; set; }
+        public string Name_Type_Wallet { get; set; }
+        public string Image_Type_Wallet { get; set; }
         public ICollection<Wallet> Wallets { get; set; }
     }
 }

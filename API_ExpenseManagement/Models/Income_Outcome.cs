@@ -12,7 +12,7 @@ namespace API_ExpenseManagement.Models
         public int Id_come { get; set; }
         public float Amount { get; set; }
         public string Date_come { get; set; }
-        public int Description_come { get; set; }
+        public string Description_come { get; set; }
         public bool Is_Come { get; set; }
         public ICollection<IncomeContact> IncomeContacts { get; set; }
     }
