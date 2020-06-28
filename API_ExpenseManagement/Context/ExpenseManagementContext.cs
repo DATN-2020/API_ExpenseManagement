@@ -19,7 +19,6 @@ namespace API_ExpenseManagement.Context
         public DbSet<Category> Categories { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<TypeWallet> TypeWallets { get; set; }
-        public DbSet<Currency> Currencies { get; set; }
         public DbSet<Income_Outcome> Income_Outcomes { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Loan> Loans { get; set; }

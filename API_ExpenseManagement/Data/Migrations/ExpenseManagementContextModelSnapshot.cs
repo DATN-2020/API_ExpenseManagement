@@ -53,23 +53,6 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.ToTable("Contacts");
                 });
 
-            modelBuilder.Entity("API_ExpenseManagement.Models.Currency", b =>
-                {
-                    b.Property<int>("Id_Cur")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Image_Cur");
-
-                    b.Property<string>("Name_Cur");
-
-                    b.Property<string>("Symbol");
-
-                    b.HasKey("Id_Cur");
-
-                    b.ToTable("Currencies");
-                });
-
             modelBuilder.Entity("API_ExpenseManagement.Models.Income_Outcome", b =>
                 {
                     b.Property<int>("Id_come")
@@ -92,8 +75,6 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<int?>("TypeCategoryId");
 
-                    b.Property<int?>("WalletId_Wallet");
-
                     b.HasKey("Id_come");
 
                     b.HasIndex("CategoryId_Cate");
@@ -103,8 +84,6 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasIndex("TripId_Trip");
 
                     b.HasIndex("TypeCategoryId");
-
-                    b.HasIndex("WalletId_Wallet");
 
                     b.ToTable("Income_Outcomes");
                 });
@@ -234,23 +213,17 @@ namespace API_ExpenseManagement.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CurrencyId_Cur");
-
                     b.Property<string>("Description");
+
+                    b.Property<int>("Id_Type_Wallet");
 
                     b.Property<string>("Name_Wallet");
 
-                    b.Property<int?>("TypeWalletId_Type_Wallet");
-
-                    b.Property<int?>("User_Id");
+                    b.Property<int>("User_Id");
 
                     b.HasKey("Id_Wallet");
 
-                    b.HasIndex("CurrencyId_Cur");
-
-                    b.HasIndex("TypeWalletId_Type_Wallet");
-
-                    b.HasIndex("User_Id");
+                    b.HasIndex("Id_Type_Wallet");
 
                     b.ToTable("Wallets");
                 });
@@ -279,10 +252,6 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasOne("API_ExpenseManagement.Models.TypeCategory")
                         .WithMany("Income_Outcomes")
                         .HasForeignKey("TypeCategoryId");
-
-                    b.HasOne("API_ExpenseManagement.Models.Wallet")
-                        .WithMany("Income_Outcomes")
-                        .HasForeignKey("WalletId_Wallet");
                 });
 
             modelBuilder.Entity("API_ExpenseManagement.Models.IncomeContact", b =>
@@ -316,17 +285,10 @@ namespace API_ExpenseManagement.Data.Migrations
 
             modelBuilder.Entity("API_ExpenseManagement.Models.Wallet", b =>
                 {
-                    b.HasOne("API_ExpenseManagement.Models.Currency")
-                        .WithMany("Wallets")
-                        .HasForeignKey("CurrencyId_Cur");
-
                     b.HasOne("API_ExpenseManagement.Models.TypeWallet")
                         .WithMany("Wallets")
-                        .HasForeignKey("TypeWalletId_Type_Wallet");
-
-                    b.HasOne("API_ExpenseManagement.Models.User")
-                        .WithMany("Wallets")
-                        .HasForeignKey("User_Id");
+                        .HasForeignKey("Id_Type_Wallet")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

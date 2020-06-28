@@ -12,7 +12,7 @@ namespace API_ExpenseManagement.Models
         public int User_Id { get; set; }
         public string User_Name { get; set; }
         public string Password { get; set; }
-        public ICollection<Wallet> Wallets { get; set; }
+        //public ICollection<Wallet> Wallets { get; set; }
         public ICollection<UserCategory> UserCategories { get; set; }
     }
 }
