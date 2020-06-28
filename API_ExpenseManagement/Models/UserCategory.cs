@@ -10,5 +10,7 @@ namespace API_ExpenseManagement.Models
     {
         [Key]
         public int Id_UserCategory { get; set; }
+        public int CategoryId_Cate { get; set; }
+        public int User_Id { get; set; }
     }
 }

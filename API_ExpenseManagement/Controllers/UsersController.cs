@@ -12,56 +12,56 @@ namespace API_ExpenseManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserCategories1Controller : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly ExpenseManagementContext _context;
 
-        public UserCategories1Controller(ExpenseManagementContext context)
+        public UsersController(ExpenseManagementContext context)
         {
             _context = context;
         }
 
-        // GET: api/UserCategories1
+        // GET: api/Users
         [HttpGet]
-        public IEnumerable<UserCategory> GetUserCategory()
+        public IEnumerable<User> GetUsers()
         {
-            return _context.UserCategory;
+            return _context.Users;
         }
 
-        // GET: api/UserCategories1/5
+        // GET: api/Users/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserCategory([FromRoute] int id)
+        public async Task<IActionResult> GetUser([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var userCategory = await _context.UserCategory.FindAsync(id);
+            var user = await _context.Users.FindAsync(id);
 
-            if (userCategory == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return Ok(userCategory);
+            return Ok(user);
         }
 
-        // PUT: api/UserCategories1/5
+        // PUT: api/Users/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserCategory([FromRoute] int id, [FromBody] UserCategory userCategory)
+        public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] User user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != userCategory.Id_UserCategory)
+            if (id != user.User_Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(userCategory).State = EntityState.Modified;
+            _context.Entry(user).State = EntityState.Modified;
 
             try
             {
@@ -69,7 +69,7 @@ namespace API_ExpenseManagement.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserCategoryExists(id))
+                if (!UserExists(id))
                 {
                     return NotFound();
                 }
@@ -82,45 +82,45 @@ namespace API_ExpenseManagement.Controllers
             return NoContent();
         }
 
-        // POST: api/UserCategories1
+        // POST: api/Users
         [HttpPost]
-        public async Task<IActionResult> PostUserCategory([FromBody] UserCategory userCategory)
+        public async Task<IActionResult> PostUser([FromBody] User user)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.UserCategory.Add(userCategory);
+            _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserCategory", new { id = userCategory.Id_UserCategory }, userCategory);
+            return CreatedAtAction("GetUser", new { id = user.User_Id }, user);
         }
 
-        // DELETE: api/UserCategories1/5
+        // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserCategory([FromRoute] int id)
+        public async Task<IActionResult> DeleteUser([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var userCategory = await _context.UserCategory.FindAsync(id);
-            if (userCategory == null)
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            _context.UserCategory.Remove(userCategory);
+            _context.Users.Remove(user);
             await _context.SaveChangesAsync();
 
-            return Ok(userCategory);
+            return Ok(user);
         }
 
-        private bool UserCategoryExists(int id)
+        private bool UserExists(int id)
         {
-            return _context.UserCategory.Any(e => e.Id_UserCategory == id);
+            return _context.Users.Any(e => e.User_Id == id);
         }
     }
 }

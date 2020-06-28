@@ -14,6 +14,9 @@ namespace API_ExpenseManagement.Models
         public string Date_come { get; set; }
         public string Description_come { get; set; }
         public bool Is_Come { get; set; }
-        public ICollection<IncomeContact> IncomeContacts { get; set; }
+        public int CategoryId_Cate { get; set; }
+        public int LoanId_Loan { get; set; }
+        public int TripId_Trip { get; set; }
+        public int TypeCategoryId { get; set; }
     }
 }

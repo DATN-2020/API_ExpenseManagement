@@ -12,7 +12,5 @@ namespace API_ExpenseManagement.Models
         public int Id_Cate { get; set; }
         public string NameCate { get; set; }
         public string ImageCate { get; set; }
-        public ICollection<Income_Outcome> Income_Outcomes { get; set; }
-        public ICollection<UserCategory> UserCategories { get; set; }
     }
 }
