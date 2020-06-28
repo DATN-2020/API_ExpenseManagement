@@ -11,9 +11,11 @@ namespace API_ExpenseManagement.Models
         [Key]
         public int Id_Wallet { get; set; }
         public string Name_Wallet { get; set; }
+        public float Amount_Wallet { get; set; }
         public string Description { get; set; }
         public int Id_Type_Wallet { get; set; }
         public int User_Id { get; set; }
+        public ICollection<Income_Outcome> Income_Outcomes { get; set; }
 
     }
 }

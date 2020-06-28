@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_ExpenseManagement.Data.Migrations
 {
     [DbContext(typeof(ExpenseManagementContext))]
-    [Migration("20200628074739_InitialCreate")]
+    [Migration("20200628093136_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,19 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.ToTable("Contacts");
                 });
 
+            modelBuilder.Entity("API_ExpenseManagement.Models.CreateWallet", b =>
+                {
+                    b.Property<int>("User_Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("Amount");
+
+                    b.HasKey("User_Id");
+
+                    b.ToTable("CreateWallet");
+                });
+
             modelBuilder.Entity("API_ExpenseManagement.Models.Income_Outcome", b =>
                 {
                     b.Property<int>("Id_come")
@@ -77,11 +90,19 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<int>("TypeCategoryId");
 
+                    b.Property<int?>("WalletId_Wallet");
+
                     b.HasKey("Id_come");
+
+                    b.HasIndex("CategoryId_Cate");
 
                     b.HasIndex("LoanId_Loan");
 
                     b.HasIndex("TripId_Trip");
+
+                    b.HasIndex("TypeCategoryId");
+
+                    b.HasIndex("WalletId_Wallet");
 
                     b.ToTable("Income_Outcomes");
                 });
@@ -94,9 +115,13 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<int?>("ContactId_Contact");
 
+                    b.Property<int?>("Income_OutcomeId_come");
+
                     b.HasKey("Id_IncomeContact");
 
                     b.HasIndex("ContactId_Contact");
+
+                    b.HasIndex("Income_OutcomeId_come");
 
                     b.ToTable("IncomeContacts");
                 });
@@ -208,6 +233,10 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.HasKey("Id_UserCategory");
 
+                    b.HasIndex("CategoryId_Cate");
+
+                    b.HasIndex("User_Id");
+
                     b.ToTable("UserCategory");
                 });
 
@@ -216,6 +245,8 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.Property<int>("Id_Wallet")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("Amount_Wallet");
 
                     b.Property<string>("Description");
 
@@ -226,6 +257,8 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.Property<int>("User_Id");
 
                     b.HasKey("Id_Wallet");
+
+                    b.HasIndex("Id_Type_Wallet");
 
                     b.ToTable("Wallets");
                 });
@@ -239,6 +272,11 @@ namespace API_ExpenseManagement.Data.Migrations
 
             modelBuilder.Entity("API_ExpenseManagement.Models.Income_Outcome", b =>
                 {
+                    b.HasOne("API_ExpenseManagement.Models.Category")
+                        .WithMany("Income_Outcomes")
+                        .HasForeignKey("CategoryId_Cate")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("API_ExpenseManagement.Models.Loan")
                         .WithMany("Income_Outcomes")
                         .HasForeignKey("LoanId_Loan")
@@ -248,6 +286,15 @@ namespace API_ExpenseManagement.Data.Migrations
                         .WithMany("Income_Outcomes")
                         .HasForeignKey("TripId_Trip")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("API_ExpenseManagement.Models.TypeCategory")
+                        .WithMany("Income_Outcomes")
+                        .HasForeignKey("TypeCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("API_ExpenseManagement.Models.Wallet")
+                        .WithMany("Income_Outcomes")
+                        .HasForeignKey("WalletId_Wallet");
                 });
 
             modelBuilder.Entity("API_ExpenseManagement.Models.IncomeContact", b =>
@@ -255,6 +302,10 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasOne("API_ExpenseManagement.Models.Contact")
                         .WithMany("IncomeContacts")
                         .HasForeignKey("ContactId_Contact");
+
+                    b.HasOne("API_ExpenseManagement.Models.Income_Outcome")
+                        .WithMany("IncomeContacts")
+                        .HasForeignKey("Income_OutcomeId_come");
                 });
 
             modelBuilder.Entity("API_ExpenseManagement.Models.Loan", b =>
@@ -262,6 +313,27 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasOne("API_ExpenseManagement.Models.Contact")
                         .WithMany("Loans")
                         .HasForeignKey("ContactId_Contact");
+                });
+
+            modelBuilder.Entity("API_ExpenseManagement.Models.UserCategory", b =>
+                {
+                    b.HasOne("API_ExpenseManagement.Models.Category")
+                        .WithMany("UserCategories")
+                        .HasForeignKey("CategoryId_Cate")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("API_ExpenseManagement.Models.User")
+                        .WithMany("UserCategories")
+                        .HasForeignKey("User_Id")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("API_ExpenseManagement.Models.Wallet", b =>
+                {
+                    b.HasOne("API_ExpenseManagement.Models.TypeWallet")
+                        .WithMany("Wallets")
+                        .HasForeignKey("Id_Type_Wallet")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

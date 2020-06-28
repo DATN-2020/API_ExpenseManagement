@@ -27,5 +27,6 @@ namespace API_ExpenseManagement.Context
         public DbSet<IncomeContact> IncomeContacts { get; set; }
         public DbSet<API_ExpenseManagement.Models.UserCategory> UserCategory { get; set; }
         public DbSet<API_ExpenseManagement.Models.Login> Login { get; set; }
+        public DbSet<API_ExpenseManagement.Models.CreateWallet> CreateWallet { get; set; }
     }
 }
