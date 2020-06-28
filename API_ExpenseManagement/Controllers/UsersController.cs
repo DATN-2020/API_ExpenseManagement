@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -84,17 +85,31 @@ namespace API_ExpenseManagement.Controllers
 
         // POST: api/Users
         [HttpPost]
-        public async Task<IActionResult> PostUser([FromBody] User user)
+        public ResponseModel PostUser([FromBody] User user)
         {
-            if (!ModelState.IsValid)
+            string userName = user.User_Name;
+            string password = user.Password;
+            var log = _context.Users.
+            Where(x => x.User_Id.Equals(userName) && x.Password.Equals(password)).FirstOrDefault();
+            if (log == null)
             {
-                return BadRequest(ModelState);
+                ResponseModel res = new ResponseModel("Login fail", null, "404");
+                return res;
             }
+            else
+            {
+                ResponseModel res = new ResponseModel("Login success", log, "200");
+                return res;
+            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest(ModelState);
+            //}
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            //_context.Users.Add(user);
+            //await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.User_Id }, user);
+            //return CreatedAtAction("GetUser", new { id = user.User_Id }, user);
         }
 
         // DELETE: api/Users/5
@@ -122,5 +137,23 @@ namespace API_ExpenseManagement.Controllers
         {
             return _context.Users.Any(e => e.User_Id == id);
         }
+        //[HttpPost]
+        //public ResponseModel employeeLogin(FormCollection form)
+        //{
+        //    string userName = form["userName"];
+        //    string password = form["password"];
+        //    var log = _context.Users.
+        //    Where(x => x.User_Id.Equals(userName) && x.Password.Equals(password)).FirstOrDefault();
+        //    if (log == null)
+        //    {
+        //        ResponseModel res = new ResponseModel("Login fail", null, "404");
+        //        return res;
+        //    }
+        //    else
+        //    {
+        //        ResponseModel res = new ResponseModel("Login success", log, "200");
+        //        return res;
+        //    }
+        //}
     }
 }

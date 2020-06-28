@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace API_ExpenseManagement.Models
 {
-    public class User
+    public class Login
     {
         [Key]
-        public int User_Id { get; set; }
         public string User_Name { get; set; }
         public string Password { get; set; }
-        public string FullName { get; set; }
     }
 }
