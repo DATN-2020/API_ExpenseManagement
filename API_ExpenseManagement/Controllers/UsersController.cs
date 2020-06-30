@@ -33,16 +33,37 @@ namespace API_ExpenseManagement.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser([FromRoute] int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var user = await _context.Users.FindAsync(id);
-
+            var wallet = _context.Wallets.
+            Where(x => x.User_Id.Equals(user.User_Id)).FirstOrDefault();
+            if (user == null)
+            {
+                user.Check_Wallet = false;
+            }
+            else
+            {
+                user.Check_Wallet = true;
+            }
+            bool ck = false;
             if (user == null)
             {
                 return NotFound();
+            }
+
+            _context.Users.
+            Where(x => x.User_Id.Equals(wallet.User_Id)).FirstOrDefault();
+            if (user == null)
+            {
+                user.Check_Wallet = ck;
+            }
+            else
+            {
+                ck = true;
+                user.Check_Wallet = ck;
+            }
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
             }
 
             return Ok(user);
@@ -101,19 +122,6 @@ namespace API_ExpenseManagement.Controllers
             //    ResponseModel res = new ResponseModel("Login success", log, "200");
             //    return res;
             //}
-            var wallet = _context.Wallets.
-            Where(x => x.User_Id.Equals(user.User_Id)).FirstOrDefault();
-            //var log = _context.Users.
-            //Where(x => x.User_Id.Equals(wallet.User_Id)).FirstOrDefault();
-            if (wallet == null)
-            {
-                user.Check_Wallet = false;
-            }
-            else
-            {
-                user.Check_Wallet = true;
-            }
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
