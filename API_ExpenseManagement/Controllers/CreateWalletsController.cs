@@ -90,7 +90,7 @@ namespace API_ExpenseManagement.Controllers
             float amount = createWallet.Amount;
             Wallet insert = new Wallet();
             var check = false;
-            insert.Amount_Wallet = float.Parse(createWallet.Amount.ToString());
+            insert.Amount_Wallet = amount;
             insert.User_Id = user_Id;
             insert.Name_Wallet ="Ví tiền mặt";
             insert.Description = "";
