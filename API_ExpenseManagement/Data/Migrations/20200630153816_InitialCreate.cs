@@ -97,7 +97,8 @@ namespace API_ExpenseManagement.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     User_Name = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
-                    FullName = table.Column<string>(nullable: true)
+                    FullName = table.Column<string>(nullable: true),
+                    Check_Wallet = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -166,6 +167,12 @@ namespace API_ExpenseManagement.Data.Migrations
                         column: x => x.Id_Type_Wallet,
                         principalTable: "TypeWallets",
                         principalColumn: "Id_Type_Wallet",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Wallets_Users_User_Id",
+                        column: x => x.User_Id,
+                        principalTable: "Users",
+                        principalColumn: "User_Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -331,6 +338,11 @@ namespace API_ExpenseManagement.Data.Migrations
                 name: "IX_Wallets_Id_Type_Wallet",
                 table: "Wallets",
                 column: "Id_Type_Wallet");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Wallets_User_Id",
+                table: "Wallets",
+                column: "User_Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -349,9 +361,6 @@ namespace API_ExpenseManagement.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Income_Outcomes");
-
-            migrationBuilder.DropTable(
-                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Categories");
@@ -373,6 +382,9 @@ namespace API_ExpenseManagement.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "TypeWallets");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

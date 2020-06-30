@@ -208,6 +208,8 @@ namespace API_ExpenseManagement.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("Check_Wallet");
+
                     b.Property<string>("FullName");
 
                     b.Property<string>("Password");
@@ -257,6 +259,8 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasKey("Id_Wallet");
 
                     b.HasIndex("Id_Type_Wallet");
+
+                    b.HasIndex("User_Id");
 
                     b.ToTable("Wallets");
                 });
@@ -331,6 +335,11 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasOne("API_ExpenseManagement.Models.TypeWallet")
                         .WithMany("Wallets")
                         .HasForeignKey("Id_Type_Wallet")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("API_ExpenseManagement.Models.User")
+                        .WithMany("wallets")
+                        .HasForeignKey("User_Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

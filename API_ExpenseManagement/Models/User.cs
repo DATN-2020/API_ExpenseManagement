@@ -13,6 +13,8 @@ namespace API_ExpenseManagement.Models
         public string User_Name { get; set; }
         public string Password { get; set; }
         public string FullName { get; set; }
+        public bool Check_Wallet { get; set; }
         public ICollection<UserCategory> UserCategories { get; set; }
+        public ICollection<Wallet> wallets { get; set; }
     }
 }

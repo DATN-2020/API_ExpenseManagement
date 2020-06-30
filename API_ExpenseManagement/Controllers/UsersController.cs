@@ -85,31 +85,45 @@ namespace API_ExpenseManagement.Controllers
 
         // POST: api/Users
         [HttpPost]
-        public ResponseModel PostUser([FromBody] User user)
+        public async Task<IActionResult> PostUser([FromBody] User user)
         {
-            string userName = user.User_Name;
-            string password = user.Password;
-            var log = _context.Users.
-            Where(x => x.User_Id.Equals(userName) && x.Password.Equals(password)).FirstOrDefault();
-            if (log == null)
+            //string userName = user.User_Name;
+            //string password = user.Password;
+            //var log = _context.Users.
+            //Where(x => x.User_Id.Equals(userName) && x.Password.Equals(password)).FirstOrDefault();
+            //if (log == null)
+            //{
+            //    ResponseModel res = new ResponseModel("Login fail", null, "404");
+            //    return res;
+            //}
+            //else
+            //{
+            //    ResponseModel res = new ResponseModel("Login success", log, "200");
+            //    return res;
+            //}
+            var wallet = _context.Wallets.
+            Where(x => x.User_Id.Equals(user.User_Id)).FirstOrDefault();
+            //var log = _context.Users.
+            //Where(x => x.User_Id.Equals(wallet.User_Id)).FirstOrDefault();
+            if (wallet == null)
             {
-                ResponseModel res = new ResponseModel("Login fail", null, "404");
-                return res;
+                user.Check_Wallet = false;
             }
             else
             {
-                ResponseModel res = new ResponseModel("Login success", log, "200");
-                return res;
+                user.Check_Wallet = true;
             }
-            //if (!ModelState.IsValid)
-            //{
-            //    return BadRequest(ModelState);
-            //}
 
-            //_context.Users.Add(user);
-            //await _context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            //return CreatedAtAction("GetUser", new { id = user.User_Id }, user);
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetUser", new { id = user.User_Id }, user);
+
         }
 
         // DELETE: api/Users/5
