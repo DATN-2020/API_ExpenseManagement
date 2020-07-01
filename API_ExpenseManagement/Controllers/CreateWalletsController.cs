@@ -95,10 +95,12 @@ namespace API_ExpenseManagement.Controllers
             insert.Name_Wallet ="Ví tiền mặt";
             insert.Description = "";
             insert.Id_Type_Wallet = 1;
-            //insert.Id_Wallet = '1';
+            User user = _context.Users.Where(x => x.User_Id == user_Id).FirstOrDefault();
+            user.Check_Wallet = true;
             try
             {
                 _context.Wallets.Add(insert);
+                _context.Users.Update(user);
                 _context.SaveChanges();
                 check = true;
             }
