@@ -88,7 +88,7 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<int>("TypeCategoryId");
 
-                    b.Property<int?>("WalletId_Wallet");
+                    b.Property<int>("WalletId_Wallet");
 
                     b.HasKey("Id_come");
 
@@ -296,7 +296,8 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.HasOne("API_ExpenseManagement.Models.Wallet")
                         .WithMany("Income_Outcomes")
-                        .HasForeignKey("WalletId_Wallet");
+                        .HasForeignKey("WalletId_Wallet")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("API_ExpenseManagement.Models.IncomeContact", b =>

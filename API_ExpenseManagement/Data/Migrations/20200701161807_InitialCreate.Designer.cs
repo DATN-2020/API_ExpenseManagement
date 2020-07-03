@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_ExpenseManagement.Data.Migrations
 {
     [DbContext(typeof(ExpenseManagementContext))]
-    [Migration("20200701131606_InitialCreate")]
+    [Migration("20200701161807_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -90,7 +90,7 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<int>("TypeCategoryId");
 
-                    b.Property<int?>("WalletId_Wallet");
+                    b.Property<int>("WalletId_Wallet");
 
                     b.HasKey("Id_come");
 
@@ -298,7 +298,8 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.HasOne("API_ExpenseManagement.Models.Wallet")
                         .WithMany("Income_Outcomes")
-                        .HasForeignKey("WalletId_Wallet");
+                        .HasForeignKey("WalletId_Wallet")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("API_ExpenseManagement.Models.IncomeContact", b =>

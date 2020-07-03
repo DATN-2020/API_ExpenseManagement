@@ -84,17 +84,58 @@ namespace API_ExpenseManagement.Controllers
 
         // POST: api/Income_Outcome
         [HttpPost]
-        public async Task<IActionResult> PostIncome_Outcome([FromBody] Income_Outcome income_Outcome)
+        public ResponseModel PostIncome_Outcome([FromBody] Income_Outcome income_Outcome)
         {
-            if (!ModelState.IsValid)
+            Income_Outcome income = new Income_Outcome();
+            float amount = income_Outcome.Amount;
+            string date = income_Outcome.Date_come;
+            string desciption = income_Outcome.Description_come;
+            bool is_come = income_Outcome.Is_Come;
+            int id_cate = income_Outcome.CategoryId_Cate;
+            int id_loan = income_Outcome.LoanId_Loan;
+            int id_trip = income_Outcome.TripId_Trip;
+            int id_type = income_Outcome.TypeCategoryId;
+            int id_wallet = income_Outcome.WalletId_Wallet;
+            if(id_cate == 0)
             {
-                return BadRequest(ModelState);
+                id_cate = 1;
             }
-
-            _context.Income_Outcomes.Add(income_Outcome);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetIncome_Outcome", new { id = income_Outcome.Id_come }, income_Outcome);
+            if (id_loan == 0)
+            {
+                id_loan = 1;
+            }
+            if (id_trip == 0)
+            {
+                id_trip = 1;
+            }
+            if (id_type == 0)
+            {
+                id_type = 1;
+            }
+            if (id_wallet == 0)
+            {
+                id_wallet = 1;
+            }
+            income.Amount = amount;
+            income.Date_come = date;
+            income.Description_come = desciption;
+            income.Is_Come = is_come;
+            income.CategoryId_Cate = id_cate;
+            income.LoanId_Loan = id_loan;
+            income.TripId_Trip = id_trip;
+            income.TypeCategoryId = id_type;
+            income.WalletId_Wallet = id_wallet;
+            try
+            {
+                _context.Income_Outcomes.Add(income);
+                _context.SaveChanges();
+                ResponseModel res = new ResponseModel("Create success", null, "200");
+                return res;
+            }
+            catch {
+                ResponseModel res = new ResponseModel("Create fail", null, "404");
+                return res;
+            }
         }
 
         // DELETE: api/Income_Outcome/5

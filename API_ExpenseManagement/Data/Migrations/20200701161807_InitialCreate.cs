@@ -216,7 +216,7 @@ namespace API_ExpenseManagement.Data.Migrations
                     LoanId_Loan = table.Column<int>(nullable: false),
                     TripId_Trip = table.Column<int>(nullable: false),
                     TypeCategoryId = table.Column<int>(nullable: false),
-                    WalletId_Wallet = table.Column<int>(nullable: true)
+                    WalletId_Wallet = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -250,7 +250,7 @@ namespace API_ExpenseManagement.Data.Migrations
                         column: x => x.WalletId_Wallet,
                         principalTable: "Wallets",
                         principalColumn: "Id_Wallet",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
