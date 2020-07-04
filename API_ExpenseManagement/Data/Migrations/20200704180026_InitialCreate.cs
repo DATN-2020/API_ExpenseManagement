@@ -52,8 +52,7 @@ namespace API_ExpenseManagement.Data.Migrations
                 {
                     Id_Trip = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name_Trip = table.Column<string>(nullable: true),
-                    Image_Trip = table.Column<string>(nullable: true)
+                    Name_Trip = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -113,17 +112,17 @@ namespace API_ExpenseManagement.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name_Loan = table.Column<string>(nullable: true),
                     Date_Pay = table.Column<string>(nullable: true),
-                    ContactId_Contact = table.Column<int>(nullable: true)
+                    ContactId_contact = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Loans", x => x.Id_Loan);
                     table.ForeignKey(
-                        name: "FK_Loans_Contacts_ContactId_Contact",
-                        column: x => x.ContactId_Contact,
+                        name: "FK_Loans_Contacts_ContactId_contact",
+                        column: x => x.ContactId_contact,
                         principalTable: "Contacts",
                         principalColumn: "Id_Contact",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -215,7 +214,6 @@ namespace API_ExpenseManagement.Data.Migrations
                     CategoryId_Cate = table.Column<int>(nullable: false),
                     LoanId_Loan = table.Column<int>(nullable: false),
                     TripId_Trip = table.Column<int>(nullable: false),
-                    TypeCategoryId = table.Column<int>(nullable: false),
                     WalletId_Wallet = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -238,12 +236,6 @@ namespace API_ExpenseManagement.Data.Migrations
                         column: x => x.TripId_Trip,
                         principalTable: "Trips",
                         principalColumn: "Id_Trip",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Income_Outcomes_TypeCategories_TypeCategoryId",
-                        column: x => x.TypeCategoryId,
-                        principalTable: "TypeCategories",
-                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Income_Outcomes_Wallets_WalletId_Wallet",
@@ -300,11 +292,6 @@ namespace API_ExpenseManagement.Data.Migrations
                 column: "TripId_Trip");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Income_Outcomes_TypeCategoryId",
-                table: "Income_Outcomes",
-                column: "TypeCategoryId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Income_Outcomes_WalletId_Wallet",
                 table: "Income_Outcomes",
                 column: "WalletId_Wallet");
@@ -320,9 +307,9 @@ namespace API_ExpenseManagement.Data.Migrations
                 column: "Income_OutcomeId_come");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Loans_ContactId_Contact",
+                name: "IX_Loans_ContactId_contact",
                 table: "Loans",
-                column: "ContactId_Contact");
+                column: "ContactId_contact");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserCategory_CategoryId_Cate",
