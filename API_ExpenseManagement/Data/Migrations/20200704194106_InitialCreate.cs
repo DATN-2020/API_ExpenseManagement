@@ -47,6 +47,21 @@ namespace API_ExpenseManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Transfers",
+                columns: table => new
+                {
+                    idTransfers = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    id_chuyen = table.Column<int>(nullable: false),
+                    id_nhan = table.Column<int>(nullable: false),
+                    amount = table.Column<float>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transfers", x => x.idTransfers);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Trips",
                 columns: table => new
                 {
@@ -342,6 +357,9 @@ namespace API_ExpenseManagement.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Login");
+
+            migrationBuilder.DropTable(
+                name: "Transfers");
 
             migrationBuilder.DropTable(
                 name: "UserCategory");

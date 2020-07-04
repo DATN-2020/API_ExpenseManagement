@@ -151,6 +151,23 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.ToTable("Login");
                 });
 
+            modelBuilder.Entity("API_ExpenseManagement.Models.Transfers", b =>
+                {
+                    b.Property<int>("idTransfers")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("amount");
+
+                    b.Property<int>("id_chuyen");
+
+                    b.Property<int>("id_nhan");
+
+                    b.HasKey("idTransfers");
+
+                    b.ToTable("Transfers");
+                });
+
             modelBuilder.Entity("API_ExpenseManagement.Models.Trip", b =>
                 {
                     b.Property<int>("Id_Trip")
