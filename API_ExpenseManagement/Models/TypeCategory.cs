@@ -14,6 +14,5 @@ namespace API_ExpenseManagement.Models
         public string Image_Type { get; set; }
         public string TypeExpense { get; set; }
         public ICollection<Category> Categories { get; set; }
-        public ICollection<Income_Outcome> Income_Outcomes { get; set; }
     }
 }

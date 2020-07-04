@@ -98,8 +98,6 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.HasIndex("TripId_Trip");
 
-                    b.HasIndex("TypeCategoryId");
-
                     b.HasIndex("WalletId_Wallet");
 
                     b.ToTable("Income_Outcomes");
@@ -287,11 +285,6 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasOne("API_ExpenseManagement.Models.Trip")
                         .WithMany("Income_Outcomes")
                         .HasForeignKey("TripId_Trip")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("API_ExpenseManagement.Models.TypeCategory")
-                        .WithMany("Income_Outcomes")
-                        .HasForeignKey("TypeCategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("API_ExpenseManagement.Models.Wallet")

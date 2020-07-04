@@ -27,5 +27,10 @@ namespace API_ExpenseManagement.Controllers
             var imageFileStream = System.IO.File.OpenRead(path);
             return File(imageFileStream, "Image/png");
         }
+        //[HttpGet]
+        //public IActionResult Get()
+        //{
+        //    return PhysicalFile(@"E:\\Test.jpg", "image/jpeg");
+        //}
     }
 }
