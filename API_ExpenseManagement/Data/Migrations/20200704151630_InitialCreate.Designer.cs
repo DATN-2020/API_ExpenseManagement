@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_ExpenseManagement.Data.Migrations
 {
     [DbContext(typeof(ExpenseManagementContext))]
-    [Migration("20200704064918_InitialCreate")]
+    [Migration("20200704151630_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -87,8 +87,6 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.Property<int>("LoanId_Loan");
 
                     b.Property<int>("TripId_Trip");
-
-                    b.Property<int>("TypeCategoryId");
 
                     b.Property<int>("WalletId_Wallet");
 

@@ -106,32 +106,29 @@ namespace API_ExpenseManagement.Controllers
 
         // POST: api/Users
         [HttpPost]
-        public async Task<IActionResult> PostUser([FromBody] User user)
+        public ResponseModel PostUser([FromBody] User user)
         {
-            //string userName = user.User_Name;
-            //string password = user.Password;
-            //var log = _context.Users.
-            //Where(x => x.User_Id.Equals(userName) && x.Password.Equals(password)).FirstOrDefault();
-            //if (log == null)
-            //{
-            //    ResponseModel res = new ResponseModel("Login fail", null, "404");
-            //    return res;
-            //}
-            //else
-            //{
-            //    ResponseModel res = new ResponseModel("Login success", log, "200");
-            //    return res;
-            //}
-            if (!ModelState.IsValid)
+            string User_Name = user.User_Name;
+            string password = user.Password;
+            string full_name = user.FullName;
+            bool check_wallet = user.Check_Wallet;
+            User user1 = _context.Users.Where(m => m.User_Name == user.User_Name).FirstOrDefault();
+            if(user1 != null)
             {
-                return BadRequest(ModelState);
+                ResponseModel res = new ResponseModel("User has existed", null, "200");
+                return res;    
             }
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetUser", new { id = user.User_Id }, user);
-
+            else
+            {
+                user.User_Name = User_Name;
+                user.Password = password;
+                user.FullName = full_name;
+                user.Check_Wallet = check_wallet;
+                _context.Users.Add(user);
+                _context.SaveChanges();
+                ResponseModel res = new ResponseModel("Create success", null, "200");
+                return res;
+            }
         }
 
         // DELETE: api/Users/5

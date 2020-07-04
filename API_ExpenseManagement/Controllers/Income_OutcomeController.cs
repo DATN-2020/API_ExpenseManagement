@@ -94,7 +94,6 @@ namespace API_ExpenseManagement.Controllers
             int id_cate = income_Outcome.CategoryId_Cate;
             int id_loan = income_Outcome.LoanId_Loan;
             int id_trip = income_Outcome.TripId_Trip;
-            int id_type = income_Outcome.TypeCategoryId;
             int id_wallet = income_Outcome.WalletId_Wallet;
             if(id_cate == 0)
             {
@@ -108,10 +107,6 @@ namespace API_ExpenseManagement.Controllers
             {
                 id_trip = 1;
             }
-            if (id_type == 0)
-            {
-                id_type = 1;
-            }
             if (id_wallet == 0)
             {
                 id_wallet = 1;
@@ -123,7 +118,6 @@ namespace API_ExpenseManagement.Controllers
             income.CategoryId_Cate = id_cate;
             income.LoanId_Loan = id_loan;
             income.TripId_Trip = id_trip;
-            income.TypeCategoryId = id_type;
             income.WalletId_Wallet = id_wallet;
             try
             {

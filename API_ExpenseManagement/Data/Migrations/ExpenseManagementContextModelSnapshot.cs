@@ -86,8 +86,6 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<int>("TripId_Trip");
 
-                    b.Property<int>("TypeCategoryId");
-
                     b.Property<int>("WalletId_Wallet");
 
                     b.HasKey("Id_come");

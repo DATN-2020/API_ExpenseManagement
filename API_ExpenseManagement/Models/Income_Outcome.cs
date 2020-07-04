@@ -17,7 +17,6 @@ namespace API_ExpenseManagement.Models
         public int CategoryId_Cate { get; set; }
         public int LoanId_Loan { get; set; }
         public int TripId_Trip { get; set; }
-        public int TypeCategoryId { get; set; }
         public int WalletId_Wallet { get; set; }
         public ICollection<IncomeContact> IncomeContacts { get; set; }
     }

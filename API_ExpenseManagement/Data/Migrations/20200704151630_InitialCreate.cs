@@ -215,7 +215,6 @@ namespace API_ExpenseManagement.Data.Migrations
                     CategoryId_Cate = table.Column<int>(nullable: false),
                     LoanId_Loan = table.Column<int>(nullable: false),
                     TripId_Trip = table.Column<int>(nullable: false),
-                    TypeCategoryId = table.Column<int>(nullable: false),
                     WalletId_Wallet = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
