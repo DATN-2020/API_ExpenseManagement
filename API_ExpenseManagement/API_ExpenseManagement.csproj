@@ -44,7 +44,7 @@
     <None Include="wwwroot\Image\category_use_money.png" />
     <None Include="wwwroot\Image\category_visitor.png" />
     <None Include="wwwroot\Image\category_water.png" />
-    <None Include="wwwroot\Image\salary.png" />
+    <None Include="wwwroot\Image\type_category_salary.png" />
     <None Include="wwwroot\Image\type_category_animal.png" />
     <None Include="wwwroot\Image\type_category_baby.png" />
     <None Include="wwwroot\Image\type_category_bonus.png" />
