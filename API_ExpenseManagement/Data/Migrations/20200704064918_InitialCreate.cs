@@ -240,12 +240,6 @@ namespace API_ExpenseManagement.Data.Migrations
                         principalColumn: "Id_Trip",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Income_Outcomes_TypeCategories_TypeCategoryId",
-                        column: x => x.TypeCategoryId,
-                        principalTable: "TypeCategories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Income_Outcomes_Wallets_WalletId_Wallet",
                         column: x => x.WalletId_Wallet,
                         principalTable: "Wallets",
@@ -298,11 +292,6 @@ namespace API_ExpenseManagement.Data.Migrations
                 name: "IX_Income_Outcomes_TripId_Trip",
                 table: "Income_Outcomes",
                 column: "TripId_Trip");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Income_Outcomes_TypeCategoryId",
-                table: "Income_Outcomes",
-                column: "TypeCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Income_Outcomes_WalletId_Wallet",

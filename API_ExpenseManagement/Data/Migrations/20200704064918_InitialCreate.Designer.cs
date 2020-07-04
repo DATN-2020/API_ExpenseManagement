@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_ExpenseManagement.Data.Migrations
 {
     [DbContext(typeof(ExpenseManagementContext))]
-    [Migration("20200701161807_InitialCreate")]
+    [Migration("20200704064918_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -99,8 +99,6 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasIndex("LoanId_Loan");
 
                     b.HasIndex("TripId_Trip");
-
-                    b.HasIndex("TypeCategoryId");
 
                     b.HasIndex("WalletId_Wallet");
 
@@ -289,11 +287,6 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasOne("API_ExpenseManagement.Models.Trip")
                         .WithMany("Income_Outcomes")
                         .HasForeignKey("TripId_Trip")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("API_ExpenseManagement.Models.TypeCategory")
-                        .WithMany("Income_Outcomes")
-                        .HasForeignKey("TypeCategoryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("API_ExpenseManagement.Models.Wallet")
