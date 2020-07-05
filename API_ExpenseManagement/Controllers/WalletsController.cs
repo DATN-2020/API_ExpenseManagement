@@ -62,11 +62,9 @@ namespace API_ExpenseManagement.Controllers
                 ResponseModel res = new ResponseModel("Update fail", null, "404");
                 return res;
             }
-
-            _context.Entry(wallet).State = EntityState.Modified;
-
             try
             {
+                _context.Entry(wallet).State = EntityState.Modified;
                 _context.SaveChangesAsync();
                 ResponseModel res = new ResponseModel("Update success", null, "404");
                 return res;
@@ -103,23 +101,27 @@ namespace API_ExpenseManagement.Controllers
 
         // DELETE: api/Wallets/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWallet([FromRoute] int id)
+        public ResponseModel DeleteWallet([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                ResponseModel res = new ResponseModel("Delete fail", null, "404");
+                return res;
             }
 
-            var wallet = await _context.Wallets.FindAsync(id);
+            Wallet wallet = _context.Wallets.Find(id);
             if (wallet == null)
             {
-                return NotFound();
+                ResponseModel res = new ResponseModel("Delete fail", null, "404");
+                return res;
             }
-
-            _context.Wallets.Remove(wallet);
-            await _context.SaveChangesAsync();
-
-            return Ok(wallet);
+            else
+            {
+                _context.Wallets.Remove(wallet);
+                _context.SaveChangesAsync();
+                ResponseModel res = new ResponseModel("Delete success", null, "404");
+                return res;
+            }
         }
 
         private bool WalletExists(int id)

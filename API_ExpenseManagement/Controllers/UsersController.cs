@@ -71,37 +71,38 @@ namespace API_ExpenseManagement.Controllers
 
         // PUT: api/Users/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] User user)
+        public ResponseModel PutUser([FromRoute] int id, [FromBody] User user)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                ResponseModel res = new ResponseModel("Update fail", null, "404");
+                return res;
             }
 
             if (id != user.User_Id)
             {
-                return BadRequest();
+                ResponseModel res = new ResponseModel("Update fail", null, "404");
+                return res;
             }
-
-            _context.Entry(user).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                _context.Entry(user).State = EntityState.Modified;
+                _context.SaveChangesAsync();
+                ResponseModel res = new ResponseModel("Update success", null, "404");
+                return res;
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!UserExists(id))
                 {
-                    return NotFound();
+                    ResponseModel res = new ResponseModel("NotFound", null, "404");
+                    return res;
                 }
                 else
                 {
                     throw;
                 }
             }
-
-            return NoContent();
         }
 
         // POST: api/Users

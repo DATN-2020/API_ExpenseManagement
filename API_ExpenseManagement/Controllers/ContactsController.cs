@@ -49,37 +49,38 @@ namespace API_ExpenseManagement.Controllers
 
         // PUT: api/Contacts/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutContact([FromRoute] int id, [FromBody] Contact contact)
+        public ResponseModel PutContact([FromRoute] int id, [FromBody] Contact contact)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                ResponseModel res = new ResponseModel("Update fail", null, "404");
+                return res;
             }
 
             if (id != contact.Id_Contact)
             {
-                return BadRequest();
+                ResponseModel res = new ResponseModel("Update fail", null, "404");
+                return res;
             }
-
-            _context.Entry(contact).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                _context.Entry(contact).State = EntityState.Modified;
+                _context.SaveChangesAsync();
+                ResponseModel res = new ResponseModel("Update success", null, "404");
+                return res;
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!ContactExists(id))
                 {
-                    return NotFound();
+                    ResponseModel res = new ResponseModel("Not found", null, "404");
+                    return res;
                 }
                 else
                 {
                     throw;
                 }
-            }
-
-            return NoContent();
+            };
         }
 
         // POST: api/Contacts

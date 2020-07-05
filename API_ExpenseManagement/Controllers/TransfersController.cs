@@ -91,19 +91,27 @@ namespace API_ExpenseManagement.Controllers
             float amount = transfers.amount;
             Wallet wallet_chuyen = _context.Wallets.Where(x => x.Id_Wallet == id_chuyen).FirstOrDefault();
             Wallet wallet_nhan = _context.Wallets.Where(x => x.Id_Wallet == id_nhan).FirstOrDefault();
-            wallet_chuyen.Amount_Wallet = wallet_chuyen.Amount_Wallet - amount;
-            wallet_nhan.Amount_Wallet = wallet_nhan.Amount_Wallet + amount;
             try
             {
-                transfers.id_chuyen = id_chuyen;
-                transfers.id_nhan = id_nhan;
-                transfers.amount = amount;
-                _context.Transfers.Add(transfers);
-                _context.Update(wallet_chuyen);
-                _context.Update(wallet_nhan);
-                _context.SaveChanges();
-                ResponseModel res = new ResponseModel("Transfers success", null, "404");
-                return res;
+                    if (wallet_chuyen != null && wallet_nhan != null)
+                    {
+                        wallet_chuyen.Amount_Wallet = wallet_chuyen.Amount_Wallet - amount;
+                        wallet_nhan.Amount_Wallet = wallet_nhan.Amount_Wallet + amount;
+                        transfers.id_chuyen = id_chuyen;
+                        transfers.id_nhan = id_nhan;
+                        transfers.amount = amount;
+                        _context.Transfers.Add(transfers);
+                        _context.Update(wallet_chuyen);
+                        _context.Update(wallet_nhan);
+                        _context.SaveChanges();
+                        ResponseModel res = new ResponseModel("Transfers success", null, "404");
+                        return res;
+                    }
+                    else
+                    {
+                        ResponseModel res = new ResponseModel("Does not exits wallet", null, "404");
+                        return res;
+                    }
             }
             catch
             {

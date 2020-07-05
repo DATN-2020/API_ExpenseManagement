@@ -99,23 +99,27 @@ namespace API_ExpenseManagement.Controllers
 
         // DELETE: api/Trips/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTrip([FromRoute] int id)
+        public ResponseModel DeleteTrip([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                ResponseModel res = new ResponseModel("Delete fail", null, "404");
+                return res;
             }
 
-            var trip = await _context.Trips.FindAsync(id);
+            var trip = _context.Trips.Find(id);
             if (trip == null)
             {
-                return NotFound();
+                ResponseModel res = new ResponseModel("Delete fail", null, "404");
+                return res;
             }
-
-            _context.Trips.Remove(trip);
-            await _context.SaveChangesAsync();
-
-            return Ok(trip);
+            else
+            {
+                _context.Trips.Remove(trip);
+                _context.SaveChangesAsync();
+                ResponseModel res = new ResponseModel("Delete success", null, "404");
+                return res;
+            }
         }
 
         private bool TripExists(int id)
