@@ -148,6 +148,7 @@ namespace API_ExpenseManagement.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     NameCate = table.Column<string>(nullable: true),
                     ImageCate = table.Column<string>(nullable: true),
+                    Id_Type = table.Column<int>(nullable: false),
                     TypeCategoryId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>

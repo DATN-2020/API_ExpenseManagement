@@ -25,6 +25,8 @@ namespace API_ExpenseManagement.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Id_Type");
+
                     b.Property<string>("ImageCate");
 
                     b.Property<string>("NameCate");
