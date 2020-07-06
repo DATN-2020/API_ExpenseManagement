@@ -23,9 +23,10 @@ namespace API_ExpenseManagement.Controllers
 
         // GET: api/Wallets
         [HttpGet]
-        public IEnumerable<Wallet> GetWallets()
+        public IEnumerable<Wallet> GetWallets([FromBody] WalletsForUser obj)
         {
-            return _context.Wallets;
+            int userId = obj.User_Id;
+            return _context.Wallets.Where(x => x.User_Id == userId);
         }
 
         // GET: api/Wallets/5
@@ -83,20 +84,64 @@ namespace API_ExpenseManagement.Controllers
             }
         }
 
-        // POST: api/Wallets
+        // POST: api/wallet
         [HttpPost]
-        public async Task<IActionResult> PostWallet([FromBody] Wallet wallet)
+        public ResponseModel PostCreateWallet([FromBody] CreateWallet createWallet)
         {
-            if (!ModelState.IsValid)
+            int user_Id = createWallet.User_Id;
+            float amount = createWallet.Amount;
+            string name = createWallet.Name_Wallet;
+            string des = createWallet.Description;
+            int typeWallet = createWallet.Id_Type_Wallet;
+
+            Wallet insert = new Wallet();
+            var check = false;
+            insert.Amount_Wallet = amount;
+            insert.User_Id = user_Id;
+            if (name == null || name.Equals(""))
             {
-                return BadRequest(ModelState);
+                insert.Name_Wallet = "Ví tiền mặt";
+            }
+            else {
+                insert.Name_Wallet = name;
             }
 
-            _context.Wallets.Add(wallet);
-            await _context.SaveChangesAsync();
+            if (des == null)
+            {
+                insert.Description = "";
+            }
+            else {
+                insert.Description = des;
+            }
 
-            return CreatedAtAction("GetWallet", new { id = wallet.Id_Wallet }, wallet);
-
+            if (typeWallet == null || typeWallet == 0)
+            {
+                insert.Id_Type_Wallet = 1;
+            }
+            else {
+                insert.Id_Type_Wallet = typeWallet;
+            }
+           
+            User user = _context.Users.Where(x => x.User_Id == user_Id).FirstOrDefault();
+            user.Check_Wallet = true;
+            try
+            {
+                _context.Wallets.Add(insert);
+                _context.Users.Update(user);
+                _context.SaveChanges();
+                check = true;
+            }
+            catch { check = false; }
+            if (check == false)
+            {
+                ResponseModel res = new ResponseModel("Create fail", null, "404");
+                return res;
+            }
+            else
+            {
+                ResponseModel res = new ResponseModel("Create success", null, "200");
+                return res;
+            }
         }
 
         // DELETE: api/Wallets/5
