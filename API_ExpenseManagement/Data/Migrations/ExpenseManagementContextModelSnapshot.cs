@@ -63,9 +63,26 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<float>("Amount");
 
+                    b.Property<string>("Description");
+
+                    b.Property<int>("Id_Type_Wallet");
+
+                    b.Property<string>("Name_Wallet");
+
                     b.HasKey("User_Id");
 
                     b.ToTable("CreateWallet");
+                });
+
+            modelBuilder.Entity("API_ExpenseManagement.Models.GetWallet", b =>
+                {
+                    b.Property<int>("Userid")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("Userid");
+
+                    b.ToTable("GetWallet");
                 });
 
             modelBuilder.Entity("API_ExpenseManagement.Models.Income_Outcome", b =>

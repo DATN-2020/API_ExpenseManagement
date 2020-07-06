@@ -146,7 +146,7 @@ namespace API_ExpenseManagement.Controllers
 
         // DELETE: api/Wallets/5
         [HttpDelete("{id}")]
-        public ResponseModel DeleteWallet([FromRoute] int id)
+        public ResponseModel DeleteWallet([FromQuery] int id)
         {
             if (!ModelState.IsValid)
             {

@@ -27,11 +27,26 @@ namespace API_ExpenseManagement.Data.Migrations
                 {
                     User_Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Amount = table.Column<float>(nullable: false)
+                    Amount = table.Column<float>(nullable: false),
+                    Name_Wallet = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Id_Type_Wallet = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_CreateWallet", x => x.User_Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GetWallet",
+                columns: table => new
+                {
+                    Userid = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GetWallet", x => x.Userid);
                 });
 
             migrationBuilder.CreateTable(
@@ -352,6 +367,9 @@ namespace API_ExpenseManagement.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "CreateWallet");
+
+            migrationBuilder.DropTable(
+                name: "GetWallet");
 
             migrationBuilder.DropTable(
                 name: "IncomeContacts");
