@@ -47,13 +47,27 @@ namespace API_ExpenseManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Transfers",
+                columns: table => new
+                {
+                    idTransfers = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    id_chuyen = table.Column<int>(nullable: false),
+                    id_nhan = table.Column<int>(nullable: false),
+                    amount = table.Column<float>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transfers", x => x.idTransfers);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Trips",
                 columns: table => new
                 {
                     Id_Trip = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name_Trip = table.Column<string>(nullable: true),
-                    Image_Trip = table.Column<string>(nullable: true)
+                    Name_Trip = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -113,17 +127,17 @@ namespace API_ExpenseManagement.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name_Loan = table.Column<string>(nullable: true),
                     Date_Pay = table.Column<string>(nullable: true),
-                    ContactId_Contact = table.Column<int>(nullable: true)
+                    ContactId_contact = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Loans", x => x.Id_Loan);
                     table.ForeignKey(
-                        name: "FK_Loans_Contacts_ContactId_Contact",
-                        column: x => x.ContactId_Contact,
+                        name: "FK_Loans_Contacts_ContactId_contact",
+                        column: x => x.ContactId_contact,
                         principalTable: "Contacts",
                         principalColumn: "Id_Contact",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -134,6 +148,7 @@ namespace API_ExpenseManagement.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     NameCate = table.Column<string>(nullable: true),
                     ImageCate = table.Column<string>(nullable: true),
+                    Id_Type = table.Column<int>(nullable: false),
                     TypeCategoryId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -308,9 +323,9 @@ namespace API_ExpenseManagement.Data.Migrations
                 column: "Income_OutcomeId_come");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Loans_ContactId_Contact",
+                name: "IX_Loans_ContactId_contact",
                 table: "Loans",
-                column: "ContactId_Contact");
+                column: "ContactId_contact");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserCategory_CategoryId_Cate",
@@ -343,6 +358,9 @@ namespace API_ExpenseManagement.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Login");
+
+            migrationBuilder.DropTable(
+                name: "Transfers");
 
             migrationBuilder.DropTable(
                 name: "UserCategory");

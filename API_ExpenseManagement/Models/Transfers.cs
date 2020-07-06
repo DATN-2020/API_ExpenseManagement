@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace API_ExpenseManagement.Models
 {
-    public class Trip
+    public class Transfers
     {
         [Key]
-        public int Id_Trip { get; set; }
-        public string Name_Trip { get; set; }
-        public ICollection<Income_Outcome> Income_Outcomes { get; set; }
+        public int idTransfers { get; set; }
+        public int id_chuyen { get; set; }
+        public int id_nhan { get; set; }
+        public float amount { get; set; }
     }
 }

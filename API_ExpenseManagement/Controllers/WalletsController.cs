@@ -50,37 +50,38 @@ namespace API_ExpenseManagement.Controllers
 
         // PUT: api/Wallets/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWallet([FromRoute] int id, [FromBody] Wallet wallet)
+        public ResponseModel PutWallet([FromRoute] int id, [FromBody] Wallet wallet)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                ResponseModel res = new ResponseModel("Update fail", null, "404");
+                return res;
             }
 
             if (id != wallet.Id_Wallet)
             {
-                return BadRequest();
+                ResponseModel res = new ResponseModel("Update fail", null, "404");
+                return res;
             }
-
-            _context.Entry(wallet).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                _context.Entry(wallet).State = EntityState.Modified;
+                _context.SaveChangesAsync();
+                ResponseModel res = new ResponseModel("Update success", null, "404");
+                return res;
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!WalletExists(id))
                 {
-                    return NotFound();
+                    ResponseModel res = new ResponseModel("Not found", null, "404");
+                    return res;
                 }
                 else
                 {
                     throw;
                 }
             }
-
-            return NoContent();
         }
 
         // POST: api/wallet
@@ -145,23 +146,27 @@ namespace API_ExpenseManagement.Controllers
 
         // DELETE: api/Wallets/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteWallet([FromRoute] int id)
+        public ResponseModel DeleteWallet([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                ResponseModel res = new ResponseModel("Delete fail", null, "404");
+                return res;
             }
 
-            var wallet = await _context.Wallets.FindAsync(id);
+            Wallet wallet = _context.Wallets.Find(id);
             if (wallet == null)
             {
-                return NotFound();
+                ResponseModel res = new ResponseModel("Delete fail", null, "404");
+                return res;
             }
-
-            _context.Wallets.Remove(wallet);
-            await _context.SaveChangesAsync();
-
-            return Ok(wallet);
+            else
+            {
+                _context.Wallets.Remove(wallet);
+                _context.SaveChangesAsync();
+                ResponseModel res = new ResponseModel("Delete success", null, "404");
+                return res;
+            }
         }
 
         private bool WalletExists(int id)

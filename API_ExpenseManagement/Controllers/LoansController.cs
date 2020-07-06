@@ -49,37 +49,42 @@ namespace API_ExpenseManagement.Controllers
 
         // PUT: api/Loans/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutLoan([FromRoute] int id, [FromBody] Loan loan)
+        public ResponseModel PutLoan([FromRoute] int id, [FromBody] Loan loan)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                ResponseModel res = new ResponseModel("Update fail", null, "404");
+                return res;
             }
 
             if (id != loan.Id_Loan)
             {
-                return BadRequest();
+                ResponseModel res = new ResponseModel("Update fail", null, "404");
+                return res;
             }
 
-            _context.Entry(loan).State = EntityState.Modified;
+            
 
             try
             {
-                await _context.SaveChangesAsync();
+                _context.Entry(loan).State = EntityState.Modified;
+                _context.SaveChangesAsync();
+                ResponseModel res = new ResponseModel("Update success", null, "404");
+                return res;
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!LoanExists(id))
                 {
-                    return NotFound();
+                    ResponseModel res = new ResponseModel("Update fail", null, "404");
+                    return res;
+
                 }
                 else
                 {
                     throw;
                 }
             }
-
-            return NoContent();
         }
 
         // POST: api/Loans
@@ -99,23 +104,27 @@ namespace API_ExpenseManagement.Controllers
 
         // DELETE: api/Loans/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteLoan([FromRoute] int id)
+        public ResponseModel DeleteLoan([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                ResponseModel res = new ResponseModel("Delete fail", null, "404");
+                return res;
             }
 
-            var loan = await _context.Loans.FindAsync(id);
+            var loan = _context.Loans.Find(id);
             if (loan == null)
             {
-                return NotFound();
+                ResponseModel res = new ResponseModel("Delete fail", null, "404");
+                return res;
             }
-
-            _context.Loans.Remove(loan);
-            await _context.SaveChangesAsync();
-
-            return Ok(loan);
+            else
+            {
+                _context.Loans.Remove(loan);
+                _context.SaveChangesAsync();
+                ResponseModel res = new ResponseModel("Delete success", null, "404");
+                return res;
+            }
         }
 
         private bool LoanExists(int id)

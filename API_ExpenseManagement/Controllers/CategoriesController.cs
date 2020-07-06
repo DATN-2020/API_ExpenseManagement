@@ -84,17 +84,35 @@ namespace API_ExpenseManagement.Controllers
 
         // POST: api/Categories
         [HttpPost]
-        public async Task<IActionResult> PostCategory([FromBody] Category category)
+        public ResponseModel PostCategory([FromBody] Category category)
         {
-            if (!ModelState.IsValid)
+            string name = category.NameCate;
+            string image = category.ImageCate;
+            int id_type = category.Id_Type;
+            Category category1 = _context.Categories.Where(m => m.NameCate == category.NameCate).FirstOrDefault();
+            try
             {
-                return BadRequest(ModelState);
+                if (category1 == null)
+                {
+                    category.NameCate = name;
+                    category.ImageCate = image;
+                    category.Id_Type = id_type;
+                    _context.Categories.Add(category);
+                    _context.SaveChanges();
+                    ResponseModel res = new ResponseModel("Create success", null, "200");
+                    return res;
+                }
+                else
+                {
+                    ResponseModel res = new ResponseModel("Category has existed", null, "200");
+                    return res;
+                }
             }
-
-            _context.Categories.Add(category);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCategory", new { id = category.Id_Cate }, category);
+            catch
+            {
+                ResponseModel res = new ResponseModel("Create fail", null, "200");
+                return res;
+            }
         }
 
         // DELETE: api/Categories/5
