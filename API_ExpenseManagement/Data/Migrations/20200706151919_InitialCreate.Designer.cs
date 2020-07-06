@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_ExpenseManagement.Data.Migrations
 {
     [DbContext(typeof(ExpenseManagementContext))]
-    [Migration("20200706141648_InitialCreate")]
+    [Migration("20200706151919_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,17 +27,15 @@ namespace API_ExpenseManagement.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Id_Type");
+                    b.Property<int>("Id_type");
 
                     b.Property<string>("ImageCate");
 
                     b.Property<string>("NameCate");
 
-                    b.Property<int?>("TypeCategoryId");
-
                     b.HasKey("Id_Cate");
 
-                    b.HasIndex("TypeCategoryId");
+                    b.HasIndex("Id_type");
 
                     b.ToTable("Categories");
                 });
@@ -74,6 +72,19 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasKey("User_Id");
 
                     b.ToTable("CreateWallet");
+                });
+
+            modelBuilder.Entity("API_ExpenseManagement.Models.GetCategory", b =>
+                {
+                    b.Property<int>("userId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("idType");
+
+                    b.HasKey("userId");
+
+                    b.ToTable("GetCategory");
                 });
 
             modelBuilder.Entity("API_ExpenseManagement.Models.GetWallet", b =>
@@ -204,7 +215,7 @@ namespace API_ExpenseManagement.Data.Migrations
 
             modelBuilder.Entity("API_ExpenseManagement.Models.TypeCategory", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Id_type")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -214,7 +225,7 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<string>("TypeExpense");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id_type");
 
                     b.ToTable("TypeCategories");
                 });
@@ -301,7 +312,8 @@ namespace API_ExpenseManagement.Data.Migrations
                 {
                     b.HasOne("API_ExpenseManagement.Models.TypeCategory")
                         .WithMany("Categories")
-                        .HasForeignKey("TypeCategoryId");
+                        .HasForeignKey("Id_type")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("API_ExpenseManagement.Models.Income_Outcome", b =>

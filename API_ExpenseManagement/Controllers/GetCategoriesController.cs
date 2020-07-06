@@ -12,56 +12,56 @@ namespace API_ExpenseManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TypeCategoriesController : ControllerBase
+    public class GetCategoriesController : ControllerBase
     {
         private readonly ExpenseManagementContext _context;
 
-        public TypeCategoriesController(ExpenseManagementContext context)
+        public GetCategoriesController(ExpenseManagementContext context)
         {
             _context = context;
         }
 
-        // GET: api/TypeCategories
+        // GET: api/GetCategories
         [HttpGet]
-        public IEnumerable<TypeCategory> GetTypeCategories()
+        public IEnumerable<GetCategory> GetGetCategory()
         {
-            return _context.TypeCategories.Include(m => m.Categories);
+            return _context.GetCategory;
         }
 
-        // GET: api/TypeCategories/5
+        // GET: api/GetCategories/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTypeCategory([FromRoute] int id)
+        public async Task<IActionResult> GetGetCategory([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var typeCategory = await _context.TypeCategories.FindAsync(id);
+            var getCategory = await _context.GetCategory.FindAsync(id);
 
-            if (typeCategory == null)
+            if (getCategory == null)
             {
                 return NotFound();
             }
 
-            return Ok(typeCategory);
+            return Ok(getCategory);
         }
 
-        // PUT: api/TypeCategories/5
+        // PUT: api/GetCategories/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTypeCategory([FromRoute] int id, [FromBody] TypeCategory typeCategory)
+        public async Task<IActionResult> PutGetCategory([FromRoute] int id, [FromBody] GetCategory getCategory)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != typeCategory.Id_type)
+            if (id != getCategory.userId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(typeCategory).State = EntityState.Modified;
+            _context.Entry(getCategory).State = EntityState.Modified;
 
             try
             {
@@ -69,7 +69,7 @@ namespace API_ExpenseManagement.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TypeCategoryExists(id))
+                if (!GetCategoryExists(id))
                 {
                     return NotFound();
                 }
@@ -82,45 +82,45 @@ namespace API_ExpenseManagement.Controllers
             return NoContent();
         }
 
-        // POST: api/TypeCategories
+        // POST: api/GetCategories
         [HttpPost]
-        public async Task<IActionResult> PostTypeCategory([FromBody] TypeCategory typeCategory)
+        public async Task<IActionResult> PostGetCategory([FromBody] GetCategory getCategory)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.TypeCategories.Add(typeCategory);
+            _context.GetCategory.Add(getCategory);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetTypeCategory", new { id = typeCategory.Id_type }, typeCategory);
+            return CreatedAtAction("GetGetCategory", new { id = getCategory.userId }, getCategory);
         }
 
-        // DELETE: api/TypeCategories/5
+        // DELETE: api/GetCategories/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTypeCategory([FromRoute] int id)
+        public async Task<IActionResult> DeleteGetCategory([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var typeCategory = await _context.TypeCategories.FindAsync(id);
-            if (typeCategory == null)
+            var getCategory = await _context.GetCategory.FindAsync(id);
+            if (getCategory == null)
             {
                 return NotFound();
             }
 
-            _context.TypeCategories.Remove(typeCategory);
+            _context.GetCategory.Remove(getCategory);
             await _context.SaveChangesAsync();
 
-            return Ok(typeCategory);
+            return Ok(getCategory);
         }
 
-        private bool TypeCategoryExists(int id)
+        private bool GetCategoryExists(int id)
         {
-            return _context.TypeCategories.Any(e => e.Id_type == id);
+            return _context.GetCategory.Any(e => e.userId == id);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace API_ExpenseManagement.Models
     public class TypeCategory
     {
         [Key]
-        public int Id { get; set; }
+        public int Id_type { get; set; }
         public string Name_Type { get; set; }
         public string Image_Type { get; set; }
         public string TypeExpense { get; set; }

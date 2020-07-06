@@ -88,15 +88,17 @@ namespace API_ExpenseManagement.Controllers
         {
             string name = category.NameCate;
             string image = category.ImageCate;
-            int id_type = category.Id_Type;
+            int id_type = category.Id_type;
+            UserCategory userCategory = new UserCategory();
             Category category1 = _context.Categories.Where(m => m.NameCate == category.NameCate).FirstOrDefault();
             try
             {
                 if (category1 == null)
                 {
+                    
                     category.NameCate = name;
                     category.ImageCate = image;
-                    category.Id_Type = id_type;
+                    category.Id_type = id_type;
                     _context.Categories.Add(category);
                     _context.SaveChanges();
                     ResponseModel res = new ResponseModel("Create success", null, "200");

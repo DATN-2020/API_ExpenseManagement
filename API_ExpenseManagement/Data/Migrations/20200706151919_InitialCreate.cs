@@ -38,6 +38,19 @@ namespace API_ExpenseManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GetCategory",
+                columns: table => new
+                {
+                    userId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    idType = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GetCategory", x => x.userId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GetWallet",
                 columns: table => new
                 {
@@ -93,7 +106,7 @@ namespace API_ExpenseManagement.Data.Migrations
                 name: "TypeCategories",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id_type = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name_Type = table.Column<string>(nullable: true),
                     Image_Type = table.Column<string>(nullable: true),
@@ -101,7 +114,7 @@ namespace API_ExpenseManagement.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TypeCategories", x => x.Id);
+                    table.PrimaryKey("PK_TypeCategories", x => x.Id_type);
                 });
 
             migrationBuilder.CreateTable(
@@ -163,18 +176,17 @@ namespace API_ExpenseManagement.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     NameCate = table.Column<string>(nullable: true),
                     ImageCate = table.Column<string>(nullable: true),
-                    Id_Type = table.Column<int>(nullable: false),
-                    TypeCategoryId = table.Column<int>(nullable: true)
+                    Id_type = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id_Cate);
                     table.ForeignKey(
-                        name: "FK_Categories_TypeCategories_TypeCategoryId",
-                        column: x => x.TypeCategoryId,
+                        name: "FK_Categories_TypeCategories_Id_type",
+                        column: x => x.Id_type,
                         principalTable: "TypeCategories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Id_type",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -303,9 +315,9 @@ namespace API_ExpenseManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Categories_TypeCategoryId",
+                name: "IX_Categories_Id_type",
                 table: "Categories",
-                column: "TypeCategoryId");
+                column: "Id_type");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Income_Outcomes_CategoryId_Cate",
@@ -367,6 +379,9 @@ namespace API_ExpenseManagement.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "CreateWallet");
+
+            migrationBuilder.DropTable(
+                name: "GetCategory");
 
             migrationBuilder.DropTable(
                 name: "GetWallet");
