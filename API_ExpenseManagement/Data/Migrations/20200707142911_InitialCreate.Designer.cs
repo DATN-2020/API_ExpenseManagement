@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_ExpenseManagement.Data.Migrations
 {
     [DbContext(typeof(ExpenseManagementContext))]
-    [Migration("20200706151919_InitialCreate")]
+    [Migration("20200707142911_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,58 @@ namespace API_ExpenseManagement.Data.Migrations
                 .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("API_ExpenseManagement.Models.Bill", b =>
+                {
+                    b.Property<int>("Id_Bill")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("Amount_Bill");
+
+                    b.Property<string>("Desciption");
+
+                    b.Property<int>("Id_Cate");
+
+                    b.Property<int>("Id_Custom");
+
+                    b.Property<int>("Id_Wallet");
+
+                    b.HasKey("Id_Bill");
+
+                    b.HasIndex("Id_Cate");
+
+                    b.HasIndex("Id_Custom");
+
+                    b.HasIndex("Id_Wallet");
+
+                    b.ToTable("Bill");
+                });
+
+            modelBuilder.Entity("API_ExpenseManagement.Models.Budget", b =>
+                {
+                    b.Property<int>("Id_Budget")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("Amount_Budget");
+
+                    b.Property<int>("Id_Cate");
+
+                    b.Property<int>("Id_Wallet");
+
+                    b.Property<bool>("repeat");
+
+                    b.Property<string>("time");
+
+                    b.HasKey("Id_Budget");
+
+                    b.HasIndex("Id_Cate");
+
+                    b.HasIndex("Id_Wallet");
+
+                    b.ToTable("Budget");
+                });
 
             modelBuilder.Entity("API_ExpenseManagement.Models.Category", b =>
                 {
@@ -72,6 +124,19 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasKey("User_Id");
 
                     b.ToTable("CreateWallet");
+                });
+
+            modelBuilder.Entity("API_ExpenseManagement.Models.Custom", b =>
+                {
+                    b.Property<int>("Id_Custom")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Prequency");
+
+                    b.HasKey("Id_Custom");
+
+                    b.ToTable("Custom");
                 });
 
             modelBuilder.Entity("API_ExpenseManagement.Models.GetCategory", b =>
@@ -181,6 +246,33 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasKey("User_Name");
 
                     b.ToTable("Login");
+                });
+
+            modelBuilder.Entity("API_ExpenseManagement.Models.Periodic", b =>
+                {
+                    b.Property<int>("Id_Per")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("Amount_Per");
+
+                    b.Property<string>("Desciption");
+
+                    b.Property<int>("Id_Cate");
+
+                    b.Property<int>("Id_Custom");
+
+                    b.Property<int>("Id_Wallet");
+
+                    b.HasKey("Id_Per");
+
+                    b.HasIndex("Id_Cate");
+
+                    b.HasIndex("Id_Custom");
+
+                    b.HasIndex("Id_Wallet");
+
+                    b.ToTable("Periodic");
                 });
 
             modelBuilder.Entity("API_ExpenseManagement.Models.Transfers", b =>
@@ -308,6 +400,37 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.ToTable("Wallets");
                 });
 
+            modelBuilder.Entity("API_ExpenseManagement.Models.Bill", b =>
+                {
+                    b.HasOne("API_ExpenseManagement.Models.Category")
+                        .WithMany("Bills")
+                        .HasForeignKey("Id_Cate")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("API_ExpenseManagement.Models.Custom")
+                        .WithMany("Bills")
+                        .HasForeignKey("Id_Custom")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("API_ExpenseManagement.Models.Wallet")
+                        .WithMany("Bills")
+                        .HasForeignKey("Id_Wallet")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("API_ExpenseManagement.Models.Budget", b =>
+                {
+                    b.HasOne("API_ExpenseManagement.Models.Category")
+                        .WithMany("Budgets")
+                        .HasForeignKey("Id_Cate")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("API_ExpenseManagement.Models.Wallet")
+                        .WithMany("Budgets")
+                        .HasForeignKey("Id_Wallet")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("API_ExpenseManagement.Models.Category", b =>
                 {
                     b.HasOne("API_ExpenseManagement.Models.TypeCategory")
@@ -355,6 +478,24 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasOne("API_ExpenseManagement.Models.Contact")
                         .WithMany("Loans")
                         .HasForeignKey("ContactId_contact")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("API_ExpenseManagement.Models.Periodic", b =>
+                {
+                    b.HasOne("API_ExpenseManagement.Models.Category")
+                        .WithMany("Periodics")
+                        .HasForeignKey("Id_Cate")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("API_ExpenseManagement.Models.Custom")
+                        .WithMany("Periodics")
+                        .HasForeignKey("Id_Custom")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("API_ExpenseManagement.Models.Wallet")
+                        .WithMany("Periodics")
+                        .HasForeignKey("Id_Wallet")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

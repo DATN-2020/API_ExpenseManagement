@@ -31,5 +31,9 @@ namespace API_ExpenseManagement.Context
         public DbSet<API_ExpenseManagement.Models.Transfers> Transfers { get; set; }
         public DbSet<API_ExpenseManagement.Models.GetWallet> GetWallet { get; set; }
         public DbSet<API_ExpenseManagement.Models.GetCategory> GetCategory { get; set; }
+        public DbSet<API_ExpenseManagement.Models.Budget> Budget { get; set; }
+        public DbSet<API_ExpenseManagement.Models.Bill> Bill { get; set; }
+        public DbSet<API_ExpenseManagement.Models.Periodic> Periodic { get; set; }
+        public DbSet<API_ExpenseManagement.Models.Custom> Custom { get; set; }
     }
 }

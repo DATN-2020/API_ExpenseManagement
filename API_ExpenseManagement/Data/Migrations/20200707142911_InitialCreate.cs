@@ -38,6 +38,19 @@ namespace API_ExpenseManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Custom",
+                columns: table => new
+                {
+                    Id_Custom = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Prequency = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Custom", x => x.Id_Custom);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GetCategory",
                 columns: table => new
                 {
@@ -245,6 +258,70 @@ namespace API_ExpenseManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Bill",
+                columns: table => new
+                {
+                    Id_Bill = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Amount_Bill = table.Column<float>(nullable: false),
+                    Desciption = table.Column<string>(nullable: true),
+                    Id_Cate = table.Column<int>(nullable: false),
+                    Id_Wallet = table.Column<int>(nullable: false),
+                    Id_Custom = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bill", x => x.Id_Bill);
+                    table.ForeignKey(
+                        name: "FK_Bill_Categories_Id_Cate",
+                        column: x => x.Id_Cate,
+                        principalTable: "Categories",
+                        principalColumn: "Id_Cate",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bill_Custom_Id_Custom",
+                        column: x => x.Id_Custom,
+                        principalTable: "Custom",
+                        principalColumn: "Id_Custom",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bill_Wallets_Id_Wallet",
+                        column: x => x.Id_Wallet,
+                        principalTable: "Wallets",
+                        principalColumn: "Id_Wallet",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Budget",
+                columns: table => new
+                {
+                    Id_Budget = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Amount_Budget = table.Column<float>(nullable: false),
+                    time = table.Column<string>(nullable: true),
+                    repeat = table.Column<bool>(nullable: false),
+                    Id_Cate = table.Column<int>(nullable: false),
+                    Id_Wallet = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Budget", x => x.Id_Budget);
+                    table.ForeignKey(
+                        name: "FK_Budget_Categories_Id_Cate",
+                        column: x => x.Id_Cate,
+                        principalTable: "Categories",
+                        principalColumn: "Id_Cate",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Budget_Wallets_Id_Wallet",
+                        column: x => x.Id_Wallet,
+                        principalTable: "Wallets",
+                        principalColumn: "Id_Wallet",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Income_Outcomes",
                 columns: table => new
                 {
@@ -289,6 +366,41 @@ namespace API_ExpenseManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Periodic",
+                columns: table => new
+                {
+                    Id_Per = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Amount_Per = table.Column<float>(nullable: false),
+                    Desciption = table.Column<string>(nullable: true),
+                    Id_Cate = table.Column<int>(nullable: false),
+                    Id_Wallet = table.Column<int>(nullable: false),
+                    Id_Custom = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Periodic", x => x.Id_Per);
+                    table.ForeignKey(
+                        name: "FK_Periodic_Categories_Id_Cate",
+                        column: x => x.Id_Cate,
+                        principalTable: "Categories",
+                        principalColumn: "Id_Cate",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Periodic_Custom_Id_Custom",
+                        column: x => x.Id_Custom,
+                        principalTable: "Custom",
+                        principalColumn: "Id_Custom",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Periodic_Wallets_Id_Wallet",
+                        column: x => x.Id_Wallet,
+                        principalTable: "Wallets",
+                        principalColumn: "Id_Wallet",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "IncomeContacts",
                 columns: table => new
                 {
@@ -313,6 +425,31 @@ namespace API_ExpenseManagement.Data.Migrations
                         principalColumn: "Id_come",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bill_Id_Cate",
+                table: "Bill",
+                column: "Id_Cate");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bill_Id_Custom",
+                table: "Bill",
+                column: "Id_Custom");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bill_Id_Wallet",
+                table: "Bill",
+                column: "Id_Wallet");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Budget_Id_Cate",
+                table: "Budget",
+                column: "Id_Cate");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Budget_Id_Wallet",
+                table: "Budget",
+                column: "Id_Wallet");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_Id_type",
@@ -355,6 +492,21 @@ namespace API_ExpenseManagement.Data.Migrations
                 column: "ContactId_contact");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Periodic_Id_Cate",
+                table: "Periodic",
+                column: "Id_Cate");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Periodic_Id_Custom",
+                table: "Periodic",
+                column: "Id_Custom");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Periodic_Id_Wallet",
+                table: "Periodic",
+                column: "Id_Wallet");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserCategory_CategoryId_Cate",
                 table: "UserCategory",
                 column: "CategoryId_Cate");
@@ -378,6 +530,12 @@ namespace API_ExpenseManagement.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Bill");
+
+            migrationBuilder.DropTable(
+                name: "Budget");
+
+            migrationBuilder.DropTable(
                 name: "CreateWallet");
 
             migrationBuilder.DropTable(
@@ -393,6 +551,9 @@ namespace API_ExpenseManagement.Data.Migrations
                 name: "Login");
 
             migrationBuilder.DropTable(
+                name: "Periodic");
+
+            migrationBuilder.DropTable(
                 name: "Transfers");
 
             migrationBuilder.DropTable(
@@ -400,6 +561,9 @@ namespace API_ExpenseManagement.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Income_Outcomes");
+
+            migrationBuilder.DropTable(
+                name: "Custom");
 
             migrationBuilder.DropTable(
                 name: "Categories");
