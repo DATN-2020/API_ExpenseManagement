@@ -62,12 +62,12 @@ namespace API_ExpenseManagement.Controllers
                 ResponseModel res = new ResponseModel("Fail", null, "200");
                 return res;
             }
+            if (periodic.Id_Wallet == null)
+            {
+                periodic.Id_Wallet = 1;
+            }
             try
             {
-                if (periodic.Id_Wallet == null)
-                {
-                    periodic.Id_Wallet = 1;
-                }
                 _context.Entry(periodic).State = EntityState.Modified;
                 _context.SaveChangesAsync();
                 ResponseModel res = new ResponseModel("Update success", null, "200");
@@ -101,12 +101,12 @@ namespace API_ExpenseManagement.Controllers
             int id_cate = periodic.Id_Cate;
             int id_wallet = periodic.Id_Wallet;
             int id_custom = periodic.Id_Custom;
+            if (periodic.Id_Wallet == null)
+            {
+                periodic.Id_Wallet = 1;
+            }
             try
             {
-                if (periodic.Id_Wallet == null)
-                {
-                    periodic.Id_Wallet = 1;
-                }
                 _context.Periodic.Add(periodic);
                 _context.SaveChangesAsync();
                 ResponseModel res = new ResponseModel("Create success", null, "200");

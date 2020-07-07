@@ -62,7 +62,10 @@ namespace API_ExpenseManagement.Controllers
                 ResponseModel res = new ResponseModel("Update fail", null, "404");
                 return res;
             }
-
+            if (bill.Id_Wallet == null)
+            {
+                bill.Id_Wallet = 1;
+            }
             try
             {
                 _context.Entry(bill).State = EntityState.Modified;
@@ -86,38 +89,59 @@ namespace API_ExpenseManagement.Controllers
 
         // POST: api/Bills
         [HttpPost]
-        public async Task<IActionResult> PostBill([FromBody] Bill bill)
+        public ResponseModel PostBill([FromBody] Bill bill)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                ResponseModel res = new ResponseModel("Fail", null, "200");
+                return res;
             }
-
-            _context.Bill.Add(bill);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetBill", new { id = bill.Id_Bill }, bill);
+            float amount = bill.Amount_Bill;
+            string desciption = bill.Desciption;
+            int id_cate = bill.Id_Cate;
+            int id_wallet = bill.Id_Wallet;
+            int id_custom = bill.Id_Custom;
+            if (bill.Id_Wallet == null)
+            {
+                bill.Id_Wallet = 1;
+            }
+            try
+            {
+                _context.Bill.Add(bill);
+                _context.SaveChangesAsync();
+                ResponseModel res = new ResponseModel("Create success", null, "200");
+                return res;
+            }
+            catch
+            {
+                ResponseModel res = new ResponseModel("Create fail", null, "200");
+                return res;
+            }
         }
 
         // DELETE: api/Bills/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBill([FromRoute] int id)
+        public ResponseModel DeleteBill([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                ResponseModel res = new ResponseModel("Delete fail", null, "200");
+                return res;
             }
 
-            var bill = await _context.Bill.FindAsync(id);
+            var bill = _context.Bill.Find(id);
             if (bill == null)
             {
-                return NotFound();
+                ResponseModel res = new ResponseModel("Not found", null, "200");
+                return res;
             }
-
-            _context.Bill.Remove(bill);
-            await _context.SaveChangesAsync();
-
-            return Ok(bill);
+            else
+            {
+                _context.Bill.Remove(bill);
+                _context.SaveChangesAsync();
+                ResponseModel res = new ResponseModel("Delete success", null, "200");
+                return res;
+            }
         }
 
         private bool BillExists(int id)

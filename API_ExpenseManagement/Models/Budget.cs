@@ -15,6 +15,5 @@ namespace API_ExpenseManagement.Models
         public bool repeat { get; set; }
         public int Id_Cate { get; set; }
         public int Id_Wallet { get; set; }
-        //public int User_Id { get; set; }
     }
 }

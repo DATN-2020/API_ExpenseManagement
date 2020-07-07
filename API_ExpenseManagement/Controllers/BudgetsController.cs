@@ -62,12 +62,12 @@ namespace API_ExpenseManagement.Controllers
                 ResponseModel res = new ResponseModel("Fail", null, "200");
                 return res;
             }
+            if (budget.Id_Wallet == null)
+            {
+                budget.Id_Wallet = 1;
+            }
             try
             {
-                if(budget.Id_Wallet == null)
-                {
-                    budget.Id_Wallet = 1;
-                }    
                 _context.Entry(budget).State = EntityState.Modified;
                 _context.SaveChangesAsync();
                 ResponseModel res = new ResponseModel("Update success", null, "200");
@@ -101,11 +101,12 @@ namespace API_ExpenseManagement.Controllers
             bool repeat = budget.repeat;
             int id_cate = budget.Id_Cate;
             int id_wallet = budget.Id_Wallet;
-            try {
-                if (budget.Id_Wallet == null)
-                {
-                    budget.Id_Wallet = 1;
-                }
+            if (budget.Id_Wallet == null)
+            {
+                budget.Id_Wallet = 1;
+            }
+            try 
+            {
                 _context.Budget.Add(budget);
                 _context.SaveChangesAsync();
                 ResponseModel res = new ResponseModel("Create success", null, "200");
