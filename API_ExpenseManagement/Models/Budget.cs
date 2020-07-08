@@ -11,9 +11,11 @@ namespace API_ExpenseManagement.Models
         [Key]
         public int Id_Budget { get; set; }
         public float Amount_Budget { get; set; }
+        public float Remain { get; set; } //số tiền còn lại
         public string time { get; set; }
-        public bool repeat { get; set; }
         public int Id_Cate { get; set; }
         public int Id_Wallet { get; set; }
+        public int Id_Custom { get; set; }
+        public int Id_type { get; set; }
     }
 }

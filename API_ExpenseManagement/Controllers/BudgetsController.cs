@@ -33,8 +33,9 @@ namespace API_ExpenseManagement.Controllers
         [HttpGet("{id}")]
         public ResponseModel GetBudget([FromQuery] int id)
         {
-            var log = _context.Wallets.Where(x => x.User_Id.Equals(id)).AsEnumerable();
-            Budget budget = _context.Budget.Find(id);
+            Wallet wallet = _context.Wallets.Where(m => m.Id_Wallet == id).FirstOrDefault();
+            //var name = _context.Budget.Where(m =>m.Id_Wallet == id).Select(wallet.Name_Wallet);
+            var log = _context.Budget.Where(m => m.Id_Wallet.Equals(id)).AsEnumerable();
             if (log == null)
             {
                 ResponseModel res = new ResponseModel("Fail", null, "404");
@@ -42,7 +43,7 @@ namespace API_ExpenseManagement.Controllers
             }
             else
             {
-                ResponseModel res = new ResponseModel("Wallets", log, "200");
+                ResponseModel res = new ResponseModel("Budget", log, "200");
                 return res;
             }
         }
@@ -62,9 +63,13 @@ namespace API_ExpenseManagement.Controllers
                 ResponseModel res = new ResponseModel("Fail", null, "200");
                 return res;
             }
-            if (budget.Id_Wallet == null)
+            if (budget.Id_Wallet == 0)
             {
                 budget.Id_Wallet = 1;
+            }
+            if (budget.Id_type == 0)
+            {
+                budget.Id_type = 1;
             }
             try
             {
@@ -97,20 +102,34 @@ namespace API_ExpenseManagement.Controllers
                 return res;
             }
             float amount = budget.Amount_Budget;
+            float remain = budget.Remain;
             string time = budget.time;
-            bool repeat = budget.repeat;
             int id_cate = budget.Id_Cate;
             int id_wallet = budget.Id_Wallet;
-            if (budget.Id_Wallet == null)
+            int id_custom = budget.Id_Custom;
+            if (budget.Id_Wallet == 0)
             {
                 budget.Id_Wallet = 1;
             }
+            if (budget.Id_type == 0)
+            {
+                budget.Id_type = 1;
+            }
+            budget.Remain = amount;
             try 
             {
-                _context.Budget.Add(budget);
-                _context.SaveChangesAsync();
-                ResponseModel res = new ResponseModel("Create success", null, "200");
-                return res;
+                if(budget.Id_Budget ==0)
+                {
+                    _context.Budget.Add(budget);
+                    _context.SaveChangesAsync();
+                    ResponseModel res = new ResponseModel("Create success", null, "200");
+                    return res;
+                }
+                else
+                {
+                    ResponseModel res = new ResponseModel("Fail", null, "200");
+                    return res;
+                }    
             }
             catch {
                 ResponseModel res = new ResponseModel("Create fail", null, "200");

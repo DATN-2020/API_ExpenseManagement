@@ -299,10 +299,12 @@ namespace API_ExpenseManagement.Data.Migrations
                     Id_Budget = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Amount_Budget = table.Column<float>(nullable: false),
+                    Remain = table.Column<float>(nullable: false),
                     time = table.Column<string>(nullable: true),
-                    repeat = table.Column<bool>(nullable: false),
                     Id_Cate = table.Column<int>(nullable: false),
-                    Id_Wallet = table.Column<int>(nullable: false)
+                    Id_Wallet = table.Column<int>(nullable: false),
+                    Id_Custom = table.Column<int>(nullable: false),
+                    Id_type = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -312,6 +314,12 @@ namespace API_ExpenseManagement.Data.Migrations
                         column: x => x.Id_Cate,
                         principalTable: "Categories",
                         principalColumn: "Id_Cate",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Budget_Custom_Id_Custom",
+                        column: x => x.Id_Custom,
+                        principalTable: "Custom",
+                        principalColumn: "Id_Custom",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Budget_Wallets_Id_Wallet",
@@ -445,6 +453,11 @@ namespace API_ExpenseManagement.Data.Migrations
                 name: "IX_Budget_Id_Cate",
                 table: "Budget",
                 column: "Id_Cate");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Budget_Id_Custom",
+                table: "Budget",
+                column: "Id_Custom");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Budget_Id_Wallet",

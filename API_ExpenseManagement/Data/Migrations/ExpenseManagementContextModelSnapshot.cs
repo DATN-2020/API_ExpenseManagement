@@ -56,15 +56,21 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<int>("Id_Cate");
 
+                    b.Property<int>("Id_Custom");
+
                     b.Property<int>("Id_Wallet");
 
-                    b.Property<bool>("repeat");
+                    b.Property<int>("Id_type");
+
+                    b.Property<float>("Remain");
 
                     b.Property<string>("time");
 
                     b.HasKey("Id_Budget");
 
                     b.HasIndex("Id_Cate");
+
+                    b.HasIndex("Id_Custom");
 
                     b.HasIndex("Id_Wallet");
 
@@ -421,6 +427,11 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasOne("API_ExpenseManagement.Models.Category")
                         .WithMany("Budgets")
                         .HasForeignKey("Id_Cate")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("API_ExpenseManagement.Models.Custom")
+                        .WithMany("Budgets")
+                        .HasForeignKey("Id_Custom")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("API_ExpenseManagement.Models.Wallet")
