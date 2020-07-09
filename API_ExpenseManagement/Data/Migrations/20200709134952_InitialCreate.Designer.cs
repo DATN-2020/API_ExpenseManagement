@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_ExpenseManagement.Data.Migrations
 {
     [DbContext(typeof(ExpenseManagementContext))]
-    [Migration("20200708140450_InitialCreate")]
+    [Migration("20200709134952_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -143,6 +143,25 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasKey("Id_Custom");
 
                     b.ToTable("Custom");
+                });
+
+            modelBuilder.Entity("API_ExpenseManagement.Models.getBudget", b =>
+                {
+                    b.Property<int>("id_getBudget")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("amount_budget");
+
+                    b.Property<int>("id_cate");
+
+                    b.Property<int>("id_type");
+
+                    b.Property<float>("remain");
+
+                    b.HasKey("id_getBudget");
+
+                    b.ToTable("getBudget");
                 });
 
             modelBuilder.Entity("API_ExpenseManagement.Models.GetCategory", b =>

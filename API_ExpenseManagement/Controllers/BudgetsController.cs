@@ -33,8 +33,6 @@ namespace API_ExpenseManagement.Controllers
         [HttpGet("{id}")]
         public ResponseModel GetBudget([FromQuery] int id)
         {
-            Wallet wallet = _context.Wallets.Where(m => m.Id_Wallet == id).FirstOrDefault();
-            //var name = _context.Budget.Where(m =>m.Id_Wallet == id).Select(wallet.Name_Wallet);
             var log = _context.Budget.Where(m => m.Id_Wallet.Equals(id)).AsEnumerable();
             if (log == null)
             {

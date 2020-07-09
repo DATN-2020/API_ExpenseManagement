@@ -143,6 +143,25 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.ToTable("Custom");
                 });
 
+            modelBuilder.Entity("API_ExpenseManagement.Models.getBudget", b =>
+                {
+                    b.Property<int>("id_getBudget")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("amount_budget");
+
+                    b.Property<int>("id_cate");
+
+                    b.Property<int>("id_type");
+
+                    b.Property<float>("remain");
+
+                    b.HasKey("id_getBudget");
+
+                    b.ToTable("getBudget");
+                });
+
             modelBuilder.Entity("API_ExpenseManagement.Models.GetCategory", b =>
                 {
                     b.Property<int>("userId")

@@ -51,6 +51,22 @@ namespace API_ExpenseManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "getBudget",
+                columns: table => new
+                {
+                    id_getBudget = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    id_cate = table.Column<int>(nullable: false),
+                    id_type = table.Column<int>(nullable: false),
+                    amount_budget = table.Column<float>(nullable: false),
+                    remain = table.Column<float>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_getBudget", x => x.id_getBudget);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GetCategory",
                 columns: table => new
                 {
@@ -550,6 +566,9 @@ namespace API_ExpenseManagement.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "CreateWallet");
+
+            migrationBuilder.DropTable(
+                name: "getBudget");
 
             migrationBuilder.DropTable(
                 name: "GetCategory");
