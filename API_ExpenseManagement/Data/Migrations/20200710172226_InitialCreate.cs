@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API_ExpenseManagement.Data.Migrations
@@ -51,6 +52,22 @@ namespace API_ExpenseManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "getBill",
+                columns: table => new
+                {
+                    id_getBill = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    id_cate = table.Column<int>(nullable: false),
+                    id_type = table.Column<int>(nullable: false),
+                    amount_Bill = table.Column<float>(nullable: false),
+                    createDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_getBill", x => x.id_getBill);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "getBudget",
                 columns: table => new
                 {
@@ -77,6 +94,21 @@ namespace API_ExpenseManagement.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_GetCategory", x => x.userId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "getPeriodic",
+                columns: table => new
+                {
+                    id_getBudget = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    id_cate = table.Column<int>(nullable: false),
+                    id_type = table.Column<int>(nullable: false),
+                    amount_budget = table.Column<float>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_getPeriodic", x => x.id_getBudget);
                 });
 
             migrationBuilder.CreateTable(
@@ -281,7 +313,13 @@ namespace API_ExpenseManagement.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Amount_Bill = table.Column<float>(nullable: false),
                     Desciption = table.Column<string>(nullable: true),
+                    date_s = table.Column<DateTime>(nullable: false),
+                    date_e = table.Column<DateTime>(nullable: false),
+                    isPay = table.Column<bool>(nullable: false),
+                    isEdit = table.Column<bool>(nullable: false),
+                    isDeadline = table.Column<bool>(nullable: false),
                     Id_Cate = table.Column<int>(nullable: false),
+                    Id_Type = table.Column<int>(nullable: false),
                     Id_Wallet = table.Column<int>(nullable: false),
                     Id_Custom = table.Column<int>(nullable: false)
                 },
@@ -316,7 +354,9 @@ namespace API_ExpenseManagement.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Amount_Budget = table.Column<float>(nullable: false),
                     Remain = table.Column<float>(nullable: false),
-                    time = table.Column<string>(nullable: true),
+                    time_s = table.Column<DateTime>(nullable: false),
+                    time_e = table.Column<DateTime>(nullable: false),
+                    isFinnish = table.Column<bool>(nullable: false),
                     Id_Cate = table.Column<int>(nullable: false),
                     Id_Wallet = table.Column<int>(nullable: false),
                     Id_Custom = table.Column<int>(nullable: false),
@@ -397,7 +437,11 @@ namespace API_ExpenseManagement.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Amount_Per = table.Column<float>(nullable: false),
                     Desciption = table.Column<string>(nullable: true),
+                    date_e = table.Column<DateTime>(nullable: false),
+                    date_s = table.Column<DateTime>(nullable: false),
+                    isComeback = table.Column<bool>(nullable: false),
                     Id_Cate = table.Column<int>(nullable: false),
+                    Id_Type = table.Column<int>(nullable: false),
                     Id_Wallet = table.Column<int>(nullable: false),
                     Id_Custom = table.Column<int>(nullable: false)
                 },
@@ -568,10 +612,16 @@ namespace API_ExpenseManagement.Data.Migrations
                 name: "CreateWallet");
 
             migrationBuilder.DropTable(
+                name: "getBill");
+
+            migrationBuilder.DropTable(
                 name: "getBudget");
 
             migrationBuilder.DropTable(
                 name: "GetCategory");
+
+            migrationBuilder.DropTable(
+                name: "getPeriodic");
 
             migrationBuilder.DropTable(
                 name: "GetWallet");

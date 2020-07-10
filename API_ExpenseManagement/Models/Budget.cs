@@ -12,7 +12,9 @@ namespace API_ExpenseManagement.Models
         public int Id_Budget { get; set; }
         public float Amount_Budget { get; set; }
         public float Remain { get; set; } //số tiền còn lại
-        public string time { get; set; }
+        public DateTime time_s { get; set; }
+        public DateTime time_e { get; set; }
+        public bool isFinnish { get; set; }
         public int Id_Cate { get; set; }
         public int Id_Wallet { get; set; }
         public int Id_Custom { get; set; }

@@ -62,12 +62,24 @@ namespace API_ExpenseManagement.Controllers
                 ResponseModel res = new ResponseModel("Update fail", null, "404");
                 return res;
             }
-            if (bill.Id_Wallet == null)
+            if (bill.Id_Wallet == 0)
             {
                 bill.Id_Wallet = 1;
             }
+            if (bill.Id_Cate == 0)
+            {
+                bill.Id_Cate = 1;
+            }
+            if (bill.Id_Type == 0)
+            {
+                bill.Id_Type = 1;
+            }
             try
             {
+                if(bill.isEdit == false)
+                {
+                    bill.isPay = true;
+                }    
                 _context.Entry(bill).State = EntityState.Modified;
                 _context.SaveChangesAsync();
                 ResponseModel res = new ResponseModel("Update success", null, "404");
@@ -98,13 +110,28 @@ namespace API_ExpenseManagement.Controllers
             }
             float amount = bill.Amount_Bill;
             string desciption = bill.Desciption;
+            DateTime date_s = bill.date_s;
+            DateTime date_e = bill.date_e;
             int id_cate = bill.Id_Cate;
+            int id_tpye = bill.Id_Type;
             int id_wallet = bill.Id_Wallet;
             int id_custom = bill.Id_Custom;
-            if (bill.Id_Wallet == null)
+            bool isPay = bill.isPay;
+            bool isDeadline = bill.isDeadline;
+            if (bill.Id_Wallet == 0)
             {
                 bill.Id_Wallet = 1;
             }
+            if (bill.Id_Cate == 0)
+            {
+                bill.Id_Cate = 1;
+            }
+            if (bill.Id_Type == 0)
+            {
+                bill.Id_Type = 1;
+            }
+            bill.isPay = false;
+            bill.isDeadline = false;
             try
             {
                 _context.Bill.Add(bill);

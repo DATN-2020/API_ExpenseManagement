@@ -36,5 +36,7 @@ namespace API_ExpenseManagement.Context
         public DbSet<API_ExpenseManagement.Models.Periodic> Periodic { get; set; }
         public DbSet<API_ExpenseManagement.Models.Custom> Custom { get; set; }
         public DbSet<API_ExpenseManagement.Models.getBudget> getBudget { get; set; }
+        public DbSet<API_ExpenseManagement.Models.getBill> getBill { get; set; }
+        public DbSet<API_ExpenseManagement.Models.getPeriodic> getPeriodic { get; set; }
     }
 }

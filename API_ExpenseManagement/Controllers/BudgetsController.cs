@@ -65,10 +65,16 @@ namespace API_ExpenseManagement.Controllers
             {
                 budget.Id_Wallet = 1;
             }
+            if (budget.Id_Cate == 0)
+            {
+                budget.Id_Cate = 1;
+            }
             if (budget.Id_type == 0)
             {
                 budget.Id_type = 1;
             }
+            budget.Remain = budget.Amount_Budget;
+            budget.isFinnish = false;
             try
             {
                 _context.Entry(budget).State = EntityState.Modified;
@@ -101,19 +107,26 @@ namespace API_ExpenseManagement.Controllers
             }
             float amount = budget.Amount_Budget;
             float remain = budget.Remain;
-            string time = budget.time;
+            DateTime time_s = budget.time_s;
+            DateTime time_e = budget.time_e;
             int id_cate = budget.Id_Cate;
             int id_wallet = budget.Id_Wallet;
             int id_custom = budget.Id_Custom;
+            bool is_Finnish = false;
             if (budget.Id_Wallet == 0)
             {
                 budget.Id_Wallet = 1;
+            }
+            if (budget.Id_Cate == 0)
+            {
+                budget.Id_Cate = 1;
             }
             if (budget.Id_type == 0)
             {
                 budget.Id_type = 1;
             }
             budget.Remain = amount;
+            budget.isFinnish = is_Finnish;
             try 
             {
                 if(budget.Id_Budget ==0)

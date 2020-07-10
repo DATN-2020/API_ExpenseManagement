@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_ExpenseManagement.Data.Migrations
 {
     [DbContext(typeof(ExpenseManagementContext))]
-    [Migration("20200709134952_InitialCreate")]
+    [Migration("20200710172226_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,7 +35,19 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<int>("Id_Custom");
 
+                    b.Property<int>("Id_Type");
+
                     b.Property<int>("Id_Wallet");
+
+                    b.Property<DateTime>("date_e");
+
+                    b.Property<DateTime>("date_s");
+
+                    b.Property<bool>("isDeadline");
+
+                    b.Property<bool>("isEdit");
+
+                    b.Property<bool>("isPay");
 
                     b.HasKey("Id_Bill");
 
@@ -66,7 +78,11 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<float>("Remain");
 
-                    b.Property<string>("time");
+                    b.Property<bool>("isFinnish");
+
+                    b.Property<DateTime>("time_e");
+
+                    b.Property<DateTime>("time_s");
 
                     b.HasKey("Id_Budget");
 
@@ -145,6 +161,25 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.ToTable("Custom");
                 });
 
+            modelBuilder.Entity("API_ExpenseManagement.Models.getBill", b =>
+                {
+                    b.Property<int>("id_getBill")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("amount_Bill");
+
+                    b.Property<DateTime>("createDate");
+
+                    b.Property<int>("id_cate");
+
+                    b.Property<int>("id_type");
+
+                    b.HasKey("id_getBill");
+
+                    b.ToTable("getBill");
+                });
+
             modelBuilder.Entity("API_ExpenseManagement.Models.getBudget", b =>
                 {
                     b.Property<int>("id_getBudget")
@@ -175,6 +210,23 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasKey("userId");
 
                     b.ToTable("GetCategory");
+                });
+
+            modelBuilder.Entity("API_ExpenseManagement.Models.getPeriodic", b =>
+                {
+                    b.Property<int>("id_getBudget")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("amount_budget");
+
+                    b.Property<int>("id_cate");
+
+                    b.Property<int>("id_type");
+
+                    b.HasKey("id_getBudget");
+
+                    b.ToTable("getPeriodic");
                 });
 
             modelBuilder.Entity("API_ExpenseManagement.Models.GetWallet", b =>
@@ -287,7 +339,15 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<int>("Id_Custom");
 
+                    b.Property<int>("Id_Type");
+
                     b.Property<int>("Id_Wallet");
+
+                    b.Property<DateTime>("date_e");
+
+                    b.Property<DateTime>("date_s");
+
+                    b.Property<bool>("isComeback");
 
                     b.HasKey("Id_Per");
 

@@ -7,50 +7,47 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API_ExpenseManagement.Context;
 using API_ExpenseManagement.Models;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace API_ExpenseManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class getBudgetsController : ControllerBase
+    public class getPeriodicsController : ControllerBase
     {
         private readonly ExpenseManagementContext _context;
 
-        public getBudgetsController(ExpenseManagementContext context)
+        public getPeriodicsController(ExpenseManagementContext context)
         {
             _context = context;
         }
 
-        // GET: api/getBudgets
+        // GET: api/getPeriodics
         [HttpGet]
-        public IEnumerable<getBudget> GetgetBudget()
+        public IEnumerable<getPeriodic> GetgetPeriodic()
         {
-            return _context.getBudget;
+            return _context.getPeriodic;
         }
 
-        // GET: api/getBudgets/5
+        // GET: api/getPeriodics/5
         [HttpGet("{id}")]
-        public ResponseModel GetgetBudget([FromQuery] int id)
+        public ResponseModel GetgetPeriodic([FromQuery] int id)
         {
-            var log = from a in _context.Budget
+            var log = from a in _context.Periodic
                       join b in _context.Categories
                       on a.Id_Cate equals b.Id_Cate
                       join c in _context.TypeCategories
-                      on a.Id_type equals c.Id_type
+                      on a.Id_Type equals c.Id_type
                       select new
                       {
                           idwallet = a.Id_Wallet,
                           name = (b.Id_Cate == 1 ? c.Name_Type : b.NameCate),
                           image = (b.Id_Cate == 1 ? c.Image_Type : b.ImageCate),
-                          amount = a.Amount_Budget,
-                          remain = a.Remain,
-                          time_s = a.time_s,
-                          time_e = a.time_e,
-                          time_remain = (a.time_e - DateTime.Now),
-                          isFinnish = a.time_e < DateTime.Now ? true:false
+                          amount = a.Amount_Per,
+                          date_s = a.date_s,
+                          date_e = a.date_e,
+                          is_Comeback = a.date_e >= DateTime.Now ? false:true
                       };
-            var buget = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
+            var bill = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
             if (log == null)
             {
                 ResponseModel res = new ResponseModel("Fail", null, "404");
@@ -58,26 +55,26 @@ namespace API_ExpenseManagement.Controllers
             }
             else
             {
-                ResponseModel res = new ResponseModel("Budget", buget, "200");
+                ResponseModel res = new ResponseModel("Budget", bill, "200");
                 return res;
             }
         }
 
-        // PUT: api/getBudgets/5
+        // PUT: api/getPeriodics/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutgetBudget([FromRoute] int id, [FromBody] getBudget getBudget)
+        public async Task<IActionResult> PutgetPeriodic([FromRoute] int id, [FromBody] getPeriodic getPeriodic)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != getBudget.id_getBudget)
+            if (id != getPeriodic.id_getBudget)
             {
                 return BadRequest();
             }
 
-            _context.Entry(getBudget).State = EntityState.Modified;
+            _context.Entry(getPeriodic).State = EntityState.Modified;
 
             try
             {
@@ -85,7 +82,7 @@ namespace API_ExpenseManagement.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!getBudgetExists(id))
+                if (!getPeriodicExists(id))
                 {
                     return NotFound();
                 }
@@ -98,45 +95,45 @@ namespace API_ExpenseManagement.Controllers
             return NoContent();
         }
 
-        // POST: api/getBudgets
+        // POST: api/getPeriodics
         [HttpPost]
-        public async Task<IActionResult> PostgetBudget([FromBody] getBudget getBudget)
+        public async Task<IActionResult> PostgetPeriodic([FromBody] getPeriodic getPeriodic)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.getBudget.Add(getBudget);
+            _context.getPeriodic.Add(getPeriodic);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetgetBudget", new { id = getBudget.id_getBudget }, getBudget);
+            return CreatedAtAction("GetgetPeriodic", new { id = getPeriodic.id_getBudget }, getPeriodic);
         }
 
-        // DELETE: api/getBudgets/5
+        // DELETE: api/getPeriodics/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletegetBudget([FromRoute] int id)
+        public async Task<IActionResult> DeletegetPeriodic([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var getBudget = await _context.getBudget.FindAsync(id);
-            if (getBudget == null)
+            var getPeriodic = await _context.getPeriodic.FindAsync(id);
+            if (getPeriodic == null)
             {
                 return NotFound();
             }
 
-            _context.getBudget.Remove(getBudget);
+            _context.getPeriodic.Remove(getPeriodic);
             await _context.SaveChangesAsync();
 
-            return Ok(getBudget);
+            return Ok(getPeriodic);
         }
 
-        private bool getBudgetExists(int id)
+        private bool getPeriodicExists(int id)
         {
-            return _context.getBudget.Any(e => e.id_getBudget == id);
+            return _context.getPeriodic.Any(e => e.id_getBudget == id);
         }
     }
 }
