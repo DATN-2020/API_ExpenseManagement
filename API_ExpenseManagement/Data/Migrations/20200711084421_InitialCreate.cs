@@ -43,8 +43,7 @@ namespace API_ExpenseManagement.Data.Migrations
                 columns: table => new
                 {
                     Id_Custom = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Prequency = table.Column<string>(nullable: true)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
                 },
                 constraints: table =>
                 {
@@ -143,7 +142,10 @@ namespace API_ExpenseManagement.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     id_chuyen = table.Column<int>(nullable: false),
                     id_nhan = table.Column<int>(nullable: false),
-                    amount = table.Column<float>(nullable: false)
+                    amount = table.Column<float>(nullable: false),
+                    disciption = table.Column<string>(nullable: true),
+                    date = table.Column<DateTime>(nullable: false),
+                    Id_type = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -320,8 +322,7 @@ namespace API_ExpenseManagement.Data.Migrations
                     isDeadline = table.Column<bool>(nullable: false),
                     Id_Cate = table.Column<int>(nullable: false),
                     Id_Type = table.Column<int>(nullable: false),
-                    Id_Wallet = table.Column<int>(nullable: false),
-                    Id_Custom = table.Column<int>(nullable: false)
+                    Id_Wallet = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -331,12 +332,6 @@ namespace API_ExpenseManagement.Data.Migrations
                         column: x => x.Id_Cate,
                         principalTable: "Categories",
                         principalColumn: "Id_Cate",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Bill_Custom_Id_Custom",
-                        column: x => x.Id_Custom,
-                        principalTable: "Custom",
-                        principalColumn: "Id_Custom",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Bill_Wallets_Id_Wallet",
@@ -359,7 +354,6 @@ namespace API_ExpenseManagement.Data.Migrations
                     isFinnish = table.Column<bool>(nullable: false),
                     Id_Cate = table.Column<int>(nullable: false),
                     Id_Wallet = table.Column<int>(nullable: false),
-                    Id_Custom = table.Column<int>(nullable: false),
                     Id_type = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -370,12 +364,6 @@ namespace API_ExpenseManagement.Data.Migrations
                         column: x => x.Id_Cate,
                         principalTable: "Categories",
                         principalColumn: "Id_Cate",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Budget_Custom_Id_Custom",
-                        column: x => x.Id_Custom,
-                        principalTable: "Custom",
-                        principalColumn: "Id_Custom",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Budget_Wallets_Id_Wallet",
@@ -392,12 +380,13 @@ namespace API_ExpenseManagement.Data.Migrations
                     Id_come = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Amount = table.Column<float>(nullable: false),
-                    Date_come = table.Column<string>(nullable: true),
+                    Date_come = table.Column<DateTime>(nullable: false),
                     Description_come = table.Column<string>(nullable: true),
                     Is_Come = table.Column<bool>(nullable: false),
                     CategoryId_Cate = table.Column<int>(nullable: false),
                     LoanId_Loan = table.Column<int>(nullable: false),
                     TripId_Trip = table.Column<int>(nullable: false),
+                    Id_type = table.Column<int>(nullable: false),
                     WalletId_Wallet = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -442,8 +431,7 @@ namespace API_ExpenseManagement.Data.Migrations
                     isComeback = table.Column<bool>(nullable: false),
                     Id_Cate = table.Column<int>(nullable: false),
                     Id_Type = table.Column<int>(nullable: false),
-                    Id_Wallet = table.Column<int>(nullable: false),
-                    Id_Custom = table.Column<int>(nullable: false)
+                    Id_Wallet = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -453,12 +441,6 @@ namespace API_ExpenseManagement.Data.Migrations
                         column: x => x.Id_Cate,
                         principalTable: "Categories",
                         principalColumn: "Id_Cate",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Periodic_Custom_Id_Custom",
-                        column: x => x.Id_Custom,
-                        principalTable: "Custom",
-                        principalColumn: "Id_Custom",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Periodic_Wallets_Id_Wallet",
@@ -500,11 +482,6 @@ namespace API_ExpenseManagement.Data.Migrations
                 column: "Id_Cate");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bill_Id_Custom",
-                table: "Bill",
-                column: "Id_Custom");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Bill_Id_Wallet",
                 table: "Bill",
                 column: "Id_Wallet");
@@ -513,11 +490,6 @@ namespace API_ExpenseManagement.Data.Migrations
                 name: "IX_Budget_Id_Cate",
                 table: "Budget",
                 column: "Id_Cate");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Budget_Id_Custom",
-                table: "Budget",
-                column: "Id_Custom");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Budget_Id_Wallet",
@@ -570,11 +542,6 @@ namespace API_ExpenseManagement.Data.Migrations
                 column: "Id_Cate");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Periodic_Id_Custom",
-                table: "Periodic",
-                column: "Id_Custom");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Periodic_Id_Wallet",
                 table: "Periodic",
                 column: "Id_Wallet");
@@ -612,6 +579,9 @@ namespace API_ExpenseManagement.Data.Migrations
                 name: "CreateWallet");
 
             migrationBuilder.DropTable(
+                name: "Custom");
+
+            migrationBuilder.DropTable(
                 name: "getBill");
 
             migrationBuilder.DropTable(
@@ -643,9 +613,6 @@ namespace API_ExpenseManagement.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Income_Outcomes");
-
-            migrationBuilder.DropTable(
-                name: "Custom");
 
             migrationBuilder.DropTable(
                 name: "Categories");

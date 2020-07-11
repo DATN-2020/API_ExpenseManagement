@@ -10,9 +10,9 @@ namespace API_ExpenseManagement.Models
     {
         [Key]
         public int Id_Custom { get; set; }
-        public string Prequency { get; set; }
-        public ICollection<Periodic> Periodics { get; set; }
-        public ICollection<Bill> Bills { get; set; }
-        public ICollection<Budget> Budgets { get; set; }
+        //public string Prequency { get; set; }
+        //public ICollection<Periodic> Periodics { get; set; }
+        //public ICollection<Bill> Bills { get; set; }
+        //public ICollection<Budget> Budgets { get; set; }
     }
 }

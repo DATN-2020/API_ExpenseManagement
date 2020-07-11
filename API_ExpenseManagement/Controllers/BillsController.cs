@@ -56,12 +56,22 @@ namespace API_ExpenseManagement.Controllers
                 ResponseModel res = new ResponseModel("Update fail", null, "404");
                 return res;
             }
-
-            if (id != bill.Id_Bill)
-            {
-                ResponseModel res = new ResponseModel("Update fail", null, "404");
-                return res;
-            }
+            float amount = bill.Amount_Bill;
+            string disciption = bill.Desciption;
+            DateTime date_e = bill.date_e;
+            DateTime date_s = bill.date_s;
+            bool isEdit = bill.isEdit;
+            bill = _context.Bill.Where(m => m.Id_Bill == id).FirstOrDefault();
+            bill.Amount_Bill = amount;
+            bill.Desciption = disciption;
+            bill.date_e = date_e;
+            bill.date_s = date_s;
+            bill.isEdit = isEdit;
+            //if (id != bill.Id_Bill)
+            //{
+            //    ResponseModel res = new ResponseModel("Update fail", null, "404");
+            //    return res;
+            //}
             if (bill.Id_Wallet == 0)
             {
                 bill.Id_Wallet = 1;
@@ -79,7 +89,8 @@ namespace API_ExpenseManagement.Controllers
                 if(bill.isEdit == false)
                 {
                     bill.isPay = true;
-                }    
+                }
+                _context.Bill.Update(bill);
                 _context.Entry(bill).State = EntityState.Modified;
                 _context.SaveChangesAsync();
                 ResponseModel res = new ResponseModel("Update success", null, "404");
@@ -115,7 +126,6 @@ namespace API_ExpenseManagement.Controllers
             int id_cate = bill.Id_Cate;
             int id_tpye = bill.Id_Type;
             int id_wallet = bill.Id_Wallet;
-            int id_custom = bill.Id_Custom;
             bool isPay = bill.isPay;
             bool isDeadline = bill.isDeadline;
             if (bill.Id_Wallet == 0)

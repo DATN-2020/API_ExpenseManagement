@@ -88,7 +88,7 @@ namespace API_ExpenseManagement.Controllers
         {
             Income_Outcome income = new Income_Outcome();
             float amount = income_Outcome.Amount;
-            string date = income_Outcome.Date_come;
+            DateTime date = income_Outcome.Date_come;
             string desciption = income_Outcome.Description_come;
             bool is_come = income_Outcome.Is_Come;
             int id_cate = income_Outcome.CategoryId_Cate;

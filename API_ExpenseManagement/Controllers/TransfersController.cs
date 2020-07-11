@@ -89,6 +89,8 @@ namespace API_ExpenseManagement.Controllers
             int id_chuyen = transfers.id_chuyen;
             int id_nhan = transfers.id_nhan;
             float amount = transfers.amount;
+            DateTime date = transfers.date;
+            string dis = transfers.disciption;
             Wallet wallet_chuyen = _context.Wallets.Where(x => x.Id_Wallet == id_chuyen).FirstOrDefault();
             Wallet wallet_nhan = _context.Wallets.Where(x => x.Id_Wallet == id_nhan).FirstOrDefault();
             try
@@ -100,7 +102,13 @@ namespace API_ExpenseManagement.Controllers
                         transfers.id_chuyen = id_chuyen;
                         transfers.id_nhan = id_nhan;
                         transfers.amount = amount;
-                        _context.Transfers.Add(transfers);
+                        transfers.disciption = dis;
+                        transfers.date = DateTime.Now;
+
+                    Income_Outcome income = new Income_Outcome();
+                    income.Amount = amount;
+                    income.Date_come = date;
+                    
                         _context.Update(wallet_chuyen);
                         _context.Update(wallet_nhan);
                         _context.SaveChanges();

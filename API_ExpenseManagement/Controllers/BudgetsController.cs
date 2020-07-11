@@ -111,7 +111,6 @@ namespace API_ExpenseManagement.Controllers
             DateTime time_e = budget.time_e;
             int id_cate = budget.Id_Cate;
             int id_wallet = budget.Id_Wallet;
-            int id_custom = budget.Id_Custom;
             bool is_Finnish = false;
             if (budget.Id_Wallet == 0)
             {

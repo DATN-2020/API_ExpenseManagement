@@ -111,7 +111,6 @@ namespace API_ExpenseManagement.Controllers
             bool isComeBack = periodic.isComeback;
             int id_cate = periodic.Id_Cate;
             int id_wallet = periodic.Id_Wallet;
-            int id_custom = periodic.Id_Custom;
             if (periodic.Id_Wallet == 0)
             {
                 periodic.Id_Wallet = 1;

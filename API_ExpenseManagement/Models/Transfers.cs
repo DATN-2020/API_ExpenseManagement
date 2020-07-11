@@ -13,5 +13,8 @@ namespace API_ExpenseManagement.Models
         public int id_chuyen { get; set; }
         public int id_nhan { get; set; }
         public float amount { get; set; }
+        public string disciption { get; set; }
+        public DateTime date { get; set; }
+        public int Id_type { get; set; }
     }
 }

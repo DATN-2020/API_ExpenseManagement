@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_ExpenseManagement.Data.Migrations
 {
     [DbContext(typeof(ExpenseManagementContext))]
-    [Migration("20200711061425_InitialCreate")]
+    [Migration("20200711084421_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,8 +33,6 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<int>("Id_Cate");
 
-                    b.Property<int>("Id_Custom");
-
                     b.Property<int>("Id_Type");
 
                     b.Property<int>("Id_Wallet");
@@ -53,8 +51,6 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.HasIndex("Id_Cate");
 
-                    b.HasIndex("Id_Custom");
-
                     b.HasIndex("Id_Wallet");
 
                     b.ToTable("Bill");
@@ -69,8 +65,6 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.Property<float>("Amount_Budget");
 
                     b.Property<int>("Id_Cate");
-
-                    b.Property<int>("Id_Custom");
 
                     b.Property<int>("Id_Wallet");
 
@@ -87,8 +81,6 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasKey("Id_Budget");
 
                     b.HasIndex("Id_Cate");
-
-                    b.HasIndex("Id_Custom");
 
                     b.HasIndex("Id_Wallet");
 
@@ -153,8 +145,6 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.Property<int>("Id_Custom")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Prequency");
 
                     b.HasKey("Id_Custom");
 
@@ -250,9 +240,11 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<int>("CategoryId_Cate");
 
-                    b.Property<string>("Date_come");
+                    b.Property<DateTime>("Date_come");
 
                     b.Property<string>("Description_come");
+
+                    b.Property<int>("Id_type");
 
                     b.Property<bool>("Is_Come");
 
@@ -337,8 +329,6 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<int>("Id_Cate");
 
-                    b.Property<int>("Id_Custom");
-
                     b.Property<int>("Id_Type");
 
                     b.Property<int>("Id_Wallet");
@@ -353,8 +343,6 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.HasIndex("Id_Cate");
 
-                    b.HasIndex("Id_Custom");
-
                     b.HasIndex("Id_Wallet");
 
                     b.ToTable("Periodic");
@@ -366,7 +354,13 @@ namespace API_ExpenseManagement.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Id_type");
+
                     b.Property<float>("amount");
+
+                    b.Property<DateTime>("date");
+
+                    b.Property<string>("disciption");
 
                     b.Property<int>("id_chuyen");
 
@@ -492,11 +486,6 @@ namespace API_ExpenseManagement.Data.Migrations
                         .HasForeignKey("Id_Cate")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("API_ExpenseManagement.Models.Custom")
-                        .WithMany("Bills")
-                        .HasForeignKey("Id_Custom")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("API_ExpenseManagement.Models.Wallet")
                         .WithMany("Bills")
                         .HasForeignKey("Id_Wallet")
@@ -508,11 +497,6 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasOne("API_ExpenseManagement.Models.Category")
                         .WithMany("Budgets")
                         .HasForeignKey("Id_Cate")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("API_ExpenseManagement.Models.Custom")
-                        .WithMany("Budgets")
-                        .HasForeignKey("Id_Custom")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("API_ExpenseManagement.Models.Wallet")
@@ -576,11 +560,6 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasOne("API_ExpenseManagement.Models.Category")
                         .WithMany("Periodics")
                         .HasForeignKey("Id_Cate")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("API_ExpenseManagement.Models.Custom")
-                        .WithMany("Periodics")
-                        .HasForeignKey("Id_Custom")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("API_ExpenseManagement.Models.Wallet")
