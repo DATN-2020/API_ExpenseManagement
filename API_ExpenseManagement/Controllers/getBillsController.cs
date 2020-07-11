@@ -40,6 +40,7 @@ namespace API_ExpenseManagement.Controllers
                       select new
                       {
                           idwallet = a.Id_Wallet,
+                          idBill = a.Id_Bill,
                           name = (b.Id_Cate == 1 ? c.Name_Type : b.NameCate),
                           image = (b.Id_Cate == 1 ? c.Image_Type : b.ImageCate),
                           amount = a.Amount_Bill,
