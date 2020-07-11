@@ -58,14 +58,22 @@ namespace API_ExpenseManagement.Controllers
                 return res;
             }
 
-            if (id != wallet.Id_Wallet)
-            {
-                ResponseModel res = new ResponseModel("Update fail", null, "404");
-                return res;
-            }
+            //if (id != wallet.Id_Wallet)
+            //{
+            //    ResponseModel res = new ResponseModel("Update fail", null, "404");
+            //    return res;
+            //}
+            string name = wallet.Name_Wallet;
+            float amount = wallet.Amount_Wallet;
+            string disciption = wallet.Description;
+            wallet = _context.Wallets.Where(m => m.Id_Wallet == id).FirstOrDefault();
+            wallet.Name_Wallet = name;
+            wallet.Amount_Wallet = amount;
+            wallet.Description = disciption;
             try
             {
                 _context.Entry(wallet).State = EntityState.Modified;
+                _context.Wallets.Update(wallet);
                 _context.SaveChangesAsync();
                 ResponseModel res = new ResponseModel("Update success", null, "404");
                 return res;
