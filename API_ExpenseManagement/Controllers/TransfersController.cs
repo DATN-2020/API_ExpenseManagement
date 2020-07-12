@@ -90,7 +90,7 @@ namespace API_ExpenseManagement.Controllers
             int id_nhan = transfers.id_nhan;
             float amount = transfers.amount;
             DateTime date = transfers.date;
-            string dis = transfers.disciption;
+            string dis = transfers.desciption;
             Wallet wallet_chuyen = _context.Wallets.Where(x => x.Id_Wallet == id_chuyen).FirstOrDefault();
             Wallet wallet_nhan = _context.Wallets.Where(x => x.Id_Wallet == id_nhan).FirstOrDefault();
             try
@@ -102,18 +102,37 @@ namespace API_ExpenseManagement.Controllers
                         transfers.id_chuyen = id_chuyen;
                         transfers.id_nhan = id_nhan;
                         transfers.amount = amount;
-                        transfers.disciption = dis;
+                        transfers.desciption = dis;
                         transfers.date = DateTime.Now;
-
-                    Income_Outcome income = new Income_Outcome();
-                    income.Amount = amount;
-                    income.Date_come = date;
-                    
-                        _context.Update(wallet_chuyen);
-                        _context.Update(wallet_nhan);
-                        _context.SaveChanges();
-                        ResponseModel res = new ResponseModel("Transfers success", null, "404");
-                        return res;
+                    Income_Outcome income_chuyen = new Income_Outcome();
+                    Income_Outcome income_nhan = new Income_Outcome();
+                    income_chuyen.Amount = amount;
+                    income_chuyen.Date_come = date;
+                    income_chuyen.Date_come = DateTime.Now;
+                    income_chuyen.Description_come = dis;
+                    income_chuyen.WalletId_Wallet = id_chuyen;
+                    income_chuyen.Is_Come = true;
+                    income_chuyen.Id_type = 17;
+                    income_chuyen.CategoryId_Cate = 1;
+                    income_chuyen.LoanId_Loan = 1;
+                    income_chuyen.TripId_Trip = 1;
+                    _context.Income_Outcomes.Add(income_chuyen);
+                    income_nhan.Amount = amount;
+                    income_nhan.Date_come = date;
+                    income_nhan.Date_come = DateTime.Now;
+                    income_nhan.Description_come = dis;
+                    income_nhan.WalletId_Wallet = id_nhan;
+                    income_nhan.Is_Come = false;
+                    income_nhan.Id_type = 17;
+                    income_nhan.CategoryId_Cate = 1;
+                    income_nhan.LoanId_Loan = 1;
+                    income_nhan.TripId_Trip = 1;
+                    _context.Income_Outcomes.Add(income_nhan);
+                    _context.Update(wallet_chuyen);
+                    _context.Update(wallet_nhan);
+                    _context.SaveChanges();
+                    ResponseModel res = new ResponseModel("Transfers success", null, "404");
+                    return res;
                     }
                     else
                     {

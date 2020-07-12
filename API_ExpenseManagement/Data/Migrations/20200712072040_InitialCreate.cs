@@ -96,6 +96,22 @@ namespace API_ExpenseManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "getIncome",
+                columns: table => new
+                {
+                    id_getIncome = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    id_cate = table.Column<int>(nullable: false),
+                    id_type = table.Column<int>(nullable: false),
+                    amount_Icome = table.Column<float>(nullable: false),
+                    date_Income = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_getIncome", x => x.id_getIncome);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "getPeriodic",
                 columns: table => new
                 {
@@ -135,6 +151,19 @@ namespace API_ExpenseManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Time_Periodic",
+                columns: table => new
+                {
+                    id_Time = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    desciption = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Time_Periodic", x => x.id_Time);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Transfers",
                 columns: table => new
                 {
@@ -143,7 +172,7 @@ namespace API_ExpenseManagement.Data.Migrations
                     id_chuyen = table.Column<int>(nullable: false),
                     id_nhan = table.Column<int>(nullable: false),
                     amount = table.Column<float>(nullable: false),
-                    disciption = table.Column<string>(nullable: true),
+                    desciption = table.Column<string>(nullable: true),
                     date = table.Column<DateTime>(nullable: false),
                     Id_type = table.Column<int>(nullable: false)
                 },
@@ -322,7 +351,8 @@ namespace API_ExpenseManagement.Data.Migrations
                     isDeadline = table.Column<bool>(nullable: false),
                     Id_Cate = table.Column<int>(nullable: false),
                     Id_Type = table.Column<int>(nullable: false),
-                    Id_Wallet = table.Column<int>(nullable: false)
+                    Id_Wallet = table.Column<int>(nullable: false),
+                    id_Time = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -591,6 +621,9 @@ namespace API_ExpenseManagement.Data.Migrations
                 name: "GetCategory");
 
             migrationBuilder.DropTable(
+                name: "getIncome");
+
+            migrationBuilder.DropTable(
                 name: "getPeriodic");
 
             migrationBuilder.DropTable(
@@ -604,6 +637,9 @@ namespace API_ExpenseManagement.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Periodic");
+
+            migrationBuilder.DropTable(
+                name: "Time_Periodic");
 
             migrationBuilder.DropTable(
                 name: "Transfers");

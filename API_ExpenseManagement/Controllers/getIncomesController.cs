@@ -12,45 +12,39 @@ namespace API_ExpenseManagement.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class getBillsController : ControllerBase
+    public class getIncomesController : ControllerBase
     {
         private readonly ExpenseManagementContext _context;
 
-        public getBillsController(ExpenseManagementContext context)
+        public getIncomesController(ExpenseManagementContext context)
         {
             _context = context;
         }
 
-        // GET: api/getBills
+        // GET: api/getIncomes
         [HttpGet]
-        public IEnumerable<getBill> GetgetBill()
+        public IEnumerable<getIncome> GetgetIncome()
         {
-            return _context.getBill;
+            return _context.getIncome;
         }
 
-        // GET: api/getBills/5
+        // GET: api/getIncomes/5
         [HttpGet("{id}")]
-        public ResponseModel GetgetBill([FromQuery] int id)
+        public ResponseModel GetgetIncome([FromQuery] int id)
         {
-            var log = from a in _context.Bill
+            var log = from a in _context.Income_Outcomes
                       join b in _context.Categories
-                      on a.Id_Cate equals b.Id_Cate
+                      on a.CategoryId_Cate equals b.Id_Cate
                       join c in _context.TypeCategories
-                      on a.Id_Type equals c.Id_type
-                      join d in _context.Time_Periodic
-                      on a.id_Time equals d.id_Time
+                      on a.Id_type equals c.Id_type
                       select new
                       {
-                          idwallet = a.Id_Wallet,
-                          idBill = a.Id_Bill,
+                          idwallet = a.WalletId_Wallet,
+                          id_Income = a.Id_come,
                           name = (b.Id_Cate == 1 ? c.Name_Type : b.NameCate),
                           image = (b.Id_Cate == 1 ? c.Image_Type : b.ImageCate),
-                          amount = a.Amount_Bill,
-                          date_s = a.date_s,
-                          date_e = a.date_e,
-                          isPay = a.isPay,
-                          isDeadline = a.date_e >= DateTime.Now ? false : true,
-                          time = d.desciption
+                          amount = a.Amount,
+                          date_s = a.Date_come
                       };
             var bill = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
             if (log == null)
@@ -60,26 +54,26 @@ namespace API_ExpenseManagement.Controllers
             }
             else
             {
-                ResponseModel res = new ResponseModel("Budget", bill, "200");
+                ResponseModel res = new ResponseModel("Income", bill, "200");
                 return res;
             }
         }
 
-        // PUT: api/getBills/5
+        // PUT: api/getIncomes/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutgetBill([FromRoute] int id, [FromBody] getBill getBill)
+        public async Task<IActionResult> PutgetIncome([FromRoute] int id, [FromBody] getIncome getIncome)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != getBill.id_getBill)
+            if (id != getIncome.id_getIncome)
             {
                 return BadRequest();
             }
 
-            _context.Entry(getBill).State = EntityState.Modified;
+            _context.Entry(getIncome).State = EntityState.Modified;
 
             try
             {
@@ -87,7 +81,7 @@ namespace API_ExpenseManagement.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!getBillExists(id))
+                if (!getIncomeExists(id))
                 {
                     return NotFound();
                 }
@@ -100,45 +94,45 @@ namespace API_ExpenseManagement.Controllers
             return NoContent();
         }
 
-        // POST: api/getBills
+        // POST: api/getIncomes
         [HttpPost]
-        public async Task<IActionResult> PostgetBill([FromBody] getBill getBill)
+        public async Task<IActionResult> PostgetIncome([FromBody] getIncome getIncome)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.getBill.Add(getBill);
+            _context.getIncome.Add(getIncome);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetgetBill", new { id = getBill.id_getBill }, getBill);
+            return CreatedAtAction("GetgetIncome", new { id = getIncome.id_getIncome }, getIncome);
         }
 
-        // DELETE: api/getBills/5
+        // DELETE: api/getIncomes/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletegetBill([FromRoute] int id)
+        public async Task<IActionResult> DeletegetIncome([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var getBill = await _context.getBill.FindAsync(id);
-            if (getBill == null)
+            var getIncome = await _context.getIncome.FindAsync(id);
+            if (getIncome == null)
             {
                 return NotFound();
             }
 
-            _context.getBill.Remove(getBill);
+            _context.getIncome.Remove(getIncome);
             await _context.SaveChangesAsync();
 
-            return Ok(getBill);
+            return Ok(getIncome);
         }
 
-        private bool getBillExists(int id)
+        private bool getIncomeExists(int id)
         {
-            return _context.getBill.Any(e => e.id_getBill == id);
+            return _context.getIncome.Any(e => e.id_getIncome == id);
         }
     }
 }

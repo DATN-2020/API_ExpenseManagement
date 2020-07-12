@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_ExpenseManagement.Data.Migrations
 {
     [DbContext(typeof(ExpenseManagementContext))]
-    [Migration("20200711091715_InitialCreate")]
+    [Migration("20200712072040_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,6 +40,8 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.Property<DateTime>("date_e");
 
                     b.Property<DateTime>("date_s");
+
+                    b.Property<int>("id_Time");
 
                     b.Property<bool>("isDeadline");
 
@@ -202,6 +204,25 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.ToTable("GetCategory");
                 });
 
+            modelBuilder.Entity("API_ExpenseManagement.Models.getIncome", b =>
+                {
+                    b.Property<int>("id_getIncome")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("amount_Icome");
+
+                    b.Property<DateTime>("date_Income");
+
+                    b.Property<int>("id_cate");
+
+                    b.Property<int>("id_type");
+
+                    b.HasKey("id_getIncome");
+
+                    b.ToTable("getIncome");
+                });
+
             modelBuilder.Entity("API_ExpenseManagement.Models.getPeriodic", b =>
                 {
                     b.Property<int>("id_getBudget")
@@ -348,6 +369,19 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.ToTable("Periodic");
                 });
 
+            modelBuilder.Entity("API_ExpenseManagement.Models.Time_Periodic", b =>
+                {
+                    b.Property<int>("id_Time")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("desciption");
+
+                    b.HasKey("id_Time");
+
+                    b.ToTable("Time_Periodic");
+                });
+
             modelBuilder.Entity("API_ExpenseManagement.Models.Transfers", b =>
                 {
                     b.Property<int>("idTransfers")
@@ -360,7 +394,7 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<DateTime>("date");
 
-                    b.Property<string>("disciption");
+                    b.Property<string>("desciption");
 
                     b.Property<int>("id_chuyen");
 

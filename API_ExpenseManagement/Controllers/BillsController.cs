@@ -128,6 +128,7 @@ namespace API_ExpenseManagement.Controllers
             int id_wallet = bill.Id_Wallet;
             bool isPay = bill.isPay;
             bool isDeadline = bill.isDeadline;
+            int time = bill.id_Time;
             if (bill.Id_Wallet == 0)
             {
                 bill.Id_Wallet = 1;
