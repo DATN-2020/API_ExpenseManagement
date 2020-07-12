@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace API_ExpenseManagement.Models
@@ -16,5 +17,6 @@ namespace API_ExpenseManagement.Models
         public int Id_Type { get; set; }
         public int Id_Wallet { get; set; }
         public int id_Time { get; set; }
+        public ICollection<Income_Outcome> income_Outcomes { get; set; }
     }
 }

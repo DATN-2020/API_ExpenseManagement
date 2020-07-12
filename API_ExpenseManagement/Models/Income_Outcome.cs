@@ -19,6 +19,9 @@ namespace API_ExpenseManagement.Models
         public int TripId_Trip { get; set; }
         public int Id_type { get; set; }
         public int WalletId_Wallet { get; set; }
+        public int Id_Bill { get; set; }
+        public int Id_Budget { get; set; }
+        public int Id_Per { get; set; }
         public ICollection<IncomeContact> IncomeContacts { get; set; }
     }
 }

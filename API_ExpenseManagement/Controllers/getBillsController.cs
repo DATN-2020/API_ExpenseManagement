@@ -50,7 +50,9 @@ namespace API_ExpenseManagement.Controllers
                           date_e = a.date_e,
                           isPay = a.isPay,
                           isDeadline = a.date_e >= DateTime.Now ? false : true,
-                          time = d.desciption
+                          time = d.desciption,
+                          date_time_s = DateTime.Today,
+                          date_time_e = DateTime.Now.AddDays(1)
                       };
             var bill = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
             if (log == null)
@@ -60,7 +62,7 @@ namespace API_ExpenseManagement.Controllers
             }
             else
             {
-                ResponseModel res = new ResponseModel("Budget", bill, "200");
+                ResponseModel res = new ResponseModel("Bill", bill, "200");
                 return res;
             }
         }

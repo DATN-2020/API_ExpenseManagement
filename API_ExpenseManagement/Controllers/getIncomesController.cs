@@ -37,12 +37,18 @@ namespace API_ExpenseManagement.Controllers
                       on a.CategoryId_Cate equals b.Id_Cate
                       join c in _context.TypeCategories
                       on a.Id_type equals c.Id_type
+                      join d in _context.Bill
+                      on a.Id_Bill equals d.Id_Bill
+                      join e in _context.Budget
+                      on a.Id_Budget equals e.Id_Budget
+                      join f in _context.Periodic
+                      on a.Id_Per equals f.Id_Per
                       select new
                       {
                           idwallet = a.WalletId_Wallet,
                           id_Income = a.Id_come,
-                          name = (b.Id_Cate == 1 ? c.Name_Type : b.NameCate),
-                          image = (b.Id_Cate == 1 ? c.Image_Type : b.ImageCate),
+                          name = (a.CategoryId_Cate != 1 ? b.NameCate : c.Name_Type),
+                          image = (a.CategoryId_Cate == 1 ? c.Image_Type : b.ImageCate),
                           amount = a.Amount,
                           date_s = a.Date_come
                       };

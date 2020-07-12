@@ -49,44 +49,14 @@ namespace API_ExpenseManagement.Controllers
 
         // PUT: api/Income_Outcome/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutIncome_Outcome([FromRoute] int id, [FromBody] Income_Outcome income_Outcome)
+        public ResponseModel PutIncome_Outcome([FromRoute] int id, [FromBody] Income_Outcome income_Outcome)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                ResponseModel res = new ResponseModel("Update fail", null, "404");
+                return res;
             }
 
-            if (id != income_Outcome.Id_come)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(income_Outcome).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!Income_OutcomeExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Income_Outcome
-        [HttpPost]
-        public ResponseModel PostIncome_Outcome([FromBody] Income_Outcome income_Outcome)
-        {
-            Income_Outcome income = new Income_Outcome();
             float amount = income_Outcome.Amount;
             DateTime date = income_Outcome.Date_come;
             string desciption = income_Outcome.Description_come;
@@ -95,7 +65,11 @@ namespace API_ExpenseManagement.Controllers
             int id_loan = income_Outcome.LoanId_Loan;
             int id_trip = income_Outcome.TripId_Trip;
             int id_wallet = income_Outcome.WalletId_Wallet;
-            if(id_cate == 0)
+            int id_type = income_Outcome.Id_type;
+            int id_bill = income_Outcome.Id_Bill;
+            int id_budget = income_Outcome.Id_Budget;
+            int id_per = income_Outcome.Id_Per;
+            if (id_cate == 0)
             {
                 id_cate = 1;
             }
@@ -111,6 +85,104 @@ namespace API_ExpenseManagement.Controllers
             {
                 id_wallet = 1;
             }
+            if (id_type == 0)
+            {
+                id_type = 1;
+            }
+            if (id_bill == 0)
+            {
+                id_bill = 1;
+            }
+            if (id_budget == 0)
+            {
+                id_budget = 1;
+            }
+            if (id_per == 0)
+            {
+                id_per = 1;
+            }
+            income_Outcome.Amount = amount;
+            income_Outcome.Date_come = date;
+            income_Outcome.Description_come = desciption;
+            income_Outcome.Is_Come = is_come;
+            income_Outcome.CategoryId_Cate = id_cate;
+            income_Outcome.LoanId_Loan = id_loan;
+            income_Outcome.TripId_Trip = id_trip;
+            income_Outcome.Id_Bill = id_bill;
+            income_Outcome.Id_Budget = id_budget;
+            income_Outcome.Id_Per = id_per;
+            income_Outcome.Id_type = id_type;
+            try
+            {
+                _context.Income_Outcomes.Update(income_Outcome);
+                _context.Entry(income_Outcome).State = EntityState.Modified;
+                _context.SaveChangesAsync();
+                ResponseModel res = new ResponseModel("Update success", null, "404");
+                return res;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!Income_OutcomeExists(id))
+                {
+                    ResponseModel res = new ResponseModel("Not found", null, "404");
+                    return res;
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
+        // POST: api/Income_Outcome
+        [HttpPost]
+        public ResponseModel PostIncome_Outcome([FromBody] Income_Outcome income_Outcome)
+        {
+            Income_Outcome income = new Income_Outcome();
+            float amount = income_Outcome.Amount;
+            DateTime date = income_Outcome.Date_come;
+            string desciption = income_Outcome.Description_come;
+            bool is_come = income_Outcome.Is_Come;
+            int id_cate = income_Outcome.CategoryId_Cate;
+            int id_loan = income_Outcome.LoanId_Loan;
+            int id_trip = income_Outcome.TripId_Trip;
+            int id_wallet = income_Outcome.WalletId_Wallet;
+            int id_type = income_Outcome.Id_type;
+            int id_bill = income_Outcome.Id_Bill;
+            int id_budget = income_Outcome.Id_Budget;
+            int id_per = income_Outcome.Id_Per;
+            if (id_cate == 0)
+            {
+                id_cate = 1;
+            }
+            if (id_loan == 0)
+            {
+                id_loan = 1;
+            }
+            if (id_trip == 0)
+            {
+                id_trip = 1;
+            }
+            if (id_wallet == 0)
+            {
+                id_wallet = 1;
+            }
+            if (id_type == 0)
+            {
+                id_type = 1;
+            }
+            if (id_bill == 0)
+            {
+                id_bill = 1;
+            }
+            if (id_budget == 0)
+            {
+                id_budget = 1;
+            }
+            if (id_per == 0)
+            {
+                id_per = 1;
+            }
             income.Amount = amount;
             income.Date_come = date;
             income.Description_come = desciption;
@@ -119,6 +191,10 @@ namespace API_ExpenseManagement.Controllers
             income.LoanId_Loan = id_loan;
             income.TripId_Trip = id_trip;
             income.WalletId_Wallet = id_wallet;
+            income.Id_Bill = id_bill;
+            income.Id_Budget = id_budget;
+            income.Id_Per = id_per;
+            income.Id_type = id_type;
             try
             {
                 _context.Income_Outcomes.Add(income);
