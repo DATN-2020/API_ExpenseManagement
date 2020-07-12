@@ -37,6 +37,8 @@ namespace API_ExpenseManagement.Controllers
                       on a.Id_Cate equals b.Id_Cate
                       join c in _context.TypeCategories
                       on a.Id_Type equals c.Id_type
+                      join d in _context.Time_Periodic
+                      on a.id_Time equals d.id_Time
                       select new
                       {
                           idwallet = a.Id_Wallet,
@@ -46,6 +48,7 @@ namespace API_ExpenseManagement.Controllers
                           amount = a.Amount_Per,
                           date_s = a.date_s,
                           date_e = a.date_e,
+                          time = d.desciption,
                           is_Comeback = a.date_e >= DateTime.Now ? false:true
                       };
             var bill = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();

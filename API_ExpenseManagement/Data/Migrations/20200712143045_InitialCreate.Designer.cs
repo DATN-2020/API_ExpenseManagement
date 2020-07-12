@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_ExpenseManagement.Data.Migrations
 {
     [DbContext(typeof(ExpenseManagementContext))]
-    [Migration("20200712072040_InitialCreate")]
+    [Migration("20200712143045_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,6 +54,8 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasIndex("Id_Cate");
 
                     b.HasIndex("Id_Wallet");
+
+                    b.HasIndex("id_Time");
 
                     b.ToTable("Bill");
                 });
@@ -358,6 +360,8 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<DateTime>("date_s");
 
+                    b.Property<int>("id_Time");
+
                     b.Property<bool>("isComeback");
 
                     b.HasKey("Id_Per");
@@ -365,6 +369,8 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasIndex("Id_Cate");
 
                     b.HasIndex("Id_Wallet");
+
+                    b.HasIndex("id_Time");
 
                     b.ToTable("Periodic");
                 });
@@ -524,6 +530,11 @@ namespace API_ExpenseManagement.Data.Migrations
                         .WithMany("Bills")
                         .HasForeignKey("Id_Wallet")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("API_ExpenseManagement.Models.Time_Periodic")
+                        .WithMany("bills")
+                        .HasForeignKey("id_Time")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("API_ExpenseManagement.Models.Budget", b =>
@@ -599,6 +610,11 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasOne("API_ExpenseManagement.Models.Wallet")
                         .WithMany("Periodics")
                         .HasForeignKey("Id_Wallet")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("API_ExpenseManagement.Models.Time_Periodic")
+                        .WithMany("Periodics")
+                        .HasForeignKey("id_Time")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

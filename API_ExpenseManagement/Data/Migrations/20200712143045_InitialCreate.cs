@@ -369,6 +369,12 @@ namespace API_ExpenseManagement.Data.Migrations
                         principalTable: "Wallets",
                         principalColumn: "Id_Wallet",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Bill_Time_Periodic_id_Time",
+                        column: x => x.id_Time,
+                        principalTable: "Time_Periodic",
+                        principalColumn: "id_Time",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -461,7 +467,8 @@ namespace API_ExpenseManagement.Data.Migrations
                     isComeback = table.Column<bool>(nullable: false),
                     Id_Cate = table.Column<int>(nullable: false),
                     Id_Type = table.Column<int>(nullable: false),
-                    Id_Wallet = table.Column<int>(nullable: false)
+                    Id_Wallet = table.Column<int>(nullable: false),
+                    id_Time = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -477,6 +484,12 @@ namespace API_ExpenseManagement.Data.Migrations
                         column: x => x.Id_Wallet,
                         principalTable: "Wallets",
                         principalColumn: "Id_Wallet",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Periodic_Time_Periodic_id_Time",
+                        column: x => x.id_Time,
+                        principalTable: "Time_Periodic",
+                        principalColumn: "id_Time",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -515,6 +528,11 @@ namespace API_ExpenseManagement.Data.Migrations
                 name: "IX_Bill_Id_Wallet",
                 table: "Bill",
                 column: "Id_Wallet");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bill_id_Time",
+                table: "Bill",
+                column: "id_Time");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Budget_Id_Cate",
@@ -575,6 +593,11 @@ namespace API_ExpenseManagement.Data.Migrations
                 name: "IX_Periodic_Id_Wallet",
                 table: "Periodic",
                 column: "Id_Wallet");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Periodic_id_Time",
+                table: "Periodic",
+                column: "id_Time");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserCategory_CategoryId_Cate",
@@ -639,9 +662,6 @@ namespace API_ExpenseManagement.Data.Migrations
                 name: "Periodic");
 
             migrationBuilder.DropTable(
-                name: "Time_Periodic");
-
-            migrationBuilder.DropTable(
                 name: "Transfers");
 
             migrationBuilder.DropTable(
@@ -649,6 +669,9 @@ namespace API_ExpenseManagement.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Income_Outcomes");
+
+            migrationBuilder.DropTable(
+                name: "Time_Periodic");
 
             migrationBuilder.DropTable(
                 name: "Categories");

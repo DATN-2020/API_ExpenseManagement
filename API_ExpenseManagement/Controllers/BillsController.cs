@@ -61,17 +61,14 @@ namespace API_ExpenseManagement.Controllers
             DateTime date_e = bill.date_e;
             DateTime date_s = bill.date_s;
             bool isEdit = bill.isEdit;
+            int id_time = bill.id_Time;
             bill = _context.Bill.Where(m => m.Id_Bill == id).FirstOrDefault();
             bill.Amount_Bill = amount;
             bill.Desciption = disciption;
             bill.date_e = date_e;
             bill.date_s = date_s;
             bill.isEdit = isEdit;
-            //if (id != bill.Id_Bill)
-            //{
-            //    ResponseModel res = new ResponseModel("Update fail", null, "404");
-            //    return res;
-            //}
+            bill.id_Time = id_time;
             if (bill.Id_Wallet == 0)
             {
                 bill.Id_Wallet = 1;
@@ -83,6 +80,10 @@ namespace API_ExpenseManagement.Controllers
             if (bill.Id_Type == 0)
             {
                 bill.Id_Type = 1;
+            }
+            if (bill.id_Time == 0)
+            {
+                bill.id_Time = 1;
             }
             try
             {
@@ -140,6 +141,10 @@ namespace API_ExpenseManagement.Controllers
             if (bill.Id_Type == 0)
             {
                 bill.Id_Type = 1;
+            }
+            if (bill.id_Time == 0)
+            {
+                bill.id_Time = 1;
             }
             bill.isPay = false;
             bill.isDeadline = false;

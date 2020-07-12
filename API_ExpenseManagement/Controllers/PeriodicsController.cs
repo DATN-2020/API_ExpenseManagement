@@ -57,11 +57,18 @@ namespace API_ExpenseManagement.Controllers
                 return res;
             }
 
-            if (id != periodic.Id_Per)
-            {
-                ResponseModel res = new ResponseModel("Fail", null, "200");
-                return res;
-            }
+            float amount = periodic.Amount_Per;
+            string disciption = periodic.Desciption;
+            DateTime date_e = periodic.date_e;
+            DateTime date_s = periodic.date_s;
+            int id_time = periodic.id_Time;
+            periodic = _context.Periodic.Where(m => m.Id_Per == id).FirstOrDefault();
+            periodic.Amount_Per = amount;
+            periodic.Desciption = disciption;
+            periodic.date_e = date_e;
+            periodic.date_s = date_s;
+            periodic.id_Time = id_time;
+            periodic.isComeback = false;
             if (periodic.Id_Wallet == 0)
             {
                 periodic.Id_Wallet = 1;
@@ -73,6 +80,10 @@ namespace API_ExpenseManagement.Controllers
             if (periodic.Id_Type == 0)
             {
                 periodic.Id_Type = 1;
+            }
+            if (periodic.id_Time == 0)
+            {
+                periodic.id_Time = 1;
             }
             try
             {
@@ -111,6 +122,7 @@ namespace API_ExpenseManagement.Controllers
             bool isComeBack = periodic.isComeback;
             int id_cate = periodic.Id_Cate;
             int id_wallet = periodic.Id_Wallet;
+            int id_time = periodic.id_Time;
             if (periodic.Id_Wallet == 0)
             {
                 periodic.Id_Wallet = 1;
@@ -122,6 +134,10 @@ namespace API_ExpenseManagement.Controllers
             if (periodic.Id_Type == 0)
             {
                 periodic.Id_Type = 1;
+            }
+            if (periodic.id_Time == 0)
+            {
+                periodic.id_Time = 1;
             }
             periodic.isComeback = false;
             try

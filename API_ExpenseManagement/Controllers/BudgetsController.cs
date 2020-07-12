@@ -56,11 +56,16 @@ namespace API_ExpenseManagement.Controllers
                 return res;
             }
 
-            if (id != budget.Id_Budget)
-            {
-                ResponseModel res = new ResponseModel("Fail", null, "200");
-                return res;
-            }
+            float amount = budget.Amount_Budget;
+            float remain = budget.Remain;
+            DateTime date_e = budget.time_e;
+            DateTime date_s = budget.time_s;
+            bool isfinnish = budget.isFinnish;
+            budget = _context.Budget.Where(m => m.Id_Budget == id).FirstOrDefault();
+            budget.Amount_Budget = amount;
+            budget.time_e = date_e;
+            budget.time_s = date_s;
+            budget.isFinnish = isfinnish;
             if (budget.Id_Wallet == 0)
             {
                 budget.Id_Wallet = 1;

@@ -11,5 +11,7 @@ namespace API_ExpenseManagement.Models
         [Key]
         public int id_Time { get; set; }
         public string desciption { get; set; }
+        public ICollection<Periodic> Periodics { get; set; }
+        public ICollection<Bill> bills { get; set; }
     }
 }
