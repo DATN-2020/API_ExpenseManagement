@@ -49,9 +49,23 @@ namespace API_ExpenseManagement.Controllers
                           date_s = a.date_s,
                           date_e = a.date_e,
                           time = d.desciption,
-                          is_Comeback = a.date_e >= DateTime.Now ? false:true
+                          is_Comeback = a.date_e >= DateTime.Now ? false:true,
+                          date_time_s = a.date_s,
+                          date_time_e =
+                          (a.id_Time == 1 ? a.date_s.AddDays(1) :
+                          a.id_Time == 2 ? a.date_s.AddDays(7) :
+                          a.id_Time == 3 ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month) - DateTime.Today.Day) :
+                          DateTime.Today.AddDays(365 - (a.date_s.DayOfYear - 1)))
                       };
             var bill = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
+            Periodic periodic = _context.Periodic.Where(m => m.Id_Wallet == id).FirstOrDefault();
+            if (periodic.date_e <= DateTime.Today)
+            {
+                periodic.isFinnish = true;
+                _context.Periodic.Update(periodic);
+                _context.SaveChangesAsync();
+
+            }
             if (log == null)
             {
                 ResponseModel res = new ResponseModel("Fail", null, "404");
@@ -59,7 +73,7 @@ namespace API_ExpenseManagement.Controllers
             }
             else
             {
-                ResponseModel res = new ResponseModel("Budget", bill, "200");
+                ResponseModel res = new ResponseModel("Periodic", bill, "200");
                 return res;
             }
         }

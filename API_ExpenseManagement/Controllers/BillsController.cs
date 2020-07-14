@@ -128,7 +128,7 @@ namespace API_ExpenseManagement.Controllers
             int id_tpye = bill.Id_Type;
             int id_wallet = bill.Id_Wallet;
             bool isPay = bill.isPay;
-            bool isDeadline = bill.isDeadline;
+            bool isFinnish = bill.isFinnish;
             int time = bill.id_Time;
             if (bill.Id_Wallet == 0)
             {
@@ -147,12 +147,12 @@ namespace API_ExpenseManagement.Controllers
                 bill.id_Time = 1;
             }
             bill.isPay = false;
-            bill.isDeadline = false;
+            bill.isFinnish = false;
             try
             {
                 _context.Bill.Add(bill);
                 _context.SaveChangesAsync();
-                ResponseModel res = new ResponseModel("Create success", null, "200");
+                ResponseModel res = new ResponseModel("Create success", bill, "200");
                 return res;
             }
             catch

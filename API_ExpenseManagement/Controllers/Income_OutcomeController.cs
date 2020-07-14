@@ -195,8 +195,14 @@ namespace API_ExpenseManagement.Controllers
             income.Id_Budget = id_budget;
             income.Id_Per = id_per;
             income.Id_type = id_type;
+            Wallet wallet = _context.Wallets.Where(m => m.Id_Wallet == id_wallet).FirstOrDefault();
+            if (id_bill != 1 || id_budget != 1 || id_per != 1)
+            {
+                wallet.Amount_Wallet = wallet.Amount_Wallet - amount;
+            }
             try
             {
+                _context.Wallets.Update(wallet);
                 _context.Income_Outcomes.Add(income);
                 _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Create success", null, "200");

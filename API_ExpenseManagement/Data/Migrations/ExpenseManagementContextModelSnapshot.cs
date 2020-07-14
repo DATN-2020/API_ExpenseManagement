@@ -41,9 +41,9 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<int>("id_Time");
 
-                    b.Property<bool>("isDeadline");
-
                     b.Property<bool>("isEdit");
+
+                    b.Property<bool>("isFinnish");
 
                     b.Property<bool>("isPay");
 
@@ -265,6 +265,12 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<string>("Description_come");
 
+                    b.Property<int>("Id_Bill");
+
+                    b.Property<int>("Id_Budget");
+
+                    b.Property<int>("Id_Per");
+
                     b.Property<int>("Id_type");
 
                     b.Property<bool>("Is_Come");
@@ -361,6 +367,10 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.Property<int>("id_Time");
 
                     b.Property<bool>("isComeback");
+
+                    b.Property<bool>("isFinnish");
+
+                    b.Property<bool>("isPay");
 
                     b.HasKey("Id_Per");
 

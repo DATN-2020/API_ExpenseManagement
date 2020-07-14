@@ -347,8 +347,8 @@ namespace API_ExpenseManagement.Data.Migrations
                     date_s = table.Column<DateTime>(nullable: false),
                     date_e = table.Column<DateTime>(nullable: false),
                     isPay = table.Column<bool>(nullable: false),
+                    isFinnish = table.Column<bool>(nullable: false),
                     isEdit = table.Column<bool>(nullable: false),
-                    isDeadline = table.Column<bool>(nullable: false),
                     Id_Cate = table.Column<int>(nullable: false),
                     Id_Type = table.Column<int>(nullable: false),
                     Id_Wallet = table.Column<int>(nullable: false),
@@ -423,7 +423,10 @@ namespace API_ExpenseManagement.Data.Migrations
                     LoanId_Loan = table.Column<int>(nullable: false),
                     TripId_Trip = table.Column<int>(nullable: false),
                     Id_type = table.Column<int>(nullable: false),
-                    WalletId_Wallet = table.Column<int>(nullable: false)
+                    WalletId_Wallet = table.Column<int>(nullable: false),
+                    Id_Bill = table.Column<int>(nullable: false),
+                    Id_Budget = table.Column<int>(nullable: false),
+                    Id_Per = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -465,6 +468,8 @@ namespace API_ExpenseManagement.Data.Migrations
                     date_e = table.Column<DateTime>(nullable: false),
                     date_s = table.Column<DateTime>(nullable: false),
                     isComeback = table.Column<bool>(nullable: false),
+                    isPay = table.Column<bool>(nullable: false),
+                    isFinnish = table.Column<bool>(nullable: false),
                     Id_Cate = table.Column<int>(nullable: false),
                     Id_Type = table.Column<int>(nullable: false),
                     Id_Wallet = table.Column<int>(nullable: false),

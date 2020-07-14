@@ -51,10 +51,22 @@ namespace API_ExpenseManagement.Controllers
                           isPay = a.isPay,
                           isDeadline = a.date_e >= DateTime.Now ? false : true,
                           time = d.desciption,
-                          date_time_s = DateTime.Today,
-                          date_time_e = DateTime.Now.AddDays(1)
+                          date_time_s = a.date_s,
+                          date_time_e = 
+                          (a.id_Time == 1 ? a.date_s.AddDays(1):
+                          a.id_Time == 2 ? a.date_s.AddDays(7):
+                          a.id_Time == 3 ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month)- DateTime.Today.Day) :
+                          DateTime.Today.AddDays(365-(a.date_s.DayOfYear -1)))
                       };
             var bill = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
+            Bill bill1 = _context.Bill.Where(m => m.Id_Wallet == id).FirstOrDefault();
+            if(bill1.date_e <= DateTime.Today)
+            {
+                bill1.isFinnish = true;
+                _context.Bill.Update(bill1);
+                _context.SaveChangesAsync();
+
+            }    
             if (log == null)
             {
                 ResponseModel res = new ResponseModel("Fail", null, "404");

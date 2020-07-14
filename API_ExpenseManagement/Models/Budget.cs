@@ -18,7 +18,6 @@ namespace API_ExpenseManagement.Models
         public int Id_Cate { get; set; }
         public int Id_Wallet { get; set; }
         public int Id_type { get; set; }
-        public int id_Time { get; set; }
-        public ICollection<Income_Outcome> income_Outcomes { get; set; }
+        //public ICollection<Income_Outcome> income_Outcomes { get; set; }
     }
 }

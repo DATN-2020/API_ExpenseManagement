@@ -37,7 +37,7 @@ namespace API_ExpenseManagement.Controllers
             int userId = id;
             var log = _context.Wallets.
             Where(x => x.User_Id.Equals(userId)).AsEnumerable();
-            //var queryUrl = "/api/GetWallets/5?userId=" + id;
+            //var queryUrl = "/api/GetWallets/5?userId=" + id;  
             if (log == null)
             {
                 ResponseModel res = new ResponseModel("Fail", null, "404");
