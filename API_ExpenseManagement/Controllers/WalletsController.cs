@@ -54,26 +54,34 @@ namespace API_ExpenseManagement.Controllers
         [HttpPut("{id}")]
         public ResponseModel PutWallet([FromRoute] int id, [FromBody] Wallet wallet)
         {
+            string name = wallet.Name_Wallet;
+            float amount = wallet.Amount_Wallet;
+            string disciption = wallet.Description;
+            wallet = _context.Wallets.Where(m => m.Id_Wallet == id).FirstOrDefault();
             if (!ModelState.IsValid)
             {
                 ResponseModel res = new ResponseModel("Update fail", null, "404");
                 return res;
             }
 
-            //if (id != wallet.Id_Wallet)
-            //{
-            //    ResponseModel res = new ResponseModel("Update fail", null, "404");
-            //    return res;
-            //}
-            string name = wallet.Name_Wallet;
-            float amount = wallet.Amount_Wallet;
-            string disciption = wallet.Description;
-            wallet = _context.Wallets.Where(m => m.Id_Wallet == id).FirstOrDefault();
+            if (id != wallet.Id_Wallet)
+            {
+                ResponseModel res = new ResponseModel("Update fail", null, "404");
+                return res;
+            }
+            
+
             wallet.Name_Wallet = name;
             wallet.Amount_Wallet = amount;
             wallet.Description = disciption;
+            Income_Outcome income = new Income_Outcome();
+            income.Amount = amount;
+            income.Description_come = "Cập nhật ví " + name;
+            income.Date_come = DateTime.Today;
+            income.WalletId_Wallet = id;
             try
             {
+                _context.Income_Outcomes.Add(income);
                 _context.Entry(wallet).State = EntityState.Modified;
                 _context.Wallets.Update(wallet);
                 _context.SaveChangesAsync();
