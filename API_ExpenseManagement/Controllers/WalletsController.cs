@@ -31,21 +31,23 @@ namespace API_ExpenseManagement.Controllers
 
         // GET: api/Wallets/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetWallet([FromRoute] int id)
+        public ResponseModel GetWallet([FromQuery] int id)
         {
-            if (!ModelState.IsValid)
+            Wallet wallet = _context.Wallets.Where(x => x.User_Id == id).FirstOrDefault();
+            int userId = id;
+            var log = _context.Wallets.
+            Where(x => x.User_Id.Equals(userId)).AsEnumerable();
+            //var queryUrl = "/api/GetWallets/5?userId=" + id;  
+            if (log == null)
             {
-                return BadRequest(ModelState);
+                ResponseModel res = new ResponseModel("Fail", null, "404");
+                return res;
             }
-
-            var wallet = await _context.Wallets.FindAsync(id);
-
-            if (wallet == null)
+            else
             {
-                return NotFound();
+                ResponseModel res = new ResponseModel("Wallets", log, "200");
+                return res;
             }
-
-            return Ok(wallet);
         }
 
         // PUT: api/Wallets/5
