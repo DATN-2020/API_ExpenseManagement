@@ -192,6 +192,7 @@ namespace API_ExpenseManagement.Controllers
             }
             if (wallet != null)
             {
+                _context.Wallets.Remove(wallet);
                 _context.SaveChangesAsync();
                 ResponseModel res = new ResponseModel("Delete success", null, "404");
                 return res;
