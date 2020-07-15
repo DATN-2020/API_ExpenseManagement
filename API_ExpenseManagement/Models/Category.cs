@@ -13,10 +13,10 @@ namespace API_ExpenseManagement.Models
         public string NameCate { get; set; }
         public string ImageCate { get; set; }
         public int Id_type { get; set; }
-        public ICollection<Income_Outcome> Income_Outcomes { get; set; }
-        public ICollection<UserCategory> UserCategories { get; set; }
-        public ICollection<Budget> Budgets { get; set; }
-        public ICollection<Bill> Bills { get; set; }
-        public ICollection<Periodic> Periodics { get; set; }
+        //public ICollection<Income_Outcome> Income_Outcomes { get; set; }
+        //public ICollection<UserCategory> UserCategories { get; set; }
+        //public ICollection<Budget> Budgets { get; set; }
+        //public ICollection<Bill> Bills { get; set; }
+        //public ICollection<Periodic> Periodics { get; set; }
     }
 }

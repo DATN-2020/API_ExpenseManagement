@@ -12,7 +12,7 @@ namespace API_ExpenseManagement.Models
         public int Id_Contact { get; set; }
         public string Name_Contact { get; set; }
         public string PhoneNumber { get; set; }
-        public ICollection<Loan> Loans { get; set; }
-        public ICollection<IncomeContact> IncomeContacts { get; set; }
+        //public ICollection<Loan> Loans { get; set; }
+        //public ICollection<IncomeContact> IncomeContacts { get; set; }
     }
 }

@@ -11,6 +11,6 @@ namespace API_ExpenseManagement.Models
         [Key]
         public int Id_Trip { get; set; }
         public string Name_Trip { get; set; }
-        public ICollection<Income_Outcome> Income_Outcomes { get; set; }
+        //public ICollection<Income_Outcome> Income_Outcomes { get; set; }
     }
 }

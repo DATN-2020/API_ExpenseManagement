@@ -161,18 +161,44 @@ namespace API_ExpenseManagement.Controllers
                 ResponseModel res = new ResponseModel("Delete fail", null, "404");
                 return res;
             }
-
             Wallet wallet = _context.Wallets.Find(id);
-            if (wallet == null)
+            var income = _context.Income_Outcomes
+                .Where(w => w.WalletId_Wallet == id);
+
+            foreach (Income_Outcome incomes in income)
             {
-                ResponseModel res = new ResponseModel("Delete fail", null, "404");
+                _context.Income_Outcomes.Remove(incomes);
+            }
+            var budget = _context.Budget
+                .Where(w => w.Id_Wallet == id);
+
+            foreach (Budget budget1 in budget)
+            {
+                _context.Budget.Remove(budget1);
+            }
+            var per = _context.Periodic
+                .Where(w => w.Id_Wallet == id);
+
+            foreach (Periodic periodic in per)
+            {
+                _context.Periodic.Remove(periodic);
+            }
+            var bill = _context.Bill
+                .Where(w => w.Id_Wallet == id);
+
+            foreach (Bill bill1 in bill)
+            {
+                _context.Bill.Remove(bill1);
+            }
+            if (wallet != null)
+            {
+                _context.SaveChangesAsync();
+                ResponseModel res = new ResponseModel("Delete success", null, "404");
                 return res;
             }
             else
             {
-                _context.Wallets.Remove(wallet);
-                _context.SaveChangesAsync();
-                ResponseModel res = new ResponseModel("Delete success", null, "404");
+                ResponseModel res = new ResponseModel("Delete fail", null, "404");
                 return res;
             }
         }

@@ -1,0 +1,528 @@
+﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
+
+namespace API_ExpenseManagement.Data.Migrations
+{
+    public partial class InitialCreate : Migration
+    {
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.CreateTable(
+                name: "Bill",
+                columns: table => new
+                {
+                    Id_Bill = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Amount_Bill = table.Column<float>(nullable: false),
+                    Desciption = table.Column<string>(nullable: true),
+                    date_s = table.Column<DateTime>(nullable: false),
+                    date_e = table.Column<DateTime>(nullable: false),
+                    isPay = table.Column<bool>(nullable: false),
+                    isFinnish = table.Column<bool>(nullable: false),
+                    isEdit = table.Column<bool>(nullable: false),
+                    Id_Cate = table.Column<int>(nullable: false),
+                    Id_Type = table.Column<int>(nullable: false),
+                    Id_Wallet = table.Column<int>(nullable: false),
+                    id_Time = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bill", x => x.Id_Bill);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Budget",
+                columns: table => new
+                {
+                    Id_Budget = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Amount_Budget = table.Column<float>(nullable: false),
+                    Remain = table.Column<float>(nullable: false),
+                    time_s = table.Column<DateTime>(nullable: false),
+                    time_e = table.Column<DateTime>(nullable: false),
+                    isFinnish = table.Column<bool>(nullable: false),
+                    Id_Cate = table.Column<int>(nullable: false),
+                    Id_Wallet = table.Column<int>(nullable: false),
+                    Id_type = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Budget", x => x.Id_Budget);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Contacts",
+                columns: table => new
+                {
+                    Id_Contact = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name_Contact = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contacts", x => x.Id_Contact);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CreateWallet",
+                columns: table => new
+                {
+                    User_Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Amount = table.Column<float>(nullable: false),
+                    Name_Wallet = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Id_Type_Wallet = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CreateWallet", x => x.User_Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Custom",
+                columns: table => new
+                {
+                    Id_Custom = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Custom", x => x.Id_Custom);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "getBill",
+                columns: table => new
+                {
+                    id_getBill = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    id_cate = table.Column<int>(nullable: false),
+                    id_type = table.Column<int>(nullable: false),
+                    amount_Bill = table.Column<float>(nullable: false),
+                    createDate = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_getBill", x => x.id_getBill);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "getBudget",
+                columns: table => new
+                {
+                    id_getBudget = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    id_cate = table.Column<int>(nullable: false),
+                    id_type = table.Column<int>(nullable: false),
+                    amount_budget = table.Column<float>(nullable: false),
+                    remain = table.Column<float>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_getBudget", x => x.id_getBudget);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GetCategory",
+                columns: table => new
+                {
+                    userId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    idType = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GetCategory", x => x.userId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "getIncome",
+                columns: table => new
+                {
+                    id_getIncome = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    id_cate = table.Column<int>(nullable: false),
+                    id_type = table.Column<int>(nullable: false),
+                    amount_Icome = table.Column<float>(nullable: false),
+                    date_Income = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_getIncome", x => x.id_getIncome);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "getPeriodic",
+                columns: table => new
+                {
+                    id_getBudget = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    id_cate = table.Column<int>(nullable: false),
+                    id_type = table.Column<int>(nullable: false),
+                    amount_budget = table.Column<float>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_getPeriodic", x => x.id_getBudget);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GetWallet",
+                columns: table => new
+                {
+                    Userid = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GetWallet", x => x.Userid);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Income_Outcomes",
+                columns: table => new
+                {
+                    Id_come = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Amount = table.Column<float>(nullable: false),
+                    Date_come = table.Column<DateTime>(nullable: false),
+                    Description_come = table.Column<string>(nullable: true),
+                    Is_Come = table.Column<bool>(nullable: false),
+                    CategoryId_Cate = table.Column<int>(nullable: false),
+                    LoanId_Loan = table.Column<int>(nullable: false),
+                    TripId_Trip = table.Column<int>(nullable: false),
+                    Id_type = table.Column<int>(nullable: false),
+                    WalletId_Wallet = table.Column<int>(nullable: false),
+                    Id_Bill = table.Column<int>(nullable: false),
+                    Id_Budget = table.Column<int>(nullable: false),
+                    Id_Per = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Income_Outcomes", x => x.Id_come);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "IncomeContacts",
+                columns: table => new
+                {
+                    Id_IncomeContact = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_IncomeContacts", x => x.Id_IncomeContact);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Loans",
+                columns: table => new
+                {
+                    Id_Loan = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name_Loan = table.Column<string>(nullable: true),
+                    Date_Pay = table.Column<string>(nullable: true),
+                    ContactId_contact = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Loans", x => x.Id_Loan);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Login",
+                columns: table => new
+                {
+                    User_Name = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Login", x => x.User_Name);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Periodic",
+                columns: table => new
+                {
+                    Id_Per = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Amount_Per = table.Column<float>(nullable: false),
+                    Desciption = table.Column<string>(nullable: true),
+                    date_e = table.Column<DateTime>(nullable: false),
+                    date_s = table.Column<DateTime>(nullable: false),
+                    isComeback = table.Column<bool>(nullable: false),
+                    isPay = table.Column<bool>(nullable: false),
+                    isFinnish = table.Column<bool>(nullable: false),
+                    Id_Cate = table.Column<int>(nullable: false),
+                    Id_Type = table.Column<int>(nullable: false),
+                    Id_Wallet = table.Column<int>(nullable: false),
+                    id_Time = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Periodic", x => x.Id_Per);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Time_Periodic",
+                columns: table => new
+                {
+                    id_Time = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    desciption = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Time_Periodic", x => x.id_Time);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Transfers",
+                columns: table => new
+                {
+                    idTransfers = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    id_chuyen = table.Column<int>(nullable: false),
+                    id_nhan = table.Column<int>(nullable: false),
+                    amount = table.Column<float>(nullable: false),
+                    desciption = table.Column<string>(nullable: true),
+                    date = table.Column<DateTime>(nullable: false),
+                    Id_type = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transfers", x => x.idTransfers);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Trips",
+                columns: table => new
+                {
+                    Id_Trip = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name_Trip = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Trips", x => x.Id_Trip);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TypeCategories",
+                columns: table => new
+                {
+                    Id_type = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name_Type = table.Column<string>(nullable: true),
+                    Image_Type = table.Column<string>(nullable: true),
+                    TypeExpense = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TypeCategories", x => x.Id_type);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TypeWallets",
+                columns: table => new
+                {
+                    Id_Type_Wallet = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name_Type_Wallet = table.Column<string>(nullable: true),
+                    Image_Type_Wallet = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TypeWallets", x => x.Id_Type_Wallet);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    User_Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    User_Name = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    FullName = table.Column<string>(nullable: true),
+                    Check_Wallet = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.User_Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id_Cate = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    NameCate = table.Column<string>(nullable: true),
+                    ImageCate = table.Column<string>(nullable: true),
+                    Id_type = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id_Cate);
+                    table.ForeignKey(
+                        name: "FK_Categories_TypeCategories_Id_type",
+                        column: x => x.Id_type,
+                        principalTable: "TypeCategories",
+                        principalColumn: "Id_type",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserCategory",
+                columns: table => new
+                {
+                    Id_UserCategory = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CategoryId_Cate = table.Column<int>(nullable: false),
+                    User_Id = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserCategory", x => x.Id_UserCategory);
+                    table.ForeignKey(
+                        name: "FK_UserCategory_Users_User_Id",
+                        column: x => x.User_Id,
+                        principalTable: "Users",
+                        principalColumn: "User_Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Wallets",
+                columns: table => new
+                {
+                    Id_Wallet = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name_Wallet = table.Column<string>(nullable: true),
+                    Amount_Wallet = table.Column<float>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    Id_Type_Wallet = table.Column<int>(nullable: false),
+                    User_Id = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Wallets", x => x.Id_Wallet);
+                    table.ForeignKey(
+                        name: "FK_Wallets_TypeWallets_Id_Type_Wallet",
+                        column: x => x.Id_Type_Wallet,
+                        principalTable: "TypeWallets",
+                        principalColumn: "Id_Type_Wallet",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Wallets_Users_User_Id",
+                        column: x => x.User_Id,
+                        principalTable: "Users",
+                        principalColumn: "User_Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Categories_Id_type",
+                table: "Categories",
+                column: "Id_type");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserCategory_User_Id",
+                table: "UserCategory",
+                column: "User_Id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Wallets_Id_Type_Wallet",
+                table: "Wallets",
+                column: "Id_Type_Wallet");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Wallets_User_Id",
+                table: "Wallets",
+                column: "User_Id");
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                name: "Bill");
+
+            migrationBuilder.DropTable(
+                name: "Budget");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Contacts");
+
+            migrationBuilder.DropTable(
+                name: "CreateWallet");
+
+            migrationBuilder.DropTable(
+                name: "Custom");
+
+            migrationBuilder.DropTable(
+                name: "getBill");
+
+            migrationBuilder.DropTable(
+                name: "getBudget");
+
+            migrationBuilder.DropTable(
+                name: "GetCategory");
+
+            migrationBuilder.DropTable(
+                name: "getIncome");
+
+            migrationBuilder.DropTable(
+                name: "getPeriodic");
+
+            migrationBuilder.DropTable(
+                name: "GetWallet");
+
+            migrationBuilder.DropTable(
+                name: "Income_Outcomes");
+
+            migrationBuilder.DropTable(
+                name: "IncomeContacts");
+
+            migrationBuilder.DropTable(
+                name: "Loans");
+
+            migrationBuilder.DropTable(
+                name: "Login");
+
+            migrationBuilder.DropTable(
+                name: "Periodic");
+
+            migrationBuilder.DropTable(
+                name: "Time_Periodic");
+
+            migrationBuilder.DropTable(
+                name: "Transfers");
+
+            migrationBuilder.DropTable(
+                name: "Trips");
+
+            migrationBuilder.DropTable(
+                name: "UserCategory");
+
+            migrationBuilder.DropTable(
+                name: "Wallets");
+
+            migrationBuilder.DropTable(
+                name: "TypeCategories");
+
+            migrationBuilder.DropTable(
+                name: "TypeWallets");
+
+            migrationBuilder.DropTable(
+                name: "Users");
+        }
+    }
+}
