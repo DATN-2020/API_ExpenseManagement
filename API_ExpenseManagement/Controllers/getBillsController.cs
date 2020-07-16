@@ -30,15 +30,15 @@ namespace API_ExpenseManagement.Controllers
 
         // GET: api/getBills/5
         [HttpGet("{id}")]
-        public ResponseModel GetgetBill([FromQuery] int id)
+        public ResponseModel GetgetBill([FromQuery] string id)
         {
             var log = from a in _context.Bill
                       join b in _context.Categories
-                      on a.Id_Cate equals b.Id_Cate
+                      on a.Id_Category equals b.Id_Cate.ToString()
                       join c in _context.TypeCategories
-                      on a.Id_Type equals c.Id_type
+                      on a.Id_Type equals c.Id_type.ToString()
                       join d in _context.Time_Periodic
-                      on a.id_Time equals d.id_Time
+                      on a.id_Time equals d.id_Time.ToString()
                       select new
                       {
                           idwallet = a.Id_Wallet,
@@ -53,20 +53,22 @@ namespace API_ExpenseManagement.Controllers
                           time = d.desciption,
                           date_time_s = a.date_s,
                           date_time_e = 
-                          (a.id_Time == 1 ? a.date_s.AddDays(1):
-                          a.id_Time == 2 ? a.date_s.AddDays(7):
-                          a.id_Time == 3 ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month)- DateTime.Today.Day) :
+                          (a.id_Time == "1" ? a.date_s.AddDays(1):
+                          a.id_Time == "2" ? a.date_s.AddDays(7):
+                          a.id_Time == "3" ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month)- DateTime.Today.Day) :
                           DateTime.Today.AddDays(365-(a.date_s.DayOfYear -1)))
                       };
             var bill = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
-            Bill bill1 = _context.Bill.Where(m => m.Id_Wallet == id).FirstOrDefault();
-            if(bill1.date_e <= DateTime.Today)
+            var bills = _context.Bill.Where(w => w.Id_Wallet == id.ToString());
+            foreach (Bill bill1 in bills)
             {
-                bill1.isFinnish = true;
-                _context.Bill.Update(bill1);
-                _context.SaveChangesAsync();
-
-            }    
+                if (bill1.date_e <= DateTime.Today)
+                {
+                    bill1.isFinnish = true;
+                    _context.Bill.Update(bill1);
+                }
+            }
+            _context.SaveChanges();
             if (log == null)
             {
                 ResponseModel res = new ResponseModel("Fail", null, "404");

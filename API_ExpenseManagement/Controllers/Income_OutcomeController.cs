@@ -58,60 +58,28 @@ namespace API_ExpenseManagement.Controllers
             }
 
             float amount = income_Outcome.Amount;
-            DateTime date = income_Outcome.Date_come;
+            string date = income_Outcome.Date_come;
             string desciption = income_Outcome.Description_come;
             bool is_come = income_Outcome.Is_Come;
-            int id_cate = income_Outcome.CategoryId_Cate;
-            int id_loan = income_Outcome.LoanId_Loan;
-            int id_trip = income_Outcome.TripId_Trip;
-            int id_wallet = income_Outcome.WalletId_Wallet;
-            int id_type = income_Outcome.Id_type;
-            int id_bill = income_Outcome.Id_Bill;
-            int id_budget = income_Outcome.Id_Budget;
-            int id_per = income_Outcome.Id_Per;
-            if (id_cate == 0)
-            {
-                id_cate = 1;
-            }
-            if (id_loan == 0)
-            {
-                id_loan = 1;
-            }
-            if (id_trip == 0)
-            {
-                id_trip = 1;
-            }
-            if (id_wallet == 0)
-            {
-                id_wallet = 1;
-            }
-            if (id_type == 0)
-            {
-                id_type = 1;
-            }
-            if (id_bill == 0)
-            {
-                id_bill = 1;
-            }
-            if (id_budget == 0)
-            {
-                id_budget = 1;
-            }
-            if (id_per == 0)
-            {
-                id_per = 1;
-            }
+            string id_cate = income_Outcome.CategoryId_Cate;
+            string id_loan = income_Outcome.LoanId_Loan;
+            string id_trip = income_Outcome.TripId_Trip;
+            string id_wallet = income_Outcome.WalletId_Wallet;
+            string id_type = income_Outcome.Id_type;
+            string id_bill = income_Outcome.Id_Bill;
+            string id_budget = income_Outcome.Id_Budget;
+            string id_per = income_Outcome.Id_Per;
             income_Outcome.Amount = amount;
             income_Outcome.Date_come = date;
             income_Outcome.Description_come = desciption;
             income_Outcome.Is_Come = is_come;
-            income_Outcome.CategoryId_Cate = id_cate;
-            income_Outcome.LoanId_Loan = id_loan;
-            income_Outcome.TripId_Trip = id_trip;
-            income_Outcome.Id_Bill = id_bill;
-            income_Outcome.Id_Budget = id_budget;
-            income_Outcome.Id_Per = id_per;
-            income_Outcome.Id_type = id_type;
+            income_Outcome.CategoryId_Cate = id_cate.ToString();
+            income_Outcome.LoanId_Loan = id_loan.ToString();
+            income_Outcome.TripId_Trip = id_trip.ToString();
+            income_Outcome.Id_Bill = id_bill.ToString();
+            income_Outcome.Id_Budget = id_budget.ToString();
+            income_Outcome.Id_Per = id_per.ToString();
+            income_Outcome.Id_type = id_type.ToString();
             try
             {
                 _context.Income_Outcomes.Update(income_Outcome);
@@ -140,49 +108,17 @@ namespace API_ExpenseManagement.Controllers
         {
             Income_Outcome income = new Income_Outcome();
             float amount = income_Outcome.Amount;
-            DateTime date = income_Outcome.Date_come;
+            string date = income_Outcome.Date_come;
             string desciption = income_Outcome.Description_come;
             bool is_come = income_Outcome.Is_Come;
-            int id_cate = income_Outcome.CategoryId_Cate;
-            int id_loan = income_Outcome.LoanId_Loan;
-            int id_trip = income_Outcome.TripId_Trip;
-            int id_wallet = income_Outcome.WalletId_Wallet;
-            int id_type = income_Outcome.Id_type;
-            int id_bill = income_Outcome.Id_Bill;
-            int id_budget = income_Outcome.Id_Budget;
-            int id_per = income_Outcome.Id_Per;
-            if (id_cate == 0)
-            {
-                id_cate = 1;
-            }
-            if (id_loan == 0)
-            {
-                id_loan = 1;
-            }
-            if (id_trip == 0)
-            {
-                id_trip = 1;
-            }
-            if (id_wallet == 0)
-            {
-                id_wallet = 1;
-            }
-            if (id_type == 0)
-            {
-                id_type = 1;
-            }
-            if (id_bill == 0)
-            {
-                id_bill = 1;
-            }
-            if (id_budget == 0)
-            {
-                id_budget = 1;
-            }
-            if (id_per == 0)
-            {
-                id_per = 1;
-            }
+            string id_cate = income_Outcome.CategoryId_Cate;
+            string id_loan = income_Outcome.LoanId_Loan;
+            string id_trip = income_Outcome.TripId_Trip;
+            string id_wallet = income_Outcome.WalletId_Wallet;
+            string id_type = income_Outcome.Id_type;
+            string id_bill = income_Outcome.Id_Bill;
+            string id_budget = income_Outcome.Id_Budget;
+            string id_per = income_Outcome.Id_Per;
             income.Amount = amount;
             income.Date_come = date;
             income.Description_come = desciption;
@@ -195,14 +131,29 @@ namespace API_ExpenseManagement.Controllers
             income.Id_Budget = id_budget;
             income.Id_Per = id_per;
             income.Id_type = id_type;
-            Wallet wallet = _context.Wallets.Where(m => m.Id_Wallet == id_wallet).FirstOrDefault();
-            if (id_bill != 1 || id_budget != 1 || id_per != 1)
+            if(id_wallet == null)
             {
-                wallet.Amount_Wallet = wallet.Amount_Wallet - amount;
-            }
+                id_wallet = "1";
+            }    
+            Wallet wallet = _context.Wallets.Where(m => m.Id_Wallet.ToString() == id_wallet).FirstOrDefault();
+            //if (id_bill != "1" || id_budget != "1" || id_per != "1")
+            //{
+            //    wallet.Amount_Wallet = wallet.Amount_Wallet - amount;
+            //}
+   
             try
             {
-                _context.Wallets.Update(wallet);
+                if (id_bill != null)
+                {
+                    Bill bill = _context.Bill.Where(m => m.Id_Bill.ToString() == id_bill).FirstOrDefault();
+                    bill.isPay = true;
+                    income.Description_come = "Thanh toán hóa đơn";
+                    income.Date_come = DateTime.Today.ToString();
+                    wallet.Amount_Wallet = wallet.Amount_Wallet - bill.Amount_Bill;
+                    income.Amount = bill.Amount_Bill;
+                    _context.Wallets.Update(wallet);
+                    _context.Bill.Update(bill);
+                }
                 _context.Income_Outcomes.Add(income);
                 _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Create success", null, "200");

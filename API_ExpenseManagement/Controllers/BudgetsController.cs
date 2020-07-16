@@ -66,18 +66,18 @@ namespace API_ExpenseManagement.Controllers
             budget.time_e = date_e;
             budget.time_s = date_s;
             budget.isFinnish = isfinnish;
-            if (budget.Id_Wallet == 0)
-            {
-                budget.Id_Wallet = 1;
-            }
-            if (budget.Id_Cate == 0)
-            {
-                budget.Id_Cate = 1;
-            }
-            if (budget.Id_type == 0)
-            {
-                budget.Id_type = 1;
-            }
+            //if (budget.Id_Wallet == 0)
+            //{
+            //    budget.Id_Wallet = 1;
+            //}
+            //if (budget.Id_Cate == 0)
+            //{
+            //    budget.Id_Cate = 1;
+            //}
+            //if (budget.Id_type == 0)
+            //{
+            //    budget.Id_type = 1;
+            //}
             budget.Remain = budget.Amount_Budget;
             budget.isFinnish = false;
             try
@@ -114,21 +114,21 @@ namespace API_ExpenseManagement.Controllers
             float remain = budget.Remain;
             DateTime time_s = budget.time_s;
             DateTime time_e = budget.time_e;
-            int id_cate = budget.Id_Cate;
-            int id_wallet = budget.Id_Wallet;
+            string id_cate = budget.Id_Cate;
+            string id_wallet = budget.Id_Wallet;
             bool is_Finnish = false;
-            if (budget.Id_Wallet == 0)
-            {
-                budget.Id_Wallet = 1;
-            }
-            if (budget.Id_Cate == 0)
-            {
-                budget.Id_Cate = 1;
-            }
-            if (budget.Id_type == 0)
-            {
-                budget.Id_type = 1;
-            }
+            //if (budget.Id_Wallet == 0)
+            //{
+            //    budget.Id_Wallet = 1;
+            //}
+            //if (budget.Id_Cate == 0)
+            //{
+            //    budget.Id_Cate = 1;
+            //}
+            //if (budget.Id_type == 0)
+            //{
+            //    budget.Id_type = 1;
+            //}
             budget.Remain = amount;
             budget.isFinnish = is_Finnish;
             try 

@@ -91,10 +91,10 @@ namespace API_ExpenseManagement.Controllers
             Wallet insert = new Wallet();
             var check = false;
             insert.Amount_Wallet = amount;
-            insert.User_Id = user_Id;
+            insert.User_Id = user_Id.ToString();
             insert.Name_Wallet ="Ví tiền mặt";
             insert.Description = "";
-            insert.Id_Type_Wallet = 1;
+            insert.Id_Type_Wallet = "1";
             User user = _context.Users.Where(x => x.User_Id == user_Id).FirstOrDefault();
             user.Check_Wallet = true;
             try

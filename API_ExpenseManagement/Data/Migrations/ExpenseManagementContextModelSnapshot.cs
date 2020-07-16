@@ -29,17 +29,17 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<string>("Desciption");
 
-                    b.Property<int>("Id_Cate");
+                    b.Property<string>("Id_Category");
 
-                    b.Property<int>("Id_Type");
+                    b.Property<string>("Id_Type");
 
-                    b.Property<int>("Id_Wallet");
+                    b.Property<string>("Id_Wallet");
 
                     b.Property<DateTime>("date_e");
 
                     b.Property<DateTime>("date_s");
 
-                    b.Property<int>("id_Time");
+                    b.Property<string>("id_Time");
 
                     b.Property<bool>("isEdit");
 
@@ -60,11 +60,11 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<float>("Amount_Budget");
 
-                    b.Property<int>("Id_Cate");
+                    b.Property<string>("Id_Cate");
 
-                    b.Property<int>("Id_Wallet");
+                    b.Property<string>("Id_Wallet");
 
-                    b.Property<int>("Id_type");
+                    b.Property<string>("Id_type");
 
                     b.Property<float>("Remain");
 
@@ -249,27 +249,27 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<float>("Amount");
 
-                    b.Property<int>("CategoryId_Cate");
+                    b.Property<string>("CategoryId_Cate");
 
-                    b.Property<DateTime>("Date_come");
+                    b.Property<string>("Date_come");
 
                     b.Property<string>("Description_come");
 
-                    b.Property<int>("Id_Bill");
+                    b.Property<string>("Id_Bill");
 
-                    b.Property<int>("Id_Budget");
+                    b.Property<string>("Id_Budget");
 
-                    b.Property<int>("Id_Per");
+                    b.Property<string>("Id_Per");
 
-                    b.Property<int>("Id_type");
+                    b.Property<string>("Id_type");
 
                     b.Property<bool>("Is_Come");
 
-                    b.Property<int>("LoanId_Loan");
+                    b.Property<string>("LoanId_Loan");
 
-                    b.Property<int>("TripId_Trip");
+                    b.Property<string>("TripId_Trip");
 
-                    b.Property<int>("WalletId_Wallet");
+                    b.Property<string>("WalletId_Wallet");
 
                     b.HasKey("Id_come");
 
@@ -293,7 +293,7 @@ namespace API_ExpenseManagement.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ContactId_contact");
+                    b.Property<string>("ContactId_contact");
 
                     b.Property<string>("Date_Pay");
 
@@ -326,17 +326,17 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<string>("Desciption");
 
-                    b.Property<int>("Id_Cate");
+                    b.Property<string>("Id_Cate");
 
-                    b.Property<int>("Id_Type");
+                    b.Property<string>("Id_Type");
 
-                    b.Property<int>("Id_Wallet");
+                    b.Property<string>("Id_Wallet");
 
                     b.Property<DateTime>("date_e");
 
                     b.Property<DateTime>("date_s");
 
-                    b.Property<int>("id_Time");
+                    b.Property<string>("id_Time");
 
                     b.Property<bool>("isComeback");
 
@@ -368,7 +368,7 @@ namespace API_ExpenseManagement.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Id_type");
+                    b.Property<string>("Id_type");
 
                     b.Property<float>("amount");
 
@@ -461,8 +461,6 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.HasKey("Id_UserCategory");
 
-                    b.HasIndex("User_Id");
-
                     b.ToTable("UserCategory");
                 });
 
@@ -476,17 +474,13 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<int>("Id_Type_Wallet");
+                    b.Property<string>("Id_Type_Wallet");
 
                     b.Property<string>("Name_Wallet");
 
-                    b.Property<int>("User_Id");
+                    b.Property<string>("User_Id");
 
                     b.HasKey("Id_Wallet");
-
-                    b.HasIndex("Id_Type_Wallet");
-
-                    b.HasIndex("User_Id");
 
                     b.ToTable("Wallets");
                 });
@@ -496,27 +490,6 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasOne("API_ExpenseManagement.Models.TypeCategory")
                         .WithMany("Categories")
                         .HasForeignKey("Id_type")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("API_ExpenseManagement.Models.UserCategory", b =>
-                {
-                    b.HasOne("API_ExpenseManagement.Models.User")
-                        .WithMany("UserCategories")
-                        .HasForeignKey("User_Id")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("API_ExpenseManagement.Models.Wallet", b =>
-                {
-                    b.HasOne("API_ExpenseManagement.Models.TypeWallet")
-                        .WithMany("Wallets")
-                        .HasForeignKey("Id_Type_Wallet")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("API_ExpenseManagement.Models.User")
-                        .WithMany("wallets")
-                        .HasForeignKey("User_Id")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

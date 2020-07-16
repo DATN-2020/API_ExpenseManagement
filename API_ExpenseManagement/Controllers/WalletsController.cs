@@ -26,15 +26,15 @@ namespace API_ExpenseManagement.Controllers
         public IEnumerable<Wallet> GetWallets([FromBody] WalletsForUser obj)
         {
             int userId = obj.User_Id;
-            return _context.Wallets.Where(x => x.User_Id == userId);
+            return _context.Wallets.Where(x => x.User_Id == userId.ToString());
         }
 
         // GET: api/Wallets/5
         [HttpGet("{id}")]
-        public ResponseModel GetWallet([FromQuery] int id)
+        public ResponseModel GetWallet([FromQuery] string id)
         {
             Wallet wallet = _context.Wallets.Where(x => x.User_Id == id).FirstOrDefault();
-            int userId = id;
+            string userId = id;
             var log = _context.Wallets.
             Where(x => x.User_Id.Equals(userId)).AsEnumerable();
             //var queryUrl = "/api/GetWallets/5?userId=" + id;  
@@ -77,8 +77,8 @@ namespace API_ExpenseManagement.Controllers
             Income_Outcome income = new Income_Outcome();
             income.Amount = amount;
             income.Description_come = "Cập nhật ví " + name;
-            income.Date_come = DateTime.Today;
-            income.WalletId_Wallet = id;
+            income.Date_come = DateTime.Today.ToString();
+            income.WalletId_Wallet = id.ToString();
             try
             {
                 _context.Income_Outcomes.Add(income);
@@ -110,12 +110,12 @@ namespace API_ExpenseManagement.Controllers
             float amount = createWallet.Amount;
             string name = createWallet.Name_Wallet;
             string des = createWallet.Description;
-            int typeWallet = createWallet.Id_Type_Wallet;
+            string typeWallet = createWallet.Id_Type_Wallet.ToString();
 
             Wallet insert = new Wallet();
             var check = false;
             insert.Amount_Wallet = amount;
-            insert.User_Id = user_Id;
+            insert.User_Id = user_Id.ToString();
             if (name == null || name.Equals(""))
             {
                 insert.Name_Wallet = "Ví tiền mặt";
@@ -132,12 +132,12 @@ namespace API_ExpenseManagement.Controllers
                 insert.Description = des;
             }
 
-            if (typeWallet == null || typeWallet == 0)
+            if (typeWallet == null)
             {
-                insert.Id_Type_Wallet = 1;
+                insert.Id_Type_Wallet = "1";
             }
             else {
-                insert.Id_Type_Wallet = typeWallet;
+                insert.Id_Type_Wallet = typeWallet.ToString();
             }
            
             User user = _context.Users.Where(x => x.User_Id == user_Id).FirstOrDefault();
@@ -173,28 +173,27 @@ namespace API_ExpenseManagement.Controllers
             }
             Wallet wallet = _context.Wallets.Find(id);
             var income = _context.Income_Outcomes
-                .Where(w => w.WalletId_Wallet == id);
-
+                .Where(w => w.WalletId_Wallet == id.ToString());
             foreach (Income_Outcome incomes in income)
             {
                 _context.Income_Outcomes.Remove(incomes);
             }
             var budget = _context.Budget
-                .Where(w => w.Id_Wallet == id);
+                .Where(w => w.Id_Wallet == id.ToString());
 
             foreach (Budget budget1 in budget)
             {
                 _context.Budget.Remove(budget1);
             }
             var per = _context.Periodic
-                .Where(w => w.Id_Wallet == id);
+                .Where(w => w.Id_Wallet == id.ToString());
 
             foreach (Periodic periodic in per)
             {
                 _context.Periodic.Remove(periodic);
             }
             var bill = _context.Bill
-                .Where(w => w.Id_Wallet == id);
+                .Where(w => w.Id_Wallet == id.ToString());
 
             foreach (Bill bill1 in bill)
             {

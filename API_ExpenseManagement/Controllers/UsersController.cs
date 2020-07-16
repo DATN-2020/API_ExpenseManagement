@@ -112,7 +112,7 @@ namespace API_ExpenseManagement.Controllers
             string User_Name = user.User_Name;
             string password = user.Password;
             string full_name = user.FullName;
-            bool check_wallet = user.Check_Wallet;
+            //bool check_wallet = user.Check_Wallet;
             User user1 = _context.Users.Where(m => m.User_Name == user.User_Name).FirstOrDefault();
             if(user1 != null)
             {
@@ -124,7 +124,7 @@ namespace API_ExpenseManagement.Controllers
                 user.User_Name = User_Name;
                 user.Password = password;
                 user.FullName = full_name;
-                user.Check_Wallet = check_wallet;
+                user.Check_Wallet = false;
                 _context.Users.Add(user);
                 _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Create success", null, "200");

@@ -30,50 +30,60 @@ namespace API_ExpenseManagement.Controllers
 
         // GET: api/getPeriodics/5
         [HttpGet("{id}")]
-        public ResponseModel GetgetPeriodic([FromQuery] int id)
+        public ResponseModel GetgetPeriodic([FromQuery] string id)
         {
-            var log = from a in _context.Periodic
-                      join b in _context.Categories
-                      on a.Id_Cate equals b.Id_Cate
-                      join c in _context.TypeCategories
-                      on a.Id_Type equals c.Id_type
-                      join d in _context.Time_Periodic
-                      on a.id_Time equals d.id_Time
-                      select new
-                      {
-                          idwallet = a.Id_Wallet,
-                          idPeriodic = a.Id_Per,
-                          name = (b.Id_Cate == 1 ? c.Name_Type : b.NameCate),
-                          image = (b.Id_Cate == 1 ? c.Image_Type : b.ImageCate),
-                          amount = a.Amount_Per,
-                          date_s = a.date_s,
-                          date_e = a.date_e,
-                          time = d.desciption,
-                          is_Comeback = a.date_e >= DateTime.Now ? false:true,
-                          date_time_s = a.date_s,
-                          date_time_e =
-                          (a.id_Time == 1 ? a.date_s.AddDays(1) :
-                          a.id_Time == 2 ? a.date_s.AddDays(7) :
-                          a.id_Time == 3 ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month) - DateTime.Today.Day) :
-                          DateTime.Today.AddDays(365 - (a.date_s.DayOfYear - 1)))
-                      };
-            var bill = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
-            Periodic periodic = _context.Periodic.Where(m => m.Id_Wallet == id).FirstOrDefault();
-            if (periodic.date_e <= DateTime.Today)
+            try
             {
-                periodic.isFinnish = true;
-                _context.Periodic.Update(periodic);
-                _context.SaveChangesAsync();
-
+                var log = from a in _context.Periodic
+                          join b in _context.Categories
+                          on a.Id_Cate equals b.Id_Cate.ToString()
+                          join c in _context.TypeCategories
+                          on a.Id_Type equals c.Id_type.ToString()
+                          join d in _context.Time_Periodic
+                          on a.id_Time equals d.id_Time.ToString()
+                          select new
+                          {
+                              idwallet = a.Id_Wallet,
+                              idPeriodic = a.Id_Per,
+                              name = (b.Id_Cate == 1 ? c.Name_Type : b.NameCate),
+                              image = (b.Id_Cate == 1 ? c.Image_Type : b.ImageCate),
+                              amount = a.Amount_Per,
+                              date_s = a.date_s,
+                              date_e = a.date_e,
+                              time = d.desciption,
+                              is_Comeback = a.date_e >= DateTime.Now ? false : true,
+                              date_time_s = a.date_s,
+                              date_time_e =
+                              (a.id_Time == "1" ? a.date_s.AddDays(1) :
+                              a.id_Time == "2" ? a.date_s.AddDays(7) :
+                              a.id_Time == "3" ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month) - DateTime.Today.Day) :
+                              DateTime.Today.AddDays(365 - (a.date_s.DayOfYear - 1)))
+                          };
+                var bill = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
+                var per = _context.Periodic.Where(w => w.Id_Wallet == id.ToString());
+                    foreach (Periodic periodic1 in per)
+                    {
+                        if(periodic1.date_e <= DateTime.Today)
+                        {
+                            periodic1.isFinnish = true;
+                            _context.Periodic.Update(periodic1);
+                        }
+                    }
+                _context.SaveChanges();
+                if (log == null)
+                {
+                    ResponseModel res = new ResponseModel("Fail", null, "404");
+                    return res;
+                }
+                else
+                {
+                    ResponseModel res = new ResponseModel("Periodic", bill, "200");
+                    return res;
+                }
             }
-            if (log == null)
+            catch
             {
                 ResponseModel res = new ResponseModel("Fail", null, "404");
-                return res;
-            }
-            else
-            {
-                ResponseModel res = new ResponseModel("Periodic", bill, "200");
                 return res;
             }
         }

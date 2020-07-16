@@ -31,13 +31,13 @@ namespace API_ExpenseManagement.Controllers
 
         // GET: api/getBudgets/5
         [HttpGet("{id}")]
-        public ResponseModel GetgetBudget([FromQuery] int id)
+        public ResponseModel GetgetBudget([FromQuery] string id)
         {
             var log = from a in _context.Budget
                       join b in _context.Categories
-                      on a.Id_Cate equals b.Id_Cate
+                      on a.Id_Cate equals b.Id_Cate.ToString()
                       join c in _context.TypeCategories
-                      on a.Id_type equals c.Id_type
+                      on a.Id_type equals c.Id_type.ToString()
                       select new
                       {
                           idwallet = a.Id_Wallet,

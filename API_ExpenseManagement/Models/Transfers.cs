@@ -15,6 +15,6 @@ namespace API_ExpenseManagement.Models
         public float amount { get; set; }
         public string desciption { get; set; }
         public DateTime date { get; set; }
-        public int Id_type { get; set; }
+        public string Id_type { get; set; }
     }
 }

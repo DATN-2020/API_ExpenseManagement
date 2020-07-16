@@ -33,7 +33,7 @@ namespace API_ExpenseManagement.Controllers
         [HttpGet("{id}")]
         public ResponseModel GetGetWallet([FromQuery] int id)
         {
-            Wallet wallet = _context.Wallets.Where(x => x.User_Id == id).FirstOrDefault();
+            Wallet wallet = _context.Wallets.Where(x => x.User_Id == id.ToString()).FirstOrDefault();
             int userId = id;
             var log = _context.Wallets.
             Where(x => x.User_Id.Equals(userId)).AsEnumerable();

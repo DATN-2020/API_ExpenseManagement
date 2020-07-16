@@ -21,10 +21,10 @@ namespace API_ExpenseManagement.Data.Migrations
                     isPay = table.Column<bool>(nullable: false),
                     isFinnish = table.Column<bool>(nullable: false),
                     isEdit = table.Column<bool>(nullable: false),
-                    Id_Cate = table.Column<int>(nullable: false),
-                    Id_Type = table.Column<int>(nullable: false),
-                    Id_Wallet = table.Column<int>(nullable: false),
-                    id_Time = table.Column<int>(nullable: false)
+                    Id_Category = table.Column<string>(nullable: true),
+                    Id_Type = table.Column<string>(nullable: true),
+                    Id_Wallet = table.Column<string>(nullable: true),
+                    id_Time = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -42,9 +42,9 @@ namespace API_ExpenseManagement.Data.Migrations
                     time_s = table.Column<DateTime>(nullable: false),
                     time_e = table.Column<DateTime>(nullable: false),
                     isFinnish = table.Column<bool>(nullable: false),
-                    Id_Cate = table.Column<int>(nullable: false),
-                    Id_Wallet = table.Column<int>(nullable: false),
-                    Id_type = table.Column<int>(nullable: false)
+                    Id_Cate = table.Column<string>(nullable: true),
+                    Id_Wallet = table.Column<string>(nullable: true),
+                    Id_type = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -188,17 +188,17 @@ namespace API_ExpenseManagement.Data.Migrations
                     Id_come = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Amount = table.Column<float>(nullable: false),
-                    Date_come = table.Column<DateTime>(nullable: false),
+                    Date_come = table.Column<string>(nullable: true),
                     Description_come = table.Column<string>(nullable: true),
                     Is_Come = table.Column<bool>(nullable: false),
-                    CategoryId_Cate = table.Column<int>(nullable: false),
-                    LoanId_Loan = table.Column<int>(nullable: false),
-                    TripId_Trip = table.Column<int>(nullable: false),
-                    Id_type = table.Column<int>(nullable: false),
-                    WalletId_Wallet = table.Column<int>(nullable: false),
-                    Id_Bill = table.Column<int>(nullable: false),
-                    Id_Budget = table.Column<int>(nullable: false),
-                    Id_Per = table.Column<int>(nullable: false)
+                    CategoryId_Cate = table.Column<string>(nullable: true),
+                    LoanId_Loan = table.Column<string>(nullable: true),
+                    TripId_Trip = table.Column<string>(nullable: true),
+                    Id_type = table.Column<string>(nullable: true),
+                    WalletId_Wallet = table.Column<string>(nullable: true),
+                    Id_Bill = table.Column<string>(nullable: true),
+                    Id_Budget = table.Column<string>(nullable: true),
+                    Id_Per = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -225,7 +225,7 @@ namespace API_ExpenseManagement.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name_Loan = table.Column<string>(nullable: true),
                     Date_Pay = table.Column<string>(nullable: true),
-                    ContactId_contact = table.Column<int>(nullable: false)
+                    ContactId_contact = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -257,10 +257,10 @@ namespace API_ExpenseManagement.Data.Migrations
                     isComeback = table.Column<bool>(nullable: false),
                     isPay = table.Column<bool>(nullable: false),
                     isFinnish = table.Column<bool>(nullable: false),
-                    Id_Cate = table.Column<int>(nullable: false),
-                    Id_Type = table.Column<int>(nullable: false),
-                    Id_Wallet = table.Column<int>(nullable: false),
-                    id_Time = table.Column<int>(nullable: false)
+                    Id_Cate = table.Column<string>(nullable: true),
+                    Id_Type = table.Column<string>(nullable: true),
+                    Id_Wallet = table.Column<string>(nullable: true),
+                    id_Time = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -291,7 +291,7 @@ namespace API_ExpenseManagement.Data.Migrations
                     amount = table.Column<float>(nullable: false),
                     desciption = table.Column<string>(nullable: true),
                     date = table.Column<DateTime>(nullable: false),
-                    Id_type = table.Column<int>(nullable: false)
+                    Id_type = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -341,6 +341,20 @@ namespace API_ExpenseManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserCategory",
+                columns: table => new
+                {
+                    Id_UserCategory = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CategoryId_Cate = table.Column<int>(nullable: false),
+                    User_Id = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserCategory", x => x.Id_UserCategory);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -354,6 +368,23 @@ namespace API_ExpenseManagement.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.User_Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Wallets",
+                columns: table => new
+                {
+                    Id_Wallet = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name_Wallet = table.Column<string>(nullable: true),
+                    Amount_Wallet = table.Column<float>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    Id_Type_Wallet = table.Column<string>(nullable: true),
+                    User_Id = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Wallets", x => x.Id_Wallet);
                 });
 
             migrationBuilder.CreateTable(
@@ -377,74 +408,10 @@ namespace API_ExpenseManagement.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "UserCategory",
-                columns: table => new
-                {
-                    Id_UserCategory = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CategoryId_Cate = table.Column<int>(nullable: false),
-                    User_Id = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserCategory", x => x.Id_UserCategory);
-                    table.ForeignKey(
-                        name: "FK_UserCategory_Users_User_Id",
-                        column: x => x.User_Id,
-                        principalTable: "Users",
-                        principalColumn: "User_Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Wallets",
-                columns: table => new
-                {
-                    Id_Wallet = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name_Wallet = table.Column<string>(nullable: true),
-                    Amount_Wallet = table.Column<float>(nullable: false),
-                    Description = table.Column<string>(nullable: true),
-                    Id_Type_Wallet = table.Column<int>(nullable: false),
-                    User_Id = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Wallets", x => x.Id_Wallet);
-                    table.ForeignKey(
-                        name: "FK_Wallets_TypeWallets_Id_Type_Wallet",
-                        column: x => x.Id_Type_Wallet,
-                        principalTable: "TypeWallets",
-                        principalColumn: "Id_Type_Wallet",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Wallets_Users_User_Id",
-                        column: x => x.User_Id,
-                        principalTable: "Users",
-                        principalColumn: "User_Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_Id_type",
                 table: "Categories",
                 column: "Id_type");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserCategory_User_Id",
-                table: "UserCategory",
-                column: "User_Id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Wallets_Id_Type_Wallet",
-                table: "Wallets",
-                column: "Id_Type_Wallet");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Wallets_User_Id",
-                table: "Wallets",
-                column: "User_Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -510,19 +477,19 @@ namespace API_ExpenseManagement.Data.Migrations
                 name: "Trips");
 
             migrationBuilder.DropTable(
+                name: "TypeWallets");
+
+            migrationBuilder.DropTable(
                 name: "UserCategory");
+
+            migrationBuilder.DropTable(
+                name: "Users");
 
             migrationBuilder.DropTable(
                 name: "Wallets");
 
             migrationBuilder.DropTable(
                 name: "TypeCategories");
-
-            migrationBuilder.DropTable(
-                name: "TypeWallets");
-
-            migrationBuilder.DropTable(
-                name: "Users");
         }
     }
 }

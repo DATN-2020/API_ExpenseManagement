@@ -61,7 +61,7 @@ namespace API_ExpenseManagement.Controllers
             string disciption = periodic.Desciption;
             DateTime date_e = periodic.date_e;
             DateTime date_s = periodic.date_s;
-            int id_time = periodic.id_Time;
+            string id_time = periodic.id_Time;
             periodic = _context.Periodic.Where(m => m.Id_Per == id).FirstOrDefault();
             periodic.Amount_Per = amount;
             periodic.Desciption = disciption;
@@ -69,22 +69,22 @@ namespace API_ExpenseManagement.Controllers
             periodic.date_s = date_s;
             periodic.id_Time = id_time;
             periodic.isComeback = false;
-            if (periodic.Id_Wallet == 0)
-            {
-                periodic.Id_Wallet = 1;
-            }
-            if (periodic.Id_Cate == 0)
-            {
-                periodic.Id_Cate = 1;
-            }
-            if (periodic.Id_Type == 0)
-            {
-                periodic.Id_Type = 1;
-            }
-            if (periodic.id_Time == 0)
-            {
-                periodic.id_Time = 1;
-            }
+            //if (periodic.Id_Wallet == 0)
+            //{
+            //    periodic.Id_Wallet = 1;
+            //}
+            //if (periodic.Id_Cate == 0)
+            //{
+            //    periodic.Id_Cate = 1;
+            //}
+            //if (periodic.Id_Type == 0)
+            //{
+            //    periodic.Id_Type = 1;
+            //}
+            //if (periodic.id_Time == 0)
+            //{
+            //    periodic.id_Time = 1;
+            //}
             try
             {
                 _context.Entry(periodic).State = EntityState.Modified;
@@ -120,25 +120,25 @@ namespace API_ExpenseManagement.Controllers
             DateTime date_s = periodic.date_s;
             DateTime date_e = periodic.date_e;
             bool isComeBack = periodic.isComeback;
-            int id_cate = periodic.Id_Cate;
-            int id_wallet = periodic.Id_Wallet;
-            int id_time = periodic.id_Time;
-            if (periodic.Id_Wallet == 0)
-            {
-                periodic.Id_Wallet = 1;
-            }
-            if (periodic.Id_Cate == 0)
-            {
-                periodic.Id_Cate = 1;
-            }
-            if (periodic.Id_Type == 0)
-            {
-                periodic.Id_Type = 1;
-            }
-            if (periodic.id_Time == 0)
-            {
-                periodic.id_Time = 1;
-            }
+            string id_cate = periodic.Id_Cate;
+            string id_wallet = periodic.Id_Wallet;
+            string id_time = periodic.id_Time;
+            //if (periodic.Id_Wallet == 0)
+            //{
+            //    periodic.Id_Wallet = 1;
+            //}
+            //if (periodic.Id_Cate == 0)
+            //{
+            //    periodic.Id_Cate = 1;
+            //}
+            //if (periodic.Id_Type == 0)
+            //{
+            //    periodic.Id_Type = 1;
+            //}
+            //if (periodic.id_Time == 0)
+            //{
+            //    periodic.id_Time = 1;
+            //}
             periodic.isComeback = false;
             try
             {

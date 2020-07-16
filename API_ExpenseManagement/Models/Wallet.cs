@@ -13,8 +13,8 @@ namespace API_ExpenseManagement.Models
         public string Name_Wallet { get; set; }
         public float Amount_Wallet { get; set; }
         public string Description { get; set; }
-        public int Id_Type_Wallet { get; set; }
-        public int User_Id { get; set; }
+        public string Id_Type_Wallet { get; set; }
+        public string User_Id { get; set; }
         //public ICollection<Income_Outcome> Income_Outcomes { get; set; }
         //public ICollection<Budget> Budgets { get; set; }
         //public ICollection<Bill> Bills { get; set; }

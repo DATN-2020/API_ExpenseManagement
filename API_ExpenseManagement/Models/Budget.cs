@@ -15,9 +15,9 @@ namespace API_ExpenseManagement.Models
         public DateTime time_s { get; set; }
         public DateTime time_e { get; set; }
         public bool isFinnish { get; set; }
-        public int Id_Cate { get; set; }
-        public int Id_Wallet { get; set; }
-        public int Id_type { get; set; }
+        public string Id_Cate { get; set; }
+        public string Id_Wallet { get; set; }
+        public string Id_type { get; set; }
         //public ICollection<Income_Outcome> income_Outcomes { get; set; }
     }
 }
