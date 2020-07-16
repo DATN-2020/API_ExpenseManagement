@@ -268,6 +268,27 @@ namespace API_ExpenseManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Summary",
+                columns: table => new
+                {
+                    id_Summary = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    beginBalance = table.Column<float>(nullable: false),
+                    endBalance = table.Column<float>(nullable: false),
+                    netBalance = table.Column<float>(nullable: false),
+                    totalIncome = table.Column<float>(nullable: false),
+                    totalOutcome = table.Column<float>(nullable: false),
+                    totalLoan = table.Column<float>(nullable: false),
+                    totalBorrow = table.Column<float>(nullable: false),
+                    totalOther = table.Column<float>(nullable: false),
+                    id_Come = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Summary", x => x.id_Summary);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Time_Periodic",
                 columns: table => new
                 {
@@ -466,6 +487,9 @@ namespace API_ExpenseManagement.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Periodic");
+
+            migrationBuilder.DropTable(
+                name: "Summary");
 
             migrationBuilder.DropTable(
                 name: "Time_Periodic");

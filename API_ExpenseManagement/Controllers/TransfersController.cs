@@ -109,8 +109,8 @@ namespace API_ExpenseManagement.Controllers
                     income_chuyen.Date_come = DateTime.Today.ToString();
                     income_chuyen.Description_come = "Chuyển khoản " + dis;
                     income_chuyen.WalletId_Wallet = id_chuyen.ToString();
-                    income_chuyen.Is_Come = true;
-                    income_chuyen.Id_type = "17";
+                    income_chuyen.Is_Come = false;
+                    income_chuyen.Id_type = "16";
                     income_chuyen.CategoryId_Cate = "1";
                     income_chuyen.LoanId_Loan = "1";
                     income_chuyen.TripId_Trip = "1";
@@ -119,8 +119,8 @@ namespace API_ExpenseManagement.Controllers
                     income_nhan.Date_come = DateTime.Today.ToString();
                     income_nhan.Description_come = "Nhận chuyển khoản " +dis;
                     income_nhan.WalletId_Wallet = id_nhan.ToString();
-                    income_nhan.Is_Come = false;
-                    income_nhan.Id_type = "17";
+                    income_nhan.Is_Come = true;
+                    income_nhan.Id_type = "16";
                     income_nhan.CategoryId_Cate = "1";
                     income_nhan.LoanId_Loan = "1";
                     income_nhan.TripId_Trip = "1";

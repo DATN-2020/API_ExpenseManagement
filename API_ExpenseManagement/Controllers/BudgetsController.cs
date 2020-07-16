@@ -61,11 +61,13 @@ namespace API_ExpenseManagement.Controllers
             DateTime date_e = budget.time_e;
             DateTime date_s = budget.time_s;
             bool isfinnish = budget.isFinnish;
+            string idtime = budget.id_Time;
             budget = _context.Budget.Where(m => m.Id_Budget == id).FirstOrDefault();
             budget.Amount_Budget = amount;
             budget.time_e = date_e;
             budget.time_s = date_s;
             budget.isFinnish = isfinnish;
+            budget.id_Time = idtime;
             //if (budget.Id_Wallet == 0)
             //{
             //    budget.Id_Wallet = 1;
@@ -117,6 +119,7 @@ namespace API_ExpenseManagement.Controllers
             string id_cate = budget.Id_Cate;
             string id_wallet = budget.Id_Wallet;
             bool is_Finnish = false;
+            string idtime = budget.id_Time;
             //if (budget.Id_Wallet == 0)
             //{
             //    budget.Id_Wallet = 1;

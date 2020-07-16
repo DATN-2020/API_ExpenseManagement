@@ -145,6 +145,7 @@ namespace API_ExpenseManagement.Controllers
             {
                 if (id_bill != null)
                 {
+                    income.Is_Come = false;
                     Bill bill = _context.Bill.Where(m => m.Id_Bill.ToString() == id_bill).FirstOrDefault();
                     bill.isPay = true;
                     income.Description_come = "Thanh toán hóa đơn";
@@ -154,6 +155,10 @@ namespace API_ExpenseManagement.Controllers
                     _context.Wallets.Update(wallet);
                     _context.Bill.Update(bill);
                 }
+                if(id_type == "12" || id_type == "13" || id_type == "14" || id_type == "15" || id_type == "16" || id_type == "18")
+                {
+                    income.Is_Come = true;
+                }    
                 _context.Income_Outcomes.Add(income);
                 _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Create success", null, "200");

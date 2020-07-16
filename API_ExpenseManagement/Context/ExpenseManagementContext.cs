@@ -40,5 +40,6 @@ namespace API_ExpenseManagement.Context
         public DbSet<API_ExpenseManagement.Models.getPeriodic> getPeriodic { get; set; }
         public DbSet<API_ExpenseManagement.Models.getIncome> getIncome { get; set; }
         public DbSet<API_ExpenseManagement.Models.Time_Periodic> Time_Periodic { get; set; }
+        public DbSet<API_ExpenseManagement.Models.Summary> Summary { get; set; }
     }
 }

@@ -77,6 +77,7 @@ namespace API_ExpenseManagement.Controllers
             Income_Outcome income = new Income_Outcome();
             income.Amount = amount;
             income.Description_come = "Cập nhật ví " + name;
+            income.Id_type = "16";
             income.Date_come = DateTime.Today.ToString();
             income.WalletId_Wallet = id.ToString();
             try

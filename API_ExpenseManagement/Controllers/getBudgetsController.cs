@@ -38,6 +38,8 @@ namespace API_ExpenseManagement.Controllers
                       on a.Id_Cate equals b.Id_Cate.ToString()
                       join c in _context.TypeCategories
                       on a.Id_type equals c.Id_type.ToString()
+                      join d in _context.Time_Periodic
+                      on a.id_Time equals d.id_Time.ToString()
                       select new
                       {
                           idwallet = a.Id_Wallet,
@@ -49,7 +51,13 @@ namespace API_ExpenseManagement.Controllers
                           time_s = a.time_s,
                           time_e = a.time_e,
                           time_remain = (a.time_e - DateTime.Now),
-                          isFinnish = a.time_e < DateTime.Now ? true:false
+                          isFinnish = a.time_e < DateTime.Now ? true:false,
+                          date_time_s = a.time_s,
+                          date_time_e =
+                          (a.id_Time == "1" ? a.time_s.AddDays(1) :
+                          a.id_Time == "2" ? a.time_s.AddDays(7) :
+                          a.id_Time == "3" ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month) - DateTime.Today.Day) :
+                          DateTime.Today.AddDays(365 - (a.time_s.DayOfYear - 1)))
                       };
             var buget = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
             if (log == null)

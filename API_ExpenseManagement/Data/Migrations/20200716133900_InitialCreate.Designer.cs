@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_ExpenseManagement.Data.Migrations
 {
     [DbContext(typeof(ExpenseManagementContext))]
-    [Migration("20200716034151_InitialCreate")]
+    [Migration("20200716133900_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -349,6 +349,35 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasKey("Id_Per");
 
                     b.ToTable("Periodic");
+                });
+
+            modelBuilder.Entity("API_ExpenseManagement.Models.Summary", b =>
+                {
+                    b.Property<int>("id_Summary")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("beginBalance");
+
+                    b.Property<float>("endBalance");
+
+                    b.Property<string>("id_Come");
+
+                    b.Property<float>("netBalance");
+
+                    b.Property<float>("totalBorrow");
+
+                    b.Property<float>("totalIncome");
+
+                    b.Property<float>("totalLoan");
+
+                    b.Property<float>("totalOther");
+
+                    b.Property<float>("totalOutcome");
+
+                    b.HasKey("id_Summary");
+
+                    b.ToTable("Summary");
                 });
 
             modelBuilder.Entity("API_ExpenseManagement.Models.Time_Periodic", b =>
