@@ -98,43 +98,89 @@ namespace API_ExpenseManagement.Controllers
             _context.SaveChanges();
             try
             {
-                var log = from a in _context.Periodic
-                          join b in _context.Categories
-                          on a.Id_Cate equals b.Id_Cate.ToString()
-                          join c in _context.TypeCategories
-                          on a.Id_Type equals c.Id_type.ToString()
-                          join d in _context.Time_Periodic
-                          on a.id_Time equals d.id_Time.ToString()
-                          select new
-                          {
-                              idwallet = a.Id_Wallet,
-                              idPeriodic = a.Id_Per,
-                              name = (b.Id_Cate == 1 ? c.Name_Type : b.NameCate),
-                              image = (b.Id_Cate == 1 ? c.Image_Type : b.ImageCate),
-                              amount = a.Amount_Per,
-                              date_s = a.date_s,
-                              date_e = a.date_e,
-                              time = d.desciption,
-                              is_Finish = a.date_e >= DateTime.Now ? false : true,
-                              date_time_s = a.date_s,
-                              date_time_e =
-                              (a.id_Time == "1" ? a.date_s.AddDays(1) :
-                              a.id_Time == "2" ? a.date_s.AddDays(7) :
-                              a.id_Time == "3" ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month) - DateTime.Today.Day) :
-                              DateTime.Today.AddDays(365 - (a.date_s.DayOfYear - 1)))
-                          };
-                var bill = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
-                
-                if (log == null)
+                var per1 = _context.Periodic
+                .Where(w => w.Id_Wallet == id);
+                foreach (Periodic periodic in per1)
                 {
-                    ResponseModel res = new ResponseModel("Fail", null, "404");
-                    return res;
+                    if (periodic.Id_Cate == null)
+                    {
+                        var log = from a in _context.Periodic
+                                  join c in _context.TypeCategories
+                                  on a.Id_Type equals c.Id_type.ToString()
+                                  join d in _context.Time_Periodic
+                                  on a.id_Time equals d.id_Time.ToString()
+                                  select new
+                                  {
+                                      idwallet = a.Id_Wallet,
+                                      idPeriodic = a.Id_Per,
+                                      name = c.Name_Type,
+                                      image =c.Image_Type,
+                                      amount = a.Amount_Per,
+                                      date_s = a.date_s,
+                                      date_e = a.date_e,
+                                      time = d.desciption,
+                                      is_Finish = a.date_e >= DateTime.Now ? false : true,
+                                      date_time_s = a.date_s,
+                                      date_time_e =
+                                      (a.id_Time == "1" ? a.date_s.AddDays(1) :
+                                      a.id_Time == "2" ? a.date_s.AddDays(7) :
+                                      a.id_Time == "3" ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month) - DateTime.Today.Day) :
+                                      DateTime.Today.AddDays(365 - (a.date_s.DayOfYear - 1)))
+                                  };
+                        var bill = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
+
+                        if (log == null)
+                        {
+                            ResponseModel res = new ResponseModel("Fail", null, "404");
+                            return res;
+                        }
+                        else
+                        {
+                            ResponseModel res = new ResponseModel("Periodic", bill, "200");
+                            return res;
+                        }
+                    }
+                    if (periodic.Id_Type == null)
+                    {
+                        var log = from a in _context.Periodic
+                                  join b in _context.Categories
+                                  on a.Id_Cate equals b.Id_Cate.ToString()
+                                  join d in _context.Time_Periodic
+                                  on a.id_Time equals d.id_Time.ToString()
+                                  select new
+                                  {
+                                      idwallet = a.Id_Wallet,
+                                      idPeriodic = a.Id_Per,
+                                      name = b.NameCate,
+                                      image = b.ImageCate,
+                                      amount = a.Amount_Per,
+                                      date_s = a.date_s,
+                                      date_e = a.date_e,
+                                      time = d.desciption,
+                                      is_Finish = a.date_e >= DateTime.Now ? false : true,
+                                      date_time_s = a.date_s,
+                                      date_time_e =
+                                      (a.id_Time == "1" ? a.date_s.AddDays(1) :
+                                      a.id_Time == "2" ? a.date_s.AddDays(7) :
+                                      a.id_Time == "3" ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month) - DateTime.Today.Day) :
+                                      DateTime.Today.AddDays(365 - (a.date_s.DayOfYear - 1)))
+                                  };
+                        var bill = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
+
+                        if (log == null)
+                        {
+                            ResponseModel res = new ResponseModel("Fail", null, "404");
+                            return res;
+                        }
+                        else
+                        {
+                            ResponseModel res = new ResponseModel("Periodic", bill, "200");
+                            return res;
+                        }
+                    }
                 }
-                else
-                {
-                    ResponseModel res = new ResponseModel("Periodic", bill, "200");
-                    return res;
-                }
+                ResponseModel res1 = new ResponseModel("Fail", null, "404");
+                return res1;
             }
             catch
             {

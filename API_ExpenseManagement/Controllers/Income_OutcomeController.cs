@@ -47,13 +47,10 @@ namespace API_ExpenseManagement.Controllers
                 {
                     income_Outcome.Date_come = income_.Date_come;
                     ResponseModel res_date = new ResponseModel("Income", income_Outcome.Date_come, "200");
-                    //return res_date;
-                    //return res;
                     foreach (Income_Outcome income_1 in income)
                     {
                         ResponseModel res1 = new ResponseModel("Income",income, "200");
                         return res1;
-                        //return res_date;
                     }
                 }
                     
