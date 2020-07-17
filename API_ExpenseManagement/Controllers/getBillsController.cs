@@ -49,7 +49,7 @@ namespace API_ExpenseManagement.Controllers
                           date_s = a.date_s,
                           date_e = a.date_e,
                           isPay = a.isPay,
-                          isDeadline = a.date_e >= DateTime.Now ? false : true,
+                          isFinnish = a.date_e >= DateTime.Now ? false : true,
                           time = d.desciption,
                           date_time_s = a.date_s,
                           date_time_e = 

@@ -77,7 +77,6 @@ namespace API_ExpenseManagement.Controllers
                         budget1.isFinnish = true;
                         _context.Budget.Update(budget1);
                     }
-                    
                 }
                 _context.SaveChangesAsync();
                 ResponseModel res = new ResponseModel("Budget", buget, "200");

@@ -51,7 +51,7 @@ namespace API_ExpenseManagement.Controllers
                               date_s = a.date_s,
                               date_e = a.date_e,
                               time = d.desciption,
-                              is_Comeback = a.date_e >= DateTime.Now ? false : true,
+                              is_Finish = a.date_e >= DateTime.Now ? false : true,
                               date_time_s = a.date_s,
                               date_time_e =
                               (a.id_Time == "1" ? a.date_s.AddDays(1) :
