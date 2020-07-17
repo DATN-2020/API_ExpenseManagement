@@ -39,11 +39,12 @@ namespace API_ExpenseManagement.Controllers
             string id_bill = income_Outcome.Id_Bill;
             string id_budget = income_Outcome.Id_Budget;
             string id_per = income_Outcome.Id_Per;
+            int t = DateTime.Parse(date).Month;
             var income = _context.Income_Outcomes.Where(m => m.WalletId_Wallet == id_wallet); 
             foreach(Income_Outcome income_ in income)
             {
-                if (DateTime.Parse(date).Month == DateTime.Parse(income_Outcome.Date_come).Month &&
-                    DateTime.Parse(date).Year == DateTime.Parse(income_Outcome.Date_come).Year)
+                if (DateTime.Parse(date).Month == DateTime.Parse(income_.Date_come).Month &&
+                    DateTime.Parse(date).Year == DateTime.Parse(income_.Date_come).Year)
                 {
                     income_Outcome.Date_come = income_.Date_come;
                     ResponseModel res_date = new ResponseModel("Income", income_Outcome.Date_come, "200");
@@ -52,10 +53,9 @@ namespace API_ExpenseManagement.Controllers
                         ResponseModel res1 = new ResponseModel("Income",income, "200");
                         return res1;
                     }
-                }
-                    
+                }  
             }
-            ResponseModel res = new ResponseModel("Income", income, "200");
+            ResponseModel res = new ResponseModel("Income", null, "200");
             return res;
         }
 
