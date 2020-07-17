@@ -120,18 +120,6 @@ namespace API_ExpenseManagement.Controllers
             string id_wallet = budget.Id_Wallet;
             bool is_Finnish = false;
             string idtime = budget.id_Time;
-            //if (budget.Id_Wallet == 0)
-            //{
-            //    budget.Id_Wallet = 1;
-            //}
-            //if (budget.Id_Cate == 0)
-            //{
-            //    budget.Id_Cate = 1;
-            //}
-            //if (budget.Id_type == 0)
-            //{
-            //    budget.Id_type = 1;
-            //}
             budget.Remain = 0;
             budget.isFinnish = is_Finnish;
             try 
@@ -139,7 +127,7 @@ namespace API_ExpenseManagement.Controllers
                 if(budget.Id_Budget ==0)
                 {
                     _context.Budget.Add(budget);
-                    _context.SaveChangesAsync();
+                    _context.SaveChanges();
                     ResponseModel res = new ResponseModel("Create success", null, "200");
                     return res;
                 }

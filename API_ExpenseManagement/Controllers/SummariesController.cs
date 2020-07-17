@@ -101,10 +101,10 @@ namespace API_ExpenseManagement.Controllers
                 {
                     summary.totalOther = summary.totalOther + incomes.Amount;
                 }
-                //if(DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                //if (DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year && DateTime.Parse(date).Month == setmonth)
                 //{
-                //    summary.totalIncome_Outcome = 
-                //}    
+                //    summary.totalIncome_Outcome =
+                //}
             }
             summary.beginBalance = wallet.Amount_Wallet - summary.beginBalance + total_income_old;
             summary.endBalance = wallet.Amount_Wallet - summary.endBalance + total_income_new;

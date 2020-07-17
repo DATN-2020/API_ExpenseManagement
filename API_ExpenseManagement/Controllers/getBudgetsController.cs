@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using API_ExpenseManagement.Context;
 using API_ExpenseManagement.Models;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore.Extensions.Internal;
 
 namespace API_ExpenseManagement.Controllers
 {
@@ -43,44 +44,93 @@ namespace API_ExpenseManagement.Controllers
                     _context.Budget.Update(budget1);
                 }
             }
-            _context.SaveChangesAsync();
-            var log = from a in _context.Budget
-                      join b in _context.Categories
-                      on a.Id_Cate equals b.Id_Cate.ToString()
-                      join c in _context.TypeCategories
-                      on a.Id_type equals c.Id_type.ToString()
-                      join d in _context.Time_Periodic
-                      on a.id_Time equals d.id_Time.ToString()
-                      select new
-                      {
-                          idwallet = a.Id_Wallet,
-                          idBudget = a.Id_Budget,
-                          name = (b.Id_Cate == 1 ? c.Name_Type : b.NameCate),
-                          image = (b.Id_Cate == 1 ? c.Image_Type : b.ImageCate),
-                          amount = a.Amount_Budget,
-                          remain = a.Remain,
-                          time_s = a.time_s,
-                          time_e = a.time_e,
-                          time_remain = (a.time_e - DateTime.Now),
-                          check = a.time_e < DateTime.Now ? true : false,
-                          date_time_s = a.time_s,
-                          date_time_e =
-                          (a.id_Time == "1" ? a.time_s.AddDays(1) :
-                          a.id_Time == "2" ? a.time_s.AddDays(7) :
-                          a.id_Time == "3" ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month) - DateTime.Today.Day) :
-                          DateTime.Today.AddDays(365 - (a.time_s.DayOfYear - 1)))
-                      };
-            var buget = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
-            if (log == null)
+            _context.SaveChanges();
+
+            var budget_ = _context.Budget
+                .Where(w => w.Id_Wallet == id);
+            foreach (Budget budget1 in budget_)
             {
-                ResponseModel res = new ResponseModel("Fail", null, "404");
-                return res;
+                if (budget1.Id_Cate == null)
+                {
+                    var log = from a in _context.Budget
+                              join c in _context.TypeCategories
+                              on a.Id_type equals c.Id_type.ToString()
+                              join d in _context.Time_Periodic
+                              on a.id_Time equals d.id_Time.ToString()
+                              select new
+                              {
+                                  idwallet = a.Id_Wallet,
+                                  idBudget = a.Id_Budget,
+                                  name = c.Name_Type,
+                                  image = c.Image_Type,
+                                  amount = a.Amount_Budget,
+                                  remain = a.Remain,
+                                  time_s = a.time_s,
+                                  time_e = a.time_e,
+                                  time_remain = (a.time_e - DateTime.Now),
+                                  check = a.time_e < DateTime.Now ? true : false,
+                                  date_time_s = a.time_s,
+                                  date_time_e =
+                                  (a.id_Time == "1" ? a.time_s.AddDays(1) :
+                                  a.id_Time == "2" ? a.time_s.AddDays(7) :
+                                  a.id_Time == "3" ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month) - DateTime.Today.Day) :
+                                  DateTime.Today.AddDays(365 - (a.time_s.DayOfYear - 1)))
+                              };
+                    var buget = log.Where(m => m.idwallet.Equals(id)).ToList();
+                    if (log == null)
+                    {
+                        ResponseModel res = new ResponseModel("Fail", null, "404");
+                        return res;
+                    }
+                    else
+                    {
+                        ResponseModel res = new ResponseModel("Budget", buget, "200");
+                        return res;
+                    }
+                }
+                if (budget1.Id_type == null)
+                {
+                    var log = from a in _context.Budget
+                              join b in _context.Categories
+                              on a.Id_Cate equals b.Id_Cate.ToString()
+                              join d in _context.Time_Periodic
+                              on a.id_Time equals d.id_Time.ToString()
+                              select new
+                              {
+                                  idwallet = a.Id_Wallet,
+                                  idBudget = a.Id_Budget,
+                                  name = b.NameCate,
+                                  image = b.ImageCate,
+                                  amount = a.Amount_Budget,
+                                  remain = a.Remain,
+                                  time_s = a.time_s,
+                                  time_e = a.time_e,
+                                  time_remain = (a.time_e - DateTime.Now),
+                                  check = a.time_e < DateTime.Now ? true : false,
+                                  date_time_s = a.time_s,
+                                  date_time_e =
+                                  (a.id_Time == "1" ? a.time_s.AddDays(1) :
+                                  a.id_Time == "2" ? a.time_s.AddDays(7) :
+                                  a.id_Time == "3" ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month) - DateTime.Today.Day) :
+                                  DateTime.Today.AddDays(365 - (a.time_s.DayOfYear - 1)))
+                              };
+                    var buget = log.Where(m => m.idwallet.Equals(id)).ToList();
+                    if (log == null)
+                    {
+                        ResponseModel res = new ResponseModel("Fail", null, "404");
+                        return res;
+                    }
+                    else
+                    {
+                        ResponseModel res = new ResponseModel("Budget", buget, "200");
+                        return res;
+                    }
+                }
             }
-            else
-            {
-                ResponseModel res = new ResponseModel("Budget", buget, "200");
-                return res;
-            }
+            ResponseModel res1 = new ResponseModel("Budget", "", "200");
+            return res1;
+
+
         }
 
         // PUT: api/getBudgets/5
