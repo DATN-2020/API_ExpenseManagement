@@ -151,6 +151,7 @@ namespace API_ExpenseManagement.Controllers
                 id_wallet = "1";
             }    
             Wallet wallet = _context.Wallets.Where(m => m.Id_Wallet.ToString() == id_wallet).FirstOrDefault();
+
             //if (id_bill != "1" || id_budget != "1" || id_per != "1")
             //{
             //    wallet.Amount_Wallet = wallet.Amount_Wallet - amount;
@@ -166,6 +167,8 @@ namespace API_ExpenseManagement.Controllers
                 {
                     Budget budget = _context.Budget.Where(m => m.Id_Budget.ToString() == id_budget).FirstOrDefault();
                     budget.Remain = budget.Remain + amount;
+                    wallet.Amount_now = wallet.Amount_now - budget.Amount_Budget;
+                    _context.Wallets.Update(wallet);
                     _context.Budget.Update(budget);
                     _context.SaveChangesAsync();
                 }    
@@ -176,27 +179,20 @@ namespace API_ExpenseManagement.Controllers
                     bill.isPay = true;
                     income.Description_come = "Thanh toán hóa đơn";
                     income.Date_come = DateTime.Today.ToString();
-                    wallet.Amount_Wallet = wallet.Amount_Wallet - bill.Amount_Bill;
+                    wallet.Amount_now = wallet.Amount_now - bill.Amount_Bill;
                     income.Amount = bill.Amount_Bill;
                     _context.Wallets.Update(wallet);
                     _context.Bill.Update(bill);
                 }
-                //if (id_per != null)
-                //{
-                //    income.Is_Come = false;
-                //    Periodic periodic = _context.Periodic.Where(m => m.Id_Per.ToString() == id_per).FirstOrDefault();
-                //    periodic.isPay = true;
-                //    income.Description_come = "Thanh toán định kỳ";
-                //    income.Date_come = DateTime.Today.ToString();
-                //    wallet.Amount_Wallet = wallet.Amount_Wallet - bill.Amount_Bill;
-                //    income.Amount = bill.Amount_Bill;
-                //    _context.Wallets.Update(wallet);
-                //    _context.Bill.Update(bill);
-                //}
                 if (id_type == "12" || id_type == "13" || id_type == "14" || id_type == "15" || id_type == "16" || id_type == "18")
                 {
                     income.Is_Come = true;
-                }    
+                    wallet.Amount_now = wallet.Amount_now + amount;
+                }
+                if (id_bill == null || id_budget == null || id_per == null)
+                {
+                    wallet.Amount_now = wallet.Amount_now - amount;
+                }
                 _context.Income_Outcomes.Add(income);
                 _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Create success", null, "200");

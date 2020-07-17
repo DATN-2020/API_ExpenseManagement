@@ -33,10 +33,8 @@ namespace API_ExpenseManagement.Controllers
         [HttpGet("{id}")]
         public ResponseModel GetWallet([FromQuery] string id)
         {
-            Wallet wallet = _context.Wallets.Where(x => x.User_Id == id).FirstOrDefault();
-            string userId = id;
             var log = _context.Wallets.
-            Where(x => x.User_Id.Equals(userId)).AsEnumerable();
+            Where(x => x.User_Id.Equals(id)).AsEnumerable();
             //var queryUrl = "/api/GetWallets/5?userId=" + id;  
             if (log == null)
             {
@@ -112,11 +110,11 @@ namespace API_ExpenseManagement.Controllers
             string name = createWallet.Name_Wallet;
             string des = createWallet.Description;
             string typeWallet = createWallet.Id_Type_Wallet.ToString();
-
             Wallet insert = new Wallet();
             var check = false;
             insert.Amount_Wallet = amount;
             insert.User_Id = user_Id.ToString();
+            insert.Amount_now = amount;
             if (name == null || name.Equals(""))
             {
                 insert.Name_Wallet = "Ví tiền mặt";

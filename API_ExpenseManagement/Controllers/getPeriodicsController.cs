@@ -32,15 +32,69 @@ namespace API_ExpenseManagement.Controllers
         [HttpGet("{id}")]
         public ResponseModel GetgetPeriodic([FromQuery] string id)
         {
+            Wallet wallet = _context.Wallets.Where(m => m.Id_Wallet.ToString() == id).FirstOrDefault();
             var per = _context.Periodic.Where(w => w.Id_Wallet == id.ToString());
             foreach (Periodic periodic1 in per)
             {
+                //thanh toán định kì theo ngày
+                if(periodic1.id_Time == "1" && periodic1.date_s.AddDays(1) == DateTime.Today)
+                {
+                    Income_Outcome income = new Income_Outcome();
+                    income.Amount = periodic1.Amount_Per;
+                    income.Description_come = "Thanh toán định kì";
+                    income.Date_come = DateTime.Today.ToString();
+                    income.Id_Per = periodic1.Id_Per.ToString();
+                    income.WalletId_Wallet = periodic1.Id_Wallet;
+                    wallet.Amount_now = wallet.Amount_now - periodic1.Amount_Per;
+                    _context.Income_Outcomes.Add(income);
+                }
+                //thanh toán định kì theo tuần
+                if (periodic1.id_Time == "2" && periodic1.date_s.AddDays(7) == DateTime.Today)
+                {
+                    Income_Outcome income = new Income_Outcome();
+                    income.Amount = periodic1.Amount_Per;
+                    income.Description_come = "Thanh toán định kì";
+                    income.Date_come = DateTime.Today.ToString();
+                    income.Id_Per = periodic1.Id_Per.ToString();
+                    income.WalletId_Wallet = periodic1.Id_Wallet;
+                    income.Is_Come = false;
+                    wallet.Amount_now = wallet.Amount_now - periodic1.Amount_Per;
+                    _context.Income_Outcomes.Add(income);
+                }
+                //thanh toán định kì theo tháng
+                if (periodic1.id_Time == "2" && 
+                    periodic1.date_s.AddDays(DateTime.DaysInMonth(periodic1.date_s.Year,periodic1.date_s.Month)) == DateTime.Today)
+                {
+                    Income_Outcome income = new Income_Outcome();
+                    income.Amount = periodic1.Amount_Per;
+                    income.Description_come = "Thanh toán định kì";
+                    income.Date_come = DateTime.Today.ToString();
+                    income.Id_Per = periodic1.Id_Per.ToString();
+                    income.WalletId_Wallet = periodic1.Id_Wallet;
+                    income.Is_Come = false;
+                    wallet.Amount_now = wallet.Amount_now - periodic1.Amount_Per;
+                    _context.Income_Outcomes.Add(income);
+                }
+                //thanh toán định kì theo tháng
+                if (periodic1.id_Time == "2" && periodic1.date_s.AddDays(365) == DateTime.Today)
+                {
+                    Income_Outcome income = new Income_Outcome();
+                    income.Amount = periodic1.Amount_Per;
+                    income.Description_come = "Thanh toán định kì";
+                    income.Date_come = DateTime.Today.ToString();
+                    income.Id_Per = periodic1.Id_Per.ToString();
+                    income.WalletId_Wallet = periodic1.Id_Wallet;
+                    income.Is_Come = false;
+                    wallet.Amount_now = wallet.Amount_now - periodic1.Amount_Per;
+                    _context.Income_Outcomes.Add(income);
+                }
                 if (periodic1.date_e <= DateTime.Today)
                 {
                     periodic1.isFinnish = true;
                     _context.Periodic.Update(periodic1);
                 }
             }
+            _context.Wallets.Update(wallet);
             _context.SaveChanges();
             try
             {

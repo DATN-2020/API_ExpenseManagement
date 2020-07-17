@@ -507,6 +507,8 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<float>("Amount_Wallet");
 
+                    b.Property<float>("Amount_now");
+
                     b.Property<string>("Description");
 
                     b.Property<string>("Id_Type_Wallet");

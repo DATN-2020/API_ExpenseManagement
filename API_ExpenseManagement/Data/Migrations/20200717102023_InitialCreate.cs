@@ -402,6 +402,7 @@ namespace API_ExpenseManagement.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name_Wallet = table.Column<string>(nullable: true),
                     Amount_Wallet = table.Column<float>(nullable: false),
+                    Amount_now = table.Column<float>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Id_Type_Wallet = table.Column<string>(nullable: true),
                     User_Id = table.Column<string>(nullable: true)
