@@ -43,7 +43,7 @@ namespace API_ExpenseManagement.Controllers
                     _context.Budget.Update(budget1);
                 }
             }
-            bool check = false;
+           
             var log = from a in _context.Budget
                       join b in _context.Categories
                       on a.Id_Cate equals b.Id_Cate.ToString()
@@ -78,7 +78,6 @@ namespace API_ExpenseManagement.Controllers
             }
             else
             {
-                _context.SaveChangesAsync();
                 ResponseModel res = new ResponseModel("Budget", buget, "200");
                 return res;
             }
