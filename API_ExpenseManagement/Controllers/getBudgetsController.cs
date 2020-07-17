@@ -33,6 +33,16 @@ namespace API_ExpenseManagement.Controllers
         [HttpGet("{id}")]
         public ResponseModel GetgetBudget([FromQuery] string id)
         {
+            var budget = _context.Budget
+                .Where(w => w.Id_Wallet == id);
+            foreach (Budget budget1 in budget)
+            {
+                if (budget1.time_e < DateTime.Today)
+                {
+                    budget1.isFinnish = true;
+                    _context.Budget.Update(budget1);
+                }
+            }
             bool check = false;
             var log = from a in _context.Budget
                       join b in _context.Categories
@@ -68,16 +78,6 @@ namespace API_ExpenseManagement.Controllers
             }
             else
             {
-                var budget = _context.Budget
-                .Where(w => w.Id_Wallet == id);
-                foreach (Budget budget1 in budget)
-                {
-                    if(budget1.time_e < DateTime.Today)
-                    {
-                        budget1.isFinnish = true;
-                        _context.Budget.Update(budget1);
-                    }
-                }
                 _context.SaveChangesAsync();
                 ResponseModel res = new ResponseModel("Budget", buget, "200");
                 return res;
