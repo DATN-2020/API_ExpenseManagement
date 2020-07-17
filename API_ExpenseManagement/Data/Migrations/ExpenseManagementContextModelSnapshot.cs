@@ -68,6 +68,8 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<float>("Remain");
 
+                    b.Property<string>("id_Time");
+
                     b.Property<bool>("isFinnish");
 
                     b.Property<DateTime>("time_e");
@@ -357,9 +359,13 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<float>("beginBalance");
 
+                    b.Property<string>("date");
+
                     b.Property<float>("endBalance");
 
                     b.Property<string>("id_Come");
+
+                    b.Property<string>("id_wallet");
 
                     b.Property<float>("netBalance");
 

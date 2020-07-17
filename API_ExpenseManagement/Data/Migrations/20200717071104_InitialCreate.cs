@@ -44,7 +44,8 @@ namespace API_ExpenseManagement.Data.Migrations
                     isFinnish = table.Column<bool>(nullable: false),
                     Id_Cate = table.Column<string>(nullable: true),
                     Id_Wallet = table.Column<string>(nullable: true),
-                    Id_type = table.Column<string>(nullable: true)
+                    Id_type = table.Column<string>(nullable: true),
+                    id_Time = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -281,7 +282,9 @@ namespace API_ExpenseManagement.Data.Migrations
                     totalLoan = table.Column<float>(nullable: false),
                     totalBorrow = table.Column<float>(nullable: false),
                     totalOther = table.Column<float>(nullable: false),
-                    id_Come = table.Column<string>(nullable: true)
+                    date = table.Column<string>(nullable: true),
+                    id_Come = table.Column<string>(nullable: true),
+                    id_wallet = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

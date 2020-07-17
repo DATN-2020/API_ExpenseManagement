@@ -47,7 +47,7 @@ namespace API_ExpenseManagement.Controllers
             //          }
             Wallet wallet = _context.Wallets.Where(m => m.Id_Wallet.ToString() == id).FirstOrDefault();
             var income = _context.Income_Outcomes
-                .Where(w => w.WalletId_Wallet == id.ToString());
+                .Where(w => w.WalletId_Wallet == id);
             foreach (Income_Outcome incomes in income)
             {
                 //Tổng chi trong tháng

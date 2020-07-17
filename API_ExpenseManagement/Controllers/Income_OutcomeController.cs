@@ -30,21 +30,36 @@ namespace API_ExpenseManagement.Controllers
 
         // GET: api/Income_Outcome/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetIncome_Outcome([FromRoute] int id)
+        public ResponseModel GetIncome_Outcome([FromBody] Income_Outcome income_Outcome)
         {
-            if (!ModelState.IsValid)
+            string date = income_Outcome.Date_come;
+            string id_wallet = income_Outcome.WalletId_Wallet;
+            string id_cate = income_Outcome.CategoryId_Cate;
+            string id_type = income_Outcome.Id_type;
+            string id_bill = income_Outcome.Id_Bill;
+            string id_budget = income_Outcome.Id_Budget;
+            string id_per = income_Outcome.Id_Per;
+            var income = _context.Income_Outcomes.Where(m => m.WalletId_Wallet == id_wallet); 
+            foreach(Income_Outcome income_ in income)
             {
-                return BadRequest(ModelState);
+                if (DateTime.Parse(date).Month == DateTime.Parse(income_Outcome.Date_come).Month &&
+                    DateTime.Parse(date).Year == DateTime.Parse(income_Outcome.Date_come).Year)
+                {
+                    income_Outcome.Date_come = income_.Date_come;
+                    ResponseModel res_date = new ResponseModel("Income", income_Outcome.Date_come, "200");
+                    //return res_date;
+                    //return res;
+                    foreach (Income_Outcome income_1 in income)
+                    {
+                        ResponseModel res1 = new ResponseModel("Income",income, "200");
+                        return res1;
+                        //return res_date;
+                    }
+                }
+                    
             }
-
-            var income_Outcome = await _context.Income_Outcomes.FindAsync(id);
-
-            if (income_Outcome == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(income_Outcome);
+            ResponseModel res = new ResponseModel("Income", income, "200");
+            return res;
         }
 
         // PUT: api/Income_Outcome/5

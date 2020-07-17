@@ -132,7 +132,7 @@ namespace API_ExpenseManagement.Controllers
             //{
             //    budget.Id_type = 1;
             //}
-            budget.Remain = amount;
+            budget.Remain = 0;
             budget.isFinnish = is_Finnish;
             try 
             {

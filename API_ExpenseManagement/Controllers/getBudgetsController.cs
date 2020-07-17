@@ -33,6 +33,7 @@ namespace API_ExpenseManagement.Controllers
         [HttpGet("{id}")]
         public ResponseModel GetgetBudget([FromQuery] string id)
         {
+            bool check = false;
             var log = from a in _context.Budget
                       join b in _context.Categories
                       on a.Id_Cate equals b.Id_Cate.ToString()
@@ -51,7 +52,7 @@ namespace API_ExpenseManagement.Controllers
                           time_s = a.time_s,
                           time_e = a.time_e,
                           time_remain = (a.time_e - DateTime.Now),
-                          isFinnish = a.time_e < DateTime.Now ? true:false,
+                          check = a.time_e < DateTime.Now ? true : false,
                           date_time_s = a.time_s,
                           date_time_e =
                           (a.id_Time == "1" ? a.time_s.AddDays(1) :
@@ -67,6 +68,18 @@ namespace API_ExpenseManagement.Controllers
             }
             else
             {
+                var budget = _context.Budget
+                .Where(w => w.Id_Wallet == id);
+                foreach (Budget budget1 in budget)
+                {
+                    if(budget1.time_e < DateTime.Today)
+                    {
+                        budget1.isFinnish = true;
+                        _context.Budget.Update(budget1);
+                    }
+                    
+                }
+                _context.SaveChangesAsync();
                 ResponseModel res = new ResponseModel("Budget", buget, "200");
                 return res;
             }

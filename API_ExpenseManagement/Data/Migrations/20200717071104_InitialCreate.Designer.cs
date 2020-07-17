@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_ExpenseManagement.Data.Migrations
 {
     [DbContext(typeof(ExpenseManagementContext))]
-    [Migration("20200716133900_InitialCreate")]
+    [Migration("20200717071104_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -69,6 +69,8 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.Property<string>("Id_type");
 
                     b.Property<float>("Remain");
+
+                    b.Property<string>("id_Time");
 
                     b.Property<bool>("isFinnish");
 
@@ -359,9 +361,13 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<float>("beginBalance");
 
+                    b.Property<string>("date");
+
                     b.Property<float>("endBalance");
 
                     b.Property<string>("id_Come");
+
+                    b.Property<string>("id_wallet");
 
                     b.Property<float>("netBalance");
 
