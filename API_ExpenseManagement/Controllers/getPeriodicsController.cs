@@ -32,6 +32,16 @@ namespace API_ExpenseManagement.Controllers
         [HttpGet("{id}")]
         public ResponseModel GetgetPeriodic([FromQuery] string id)
         {
+            var per = _context.Periodic.Where(w => w.Id_Wallet == id.ToString());
+            foreach (Periodic periodic1 in per)
+            {
+                if (periodic1.date_e <= DateTime.Today)
+                {
+                    periodic1.isFinnish = true;
+                    _context.Periodic.Update(periodic1);
+                }
+            }
+            _context.SaveChanges();
             try
             {
                 var log = from a in _context.Periodic
@@ -60,16 +70,7 @@ namespace API_ExpenseManagement.Controllers
                               DateTime.Today.AddDays(365 - (a.date_s.DayOfYear - 1)))
                           };
                 var bill = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
-                var per = _context.Periodic.Where(w => w.Id_Wallet == id.ToString());
-                    foreach (Periodic periodic1 in per)
-                    {
-                        if(periodic1.date_e <= DateTime.Today)
-                        {
-                            periodic1.isFinnish = true;
-                            _context.Periodic.Update(periodic1);
-                        }
-                    }
-                _context.SaveChanges();
+                
                 if (log == null)
                 {
                     ResponseModel res = new ResponseModel("Fail", null, "404");

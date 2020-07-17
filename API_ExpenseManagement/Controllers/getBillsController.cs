@@ -32,6 +32,16 @@ namespace API_ExpenseManagement.Controllers
         [HttpGet("{id}")]
         public ResponseModel GetgetBill([FromQuery] string id)
         {
+            var bills = _context.Bill.Where(w => w.Id_Wallet == id.ToString());
+            foreach (Bill bill1 in bills)
+            {
+                if (bill1.date_e <= DateTime.Today)
+                {
+                    bill1.isFinnish = true;
+                    _context.Bill.Update(bill1);
+                }
+            }
+            _context.SaveChanges();
             var log = from a in _context.Bill
                       join b in _context.Categories
                       on a.Id_Category equals b.Id_Cate.ToString()
@@ -59,16 +69,7 @@ namespace API_ExpenseManagement.Controllers
                           DateTime.Today.AddDays(365-(a.date_s.DayOfYear -1)))
                       };
             var bill = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
-            var bills = _context.Bill.Where(w => w.Id_Wallet == id.ToString());
-            foreach (Bill bill1 in bills)
-            {
-                if (bill1.date_e <= DateTime.Today)
-                {
-                    bill1.isFinnish = true;
-                    _context.Bill.Update(bill1);
-                }
-            }
-            _context.SaveChanges();
+            
             if (log == null)
             {
                 ResponseModel res = new ResponseModel("Fail", null, "404");
