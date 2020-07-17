@@ -18,6 +18,7 @@ namespace API_ExpenseManagement.Models
         public float totalLoan { get; set; }
         public float totalBorrow { get; set; }
         public float totalOther { get; set; }
+        public float totalIncome_Outcome { get; set; }
         public string date { get; set; }
         public string id_Come { get; set; }
         public string id_wallet { get; set; }

@@ -43,7 +43,7 @@ namespace API_ExpenseManagement.Controllers
                     _context.Budget.Update(budget1);
                 }
             }
-           
+            _context.SaveChangesAsync();
             var log = from a in _context.Budget
                       join b in _context.Categories
                       on a.Id_Cate equals b.Id_Cate.ToString()

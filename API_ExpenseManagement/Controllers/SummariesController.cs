@@ -37,6 +37,7 @@ namespace API_ExpenseManagement.Controllers
             int month = int.Parse(date.Substring(5, 2));
             float total_income_old = summary.beginBalance;
             float total_income_new = summary.beginBalance;
+            int setmonth = 1;
             //var log = from a in _context.Summary
             //          join b in _context.Income_Outcomes
             //          on a.id_Come equals b.Id_come.ToString()
@@ -51,55 +52,59 @@ namespace API_ExpenseManagement.Controllers
             foreach (Income_Outcome incomes in income)
             {
                 //Tổng chi trong tháng
-                if (DateTime.Parse(incomes.Date_come).Month == DateTime.Today.Month && incomes.Is_Come == false)
+                if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Is_Come == false)
                 {
                     summary.totalOutcome = summary.totalOutcome + incomes.Amount;
                 }
                 //Tổng thu trong tháng
-                if (DateTime.Parse(incomes.Date_come).Month == DateTime.Today.Month && incomes.Is_Come == true)
+                if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Is_Come == true)
                 {
                     summary.totalIncome = summary.totalIncome + incomes.Amount;
                 }
                 //Tổng chi từ trước đến ngày đầu của tháng
-                if (DateTime.Parse(incomes.Date_come).Month < DateTime.Today.Month && incomes.Is_Come == false)
+                if (DateTime.Parse(incomes.Date_come).Month < DateTime.Parse(date).Month && incomes.Is_Come == false)
                 {
                     summary.beginBalance = summary.beginBalance + incomes.Amount;
                 }
                 //Tổng Thu từ trước đến ngày đầu của tháng
-                if (DateTime.Parse(incomes.Date_come).Month < DateTime.Today.Month && incomes.Is_Come == true)
+                if (DateTime.Parse(incomes.Date_come).Month < DateTime.Parse(date).Month && incomes.Is_Come == true)
                 {
                     total_income_old = total_income_old + incomes.Amount;
                 }
                 //Tổng thu từ trước đến ngày cuối của tháng
-                if (DateTime.Parse(incomes.Date_come).Month <= DateTime.Today.Month && incomes.Is_Come == true)
+                if (DateTime.Parse(incomes.Date_come).Month <= DateTime.Parse(date).Month && incomes.Is_Come == true)
                 {
                     total_income_new = total_income_new + incomes.Amount;
                 }
                 //Tổng chi từ trước đến ngày cuối của tháng
-                if (DateTime.Parse(incomes.Date_come).Month <= DateTime.Today.Month && incomes.Is_Come == false)
+                if (DateTime.Parse(incomes.Date_come).Month <= DateTime.Parse(date).Month && incomes.Is_Come == false)
                 {
                     summary.endBalance = summary.endBalance + incomes.Amount;
                 }
                 //Tổng thu, chi trong tháng đang set
-                if (DateTime.Parse(incomes.Date_come).Month == DateTime.Today.Month)
+                if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month)
                 {
                     summary.netBalance = summary.netBalance + incomes.Amount;
                 }
                 //Tổng đi vay
-                if (DateTime.Parse(incomes.Date_come).Month == DateTime.Today.Month && incomes.Id_type == "18")
+                if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Id_type == "18")
                 {
                     summary.totalLoan = summary.totalLoan + incomes.Amount;
                 }
                 //Tổng cho vay
-                if (DateTime.Parse(incomes.Date_come).Month == DateTime.Today.Month && incomes.Id_type == "17")
+                if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Id_type == "17")
                 {
                     summary.totalBorrow = summary.totalBorrow + incomes.Amount;
                 }
                 //Tổng khác
-                if (DateTime.Parse(incomes.Date_come).Month == DateTime.Today.Month && incomes.Id_type == "16")
+                if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Id_type == "16")
                 {
                     summary.totalOther = summary.totalOther + incomes.Amount;
                 }
+                //if(DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                //{
+                //    summary.totalIncome_Outcome = 
+                //}    
             }
             summary.beginBalance = wallet.Amount_Wallet - summary.beginBalance + total_income_old;
             summary.endBalance = wallet.Amount_Wallet - summary.endBalance + total_income_new;
