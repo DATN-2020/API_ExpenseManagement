@@ -32,7 +32,7 @@ namespace API_ExpenseManagement.Controllers
         [HttpGet("{id}")]
         public ResponseModel GetgetBill([FromQuery] string id)
         {
-            var bills = _context.Bill.Where(w => w.Id_Wallet == id.ToString());
+            var bills = _context.Bill.Where(w => w.Id_Wallet == id);
             foreach (Bill bill1 in bills)
             {
                 if (bill1.date_e <= DateTime.Today)
@@ -125,7 +125,7 @@ namespace API_ExpenseManagement.Controllers
                     }
                 }
             }
-            ResponseModel res1 = new ResponseModel("Budget", "", "200");
+            ResponseModel res1 = new ResponseModel("Budget", null "200");
             return res1;
         }
 
