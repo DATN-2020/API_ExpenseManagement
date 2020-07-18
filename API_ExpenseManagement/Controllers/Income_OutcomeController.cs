@@ -30,24 +30,24 @@ namespace API_ExpenseManagement.Controllers
 
         // GET: api/Income_Outcome/5
         [HttpGet("{id}")]
-        public ResponseModel GetIncome_Outcome([FromBody] Income_Outcome income_Outcome)
+        public ResponseModel GetIncome_Outcome([FromQuery] string id, string date)
         {
-            string date = income_Outcome.Date_come;
-            string id_wallet = income_Outcome.WalletId_Wallet;
-            string id_cate = income_Outcome.CategoryId_Cate;
-            string id_type = income_Outcome.Id_type;
-            string id_bill = income_Outcome.Id_Bill;
-            string id_budget = income_Outcome.Id_Budget;
-            string id_per = income_Outcome.Id_Per;
+            //string date = income_Outcome.Date_come;
+            //string id_wallet = income_Outcome.WalletId_Wallet;
+            //string id_cate = income_Outcome.CategoryId_Cate;
+            //string id_type = income_Outcome.Id_type;
+            //string id_bill = income_Outcome.Id_Bill;
+            //string id_budget = income_Outcome.Id_Budget;
+            //string id_per = income_Outcome.Id_Per;
             int t = DateTime.Parse(date).Month;
-            var income = _context.Income_Outcomes.Where(m => m.WalletId_Wallet == id_wallet); 
+            var income = _context.Income_Outcomes.Where(m => m.WalletId_Wallet == id); 
             foreach(Income_Outcome income_ in income)
             {
                 if (DateTime.Parse(date).Month == DateTime.Parse(income_.Date_come).Month &&
                     DateTime.Parse(date).Year == DateTime.Parse(income_.Date_come).Year)
                 {
-                    income_Outcome.Date_come = income_.Date_come;
-                    ResponseModel res_date = new ResponseModel("Income", income_Outcome.Date_come, "200");
+                    date = income_.Date_come;
+                    ResponseModel res_date = new ResponseModel("Income", date, "200");
                     foreach (Income_Outcome income_1 in income)
                     {
                         ResponseModel res1 = new ResponseModel("Income",income, "200");
