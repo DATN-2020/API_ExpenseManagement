@@ -79,7 +79,7 @@ namespace API_ExpenseManagement.Controllers
                                   a.id_Time == "3" ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month) - DateTime.Today.Day) :
                                   DateTime.Today.AddDays(365 - (a.time_s.DayOfYear - 1)))
                               };
-                    var buget = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
+                    var get = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
                     //if (log == null)
                     //{
                     //    ResponseModel res = new ResponseModel("Fail", null, "404");
@@ -90,7 +90,7 @@ namespace API_ExpenseManagement.Controllers
                     //    ResponseModel res = new ResponseModel("Budget", budget, "200");
                     //    return res;
                     //}
-                    list.Add(budget);
+                    list.Add(get);
                 }
                 if (budget1.Id_type == null)
                 {
@@ -119,8 +119,8 @@ namespace API_ExpenseManagement.Controllers
                                   a.id_Time == "3" ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month) - DateTime.Today.Day) :
                                   DateTime.Today.AddDays(365 - (a.time_s.DayOfYear - 1)))
                               };
-                    var buget = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
-                    list.Add(budget);
+                    var get = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
+                    list.Add(get);
                 }
             }
             ResponseModel res1 = new ResponseModel("Budget", list, "200");
