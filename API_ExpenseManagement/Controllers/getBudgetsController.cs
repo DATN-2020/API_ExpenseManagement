@@ -127,7 +127,7 @@ namespace API_ExpenseManagement.Controllers
                     }
                 }
             }
-            ResponseModel res1 = new ResponseModel("Budget", null "200");
+            ResponseModel res1 = new ResponseModel("Budget", null, "200");
             return res1;
 
 
