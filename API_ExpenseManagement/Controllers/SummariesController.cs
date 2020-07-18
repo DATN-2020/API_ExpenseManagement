@@ -41,237 +41,248 @@ namespace API_ExpenseManagement.Controllers
             Wallet wallet = _context.Wallets.Where(m => m.Id_Wallet.ToString() == id_wallet).FirstOrDefault();
             var income = _context.Income_Outcomes
                 .Where(w => w.WalletId_Wallet == id_wallet);
-            foreach (Income_Outcome incomes in income)
+            if(wallet != null)
             {
-                //Tổng chi trong tháng
-                if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Is_Come == false)
+                foreach (Income_Outcome incomes in income)
                 {
-                    summary.totalOutcome = summary.totalOutcome + incomes.Amount;
+                    //Tổng chi trong tháng
+                    if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Is_Come == false)
+                    {
+                        summary.totalOutcome = summary.totalOutcome + incomes.Amount;
+                    }
+                    //Tổng thu trong tháng
+                    if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Is_Come == true)
+                    {
+                        summary.totalIncome = summary.totalIncome + incomes.Amount;
+                    }
+                    //Tổng chi từ trước đến ngày đầu của tháng
+                    if (DateTime.Parse(incomes.Date_come).Month < DateTime.Parse(date).Month && incomes.Is_Come == false)
+                    {
+                        summary.beginBalance = summary.beginBalance + incomes.Amount;
+                    }
+                    //Tổng Thu từ trước đến ngày đầu của tháng
+                    if (DateTime.Parse(incomes.Date_come).Month < DateTime.Parse(date).Month && incomes.Is_Come == true)
+                    {
+                        total_income_old = total_income_old + incomes.Amount;
+                    }
+                    //Tổng thu từ trước đến ngày cuối của tháng
+                    if (DateTime.Parse(incomes.Date_come).Month <= DateTime.Parse(date).Month && incomes.Is_Come == true)
+                    {
+                        total_income_new = total_income_new + incomes.Amount;
+                    }
+                    //Tổng chi từ trước đến ngày cuối của tháng
+                    if (DateTime.Parse(incomes.Date_come).Month <= DateTime.Parse(date).Month && incomes.Is_Come == false)
+                    {
+                        summary.endBalance = summary.endBalance + incomes.Amount;
+                    }
+                    //Tổng thu, chi trong tháng đang set
+                    if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month)
+                    {
+                        summary.netBalance = summary.netBalance + incomes.Amount;
+                    }
+                    //Tổng đi vay
+                    if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Id_type == "18")
+                    {
+                        summary.totalLoan = summary.totalLoan + incomes.Amount;
+                    }
+                    //Tổng cho vay
+                    if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Id_type == "17")
+                    {
+                        summary.totalBorrow = summary.totalBorrow + incomes.Amount;
+                    }
+                    //Tổng khác
+                    if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Id_type == "16")
+                    {
+                        summary.totalOther = summary.totalOther + incomes.Amount;
+                    }
+                    if (DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                    {
+                        float t = 0;
+                        float t2 = 0;
+                        foreach (Income_Outcome incomes_t in income)
+                        {
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 1)
+                            {
+                                t = t + incomes_t.Amount;
+                            }
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 1)
+                            {
+                                t2 = t2 + incomes_t.Amount;
+                            }
+                        }
+                        summary.totalIncome_Outcome_1 = t2 - t;
+                        t = 0;
+                        t2 = 0;
+                        foreach (Income_Outcome incomes_t in income)
+                        {
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 2)
+                            {
+                                t = t + incomes_t.Amount;
+                            }
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 2)
+                            {
+                                t2 = t2 + incomes_t.Amount;
+                            }
+                        }
+                        summary.totalIncome_Outcome_2 = t2 - t;
+                        t = 0;
+                        t2 = 0;
+                        foreach (Income_Outcome incomes_t in income)
+                        {
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 3)
+                            {
+                                t = t + incomes_t.Amount;
+                            }
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 3)
+                            {
+                                t2 = t2 + incomes_t.Amount;
+                            }
+                        }
+                        summary.totalIncome_Outcome_3 = t2 - t;
+                        t = 0;
+                        t2 = 0;
+                        foreach (Income_Outcome incomes_t in income)
+                        {
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 4)
+                            {
+                                t = t + incomes_t.Amount;
+                            }
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 4)
+                            {
+                                t2 = t2 + incomes_t.Amount;
+                            }
+                        }
+                        summary.totalIncome_Outcome_4 = t2 - t;
+                        t = 0;
+                        t2 = 0;
+                        foreach (Income_Outcome incomes_t in income)
+                        {
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 5)
+                            {
+                                t = t + incomes_t.Amount;
+                            }
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 5)
+                            {
+                                t2 = t2 + incomes_t.Amount;
+                            }
+                        }
+                        summary.totalIncome_Outcome_5 = t2 - t;
+                        t = 0;
+                        t2 = 0;
+                        foreach (Income_Outcome incomes_t in income)
+                        {
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 6)
+                            {
+                                t = t + incomes_t.Amount;
+                            }
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 6)
+                            {
+                                t2 = t2 + incomes_t.Amount;
+                            }
+                        }
+                        summary.totalIncome_Outcome_6 = t2 - t;
+                        t = 0;
+                        t2 = 0;
+                        foreach (Income_Outcome incomes_t in income)
+                        {
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 7)
+                            {
+                                t = t + incomes_t.Amount;
+                            }
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 7)
+                            {
+                                t2 = t2 + incomes_t.Amount;
+                            }
+                        }
+                        summary.totalIncome_Outcome_7 = t2 - t;
+                        t = 0;
+                        t2 = 0;
+                        foreach (Income_Outcome incomes_t in income)
+                        {
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 8)
+                            {
+                                t = t + incomes_t.Amount;
+                            }
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 8)
+                            {
+                                t2 = t2 + incomes_t.Amount;
+                            }
+                        }
+                        summary.totalIncome_Outcome_8 = t2 - t;
+                        t = 0;
+                        t2 = 0;
+                        foreach (Income_Outcome incomes_t in income)
+                        {
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 9)
+                            {
+                                t = t + incomes_t.Amount;
+                            }
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 9)
+                            {
+                                t2 = t2 + incomes_t.Amount;
+                            }
+                        }
+                        summary.totalIncome_Outcome_9 = t2 - t;
+                        t = 0;
+                        t2 = 0;
+                        foreach (Income_Outcome incomes_t in income)
+                        {
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 10)
+                            {
+                                t = t + incomes_t.Amount;
+                            }
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 10)
+                            {
+                                t2 = t2 + incomes_t.Amount;
+                            }
+                        }
+                        summary.totalIncome_Outcome_10 = t2 - t;
+                        t = 0;
+                        t2 = 0;
+                        foreach (Income_Outcome incomes_t in income)
+                        {
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 11)
+                            {
+                                t = t + incomes_t.Amount;
+                            }
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 11)
+                            {
+                                t2 = t2 + incomes_t.Amount;
+                            }
+                        }
+                        summary.totalIncome_Outcome_11 = t2 - t;
+                        t = 0;
+                        t2 = 0;
+                        foreach (Income_Outcome incomes_t in income)
+                        {
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 12)
+                            {
+                                t = t + incomes_t.Amount;
+                            }
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 12)
+                            {
+                                t2 = t2 + incomes_t.Amount;
+                            }
+                        }
+                        summary.totalIncome_Outcome_12 = t2 - t;
+                        t = 0;
+                        t2 = 0;
+                    }
                 }
-                //Tổng thu trong tháng
-                if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Is_Come == true)
-                {
-                    summary.totalIncome = summary.totalIncome + incomes.Amount;
-                }
-                //Tổng chi từ trước đến ngày đầu của tháng
-                if (DateTime.Parse(incomes.Date_come).Month < DateTime.Parse(date).Month && incomes.Is_Come == false)
-                {
-                    summary.beginBalance = summary.beginBalance + incomes.Amount;
-                }
-                //Tổng Thu từ trước đến ngày đầu của tháng
-                if (DateTime.Parse(incomes.Date_come).Month < DateTime.Parse(date).Month && incomes.Is_Come == true)
-                {
-                    total_income_old = total_income_old + incomes.Amount;
-                }
-                //Tổng thu từ trước đến ngày cuối của tháng
-                if (DateTime.Parse(incomes.Date_come).Month <= DateTime.Parse(date).Month && incomes.Is_Come == true)
-                {
-                    total_income_new = total_income_new + incomes.Amount;
-                }
-                //Tổng chi từ trước đến ngày cuối của tháng
-                if (DateTime.Parse(incomes.Date_come).Month <= DateTime.Parse(date).Month && incomes.Is_Come == false)
-                {
-                    summary.endBalance = summary.endBalance + incomes.Amount;
-                }
-                //Tổng thu, chi trong tháng đang set
-                if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month)
-                {
-                    summary.netBalance = summary.netBalance + incomes.Amount;
-                }
-                //Tổng đi vay
-                if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Id_type == "18")
-                {
-                    summary.totalLoan = summary.totalLoan + incomes.Amount;
-                }
-                //Tổng cho vay
-                if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Id_type == "17")
-                {
-                    summary.totalBorrow = summary.totalBorrow + incomes.Amount;
-                }
-                //Tổng khác
-                if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Id_type == "16")
-                {
-                    summary.totalOther = summary.totalOther + incomes.Amount;
-                }       
-                if(DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
-                {
-                    float t = 0;
-                    float t2 = 0;
-                    foreach (Income_Outcome incomes_t in income)
-                    {
-                        if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 1)
-                        {
-                            t = t + incomes_t.Amount;
-                        }
-                        if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 1)
-                        {
-                            t2 = t2 + incomes_t.Amount;
-                        }
-                    }
-                    summary.totalIncome_Outcome_1 = t2 - t;
-                    t = 0;
-                    t2 = 0;
-                    foreach (Income_Outcome incomes_t in income)
-                    {
-                        if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 2)
-                        {
-                            t = t + incomes_t.Amount;
-                        }
-                        if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 2)
-                        {
-                            t2 = t2 + incomes_t.Amount;
-                        }
-                    }
-                    summary.totalIncome_Outcome_2 = t2 - t;
-                    t = 0;
-                    t2 = 0;
-                    foreach (Income_Outcome incomes_t in income)
-                    {
-                        if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 3)
-                        {
-                            t = t + incomes_t.Amount;
-                        }
-                        if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 3)
-                        {
-                            t2 = t2 + incomes_t.Amount;
-                        }
-                    }
-                    summary.totalIncome_Outcome_3 = t2 - t;
-                    t = 0;
-                    t2 = 0;
-                    foreach (Income_Outcome incomes_t in income)
-                    {
-                        if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 4)
-                        {
-                            t = t + incomes_t.Amount;
-                        }
-                        if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 4)
-                        {
-                            t2 = t2 + incomes_t.Amount;
-                        }
-                    }
-                    summary.totalIncome_Outcome_4 = t2 - t;
-                    t = 0;
-                    t2 = 0;
-                    foreach (Income_Outcome incomes_t in income)
-                    {
-                        if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 5)
-                        {
-                            t = t + incomes_t.Amount;
-                        }
-                        if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 5)
-                        {
-                            t2 = t2 + incomes_t.Amount;
-                        }
-                    }
-                    summary.totalIncome_Outcome_5 = t2 - t;
-                    t = 0;
-                    t2 = 0;
-                    foreach (Income_Outcome incomes_t in income)
-                    {
-                        if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 6)
-                        {
-                            t = t + incomes_t.Amount;
-                        }
-                        if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 6)
-                        {
-                            t2 = t2 + incomes_t.Amount;
-                        }
-                    }
-                    summary.totalIncome_Outcome_6 = t2 - t;
-                    t = 0;
-                    t2 = 0;
-                    foreach (Income_Outcome incomes_t in income)
-                    {
-                        if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 7)
-                        {
-                            t = t + incomes_t.Amount;
-                        }
-                        if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 7)
-                        {
-                            t2 = t2 + incomes_t.Amount;
-                        }
-                    }
-                    summary.totalIncome_Outcome_7 = t2 - t;
-                    t = 0;
-                    t2 = 0;
-                    foreach (Income_Outcome incomes_t in income)
-                    {
-                        if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 8)
-                        {
-                            t = t + incomes_t.Amount;
-                        }
-                        if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 8)
-                        {
-                            t2 = t2 + incomes_t.Amount;
-                        }
-                    }
-                    summary.totalIncome_Outcome_8 = t2 - t;
-                    t = 0;
-                    t2 = 0;
-                    foreach (Income_Outcome incomes_t in income)
-                    {
-                        if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 9)
-                        {
-                            t = t + incomes_t.Amount;
-                        }
-                        if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 9)
-                        {
-                            t2 = t2 + incomes_t.Amount;
-                        }
-                    }
-                    summary.totalIncome_Outcome_9 = t2 - t;
-                    t = 0;
-                    t2 = 0;
-                    foreach (Income_Outcome incomes_t in income)
-                    {
-                        if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 10)
-                        {
-                            t = t + incomes_t.Amount;
-                        }
-                        if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 10)
-                        {
-                            t2 = t2 + incomes_t.Amount;
-                        }
-                    }
-                    summary.totalIncome_Outcome_10 = t2 - t;
-                    t = 0;
-                    t2 = 0;
-                    foreach (Income_Outcome incomes_t in income)
-                    {
-                        if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 11)
-                        {
-                            t = t + incomes_t.Amount;
-                        }
-                        if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 11)
-                        {
-                            t2 = t2 + incomes_t.Amount;
-                        }
-                    }
-                    summary.totalIncome_Outcome_11 = t2 - t;
-                    t = 0;
-                    t2 = 0;
-                    foreach (Income_Outcome incomes_t in income)
-                    {
-                        if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 12)
-                        {
-                            t = t + incomes_t.Amount;
-                        }
-                        if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 12)
-                        {
-                            t2 = t2 + incomes_t.Amount;
-                        }
-                    }
-                    summary.totalIncome_Outcome_12 = t2 - t;
-                    t = 0;
-                    t2 = 0;
-                }    
-            }
-            summary.beginBalance = wallet.Amount_Wallet - summary.beginBalance + total_income_old;
-            summary.endBalance = wallet.Amount_Wallet - summary.endBalance + total_income_new;
-            summary.netBalance = summary.beginBalance - summary.netBalance;
-            ResponseModel res = new ResponseModel("Income", summary, "200");
-            return res;
+
+                    summary.beginBalance = wallet.Amount_Wallet - summary.beginBalance + total_income_old;
+                    summary.endBalance = wallet.Amount_Wallet - summary.endBalance + total_income_new;
+                    summary.netBalance = summary.beginBalance - summary.netBalance;
+                    ResponseModel res = new ResponseModel("Income", summary, "200");
+                    return res;
+                
+            }    
+            else
+            {
+                ResponseModel res = new ResponseModel("Income", null, "200");
+                return res;
+            }    
+            
         }
 
         // PUT: api/Summaries/5
