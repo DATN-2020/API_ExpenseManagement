@@ -110,7 +110,7 @@ namespace API_ExpenseManagement.Controllers
                                   on a.Id_Type equals c.Id_type.ToString()
                                   join d in _context.Time_Periodic
                                   on a.id_Time equals d.id_Time.ToString()
-                                  where (a.Id_Cate == null)
+                                  where (a.Id_Cate == null && a.Id_Per == periodic.Id_Per)
                                   select new
                                   {
                                       idwallet = a.Id_Wallet,
@@ -143,7 +143,7 @@ namespace API_ExpenseManagement.Controllers
                                   on a.Id_Cate equals b.Id_Cate.ToString()
                                   join d in _context.Time_Periodic
                                   on a.id_Time equals d.id_Time.ToString()
-                                  where (a.Id_Type == null)
+                                  where (a.Id_Type == null && a.Id_Per == periodic.Id_Per)
                                   select new
                                   {
                                       idwallet = a.Id_Wallet,
