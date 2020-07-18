@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API_ExpenseManagement.Context;
 using API_ExpenseManagement.Models;
+using System.Collections;
 
 namespace API_ExpenseManagement.Controllers
 {
@@ -33,6 +34,7 @@ namespace API_ExpenseManagement.Controllers
         public ResponseModel GetgetBill([FromQuery] string id)
         {
             var bills = _context.Bill.Where(w => w.Id_Wallet == id);
+            var list = new ArrayList();
             foreach (Bill bill1 in bills)
             {
                 if (bill1.date_e <= DateTime.Today)
@@ -53,6 +55,7 @@ namespace API_ExpenseManagement.Controllers
                               on a.Id_Type equals c.Id_type.ToString()
                               join d in _context.Time_Periodic
                               on a.id_Time equals d.id_Time.ToString()
+                              where(a.Id_Category == null)
                               select new
                               {
                                   idwallet = a.Id_Wallet,
@@ -73,17 +76,17 @@ namespace API_ExpenseManagement.Controllers
                                   DateTime.Today.AddDays(365 - (a.date_s.DayOfYear - 1)))
                               };
                     var get = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
-
-                    if (log == null)
-                    {
-                        ResponseModel res = new ResponseModel("Fail", null, "404");
-                        return res;
-                    }
-                    else
-                    {
-                        ResponseModel res = new ResponseModel("Bill", get, "200");
-                        return res;
-                    }
+                    list.Add(get);
+                    //if (log == null)
+                    //{
+                    //    ResponseModel res = new ResponseModel("Fail", null, "404");
+                    //    return res;
+                    //}
+                    //else
+                    //{
+                    //    ResponseModel res = new ResponseModel("Bill", get, "200");
+                    //    return res;
+                    //}
                 }
                 if (bill2.Id_Type == null)
                 {
@@ -92,6 +95,7 @@ namespace API_ExpenseManagement.Controllers
                               on a.Id_Category equals b.Id_Cate.ToString()
                               join d in _context.Time_Periodic
                               on a.id_Time equals d.id_Time.ToString()
+                              where (a.Id_Type == null)
                               select new
                               {
                                   idwallet = a.Id_Wallet,
@@ -113,19 +117,12 @@ namespace API_ExpenseManagement.Controllers
                               };
                     var get = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
 
-                    if (log == null)
-                    {
-                        ResponseModel res = new ResponseModel("Fail", null, "404");
-                        return res;
-                    }
-                    else
-                    {
-                        ResponseModel res = new ResponseModel("Bill", get, "200");
-                        return res;
-                    }
+                    list.Add(get);
                 }
+                //ResponseModel res = new ResponseModel("Bill", list, "200");
+                //return res;
             }
-            ResponseModel res1 = new ResponseModel("Budget", null ,"200");
+            ResponseModel res1 = new ResponseModel("Budget", list ,"200");
             return res1;
         }
 

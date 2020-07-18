@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API_ExpenseManagement.Context;
 using API_ExpenseManagement.Models;
+using System.Collections;
 
 namespace API_ExpenseManagement.Controllers
 {
@@ -32,6 +33,7 @@ namespace API_ExpenseManagement.Controllers
         [HttpGet("{id}")]
         public ResponseModel GetgetPeriodic([FromQuery] string id)
         {
+            var list = new ArrayList();
             Wallet wallet = _context.Wallets.Where(m => m.Id_Wallet.ToString() == id).FirstOrDefault();
             var per = _context.Periodic.Where(w => w.Id_Wallet == id.ToString());
             foreach (Periodic periodic1 in per)
@@ -96,8 +98,7 @@ namespace API_ExpenseManagement.Controllers
             }
             _context.Wallets.Update(wallet);
             _context.SaveChanges();
-            try
-            {
+
                 var per1 = _context.Periodic
                 .Where(w => w.Id_Wallet == id);
                 foreach (Periodic periodic in per1)
@@ -109,6 +110,7 @@ namespace API_ExpenseManagement.Controllers
                                   on a.Id_Type equals c.Id_type.ToString()
                                   join d in _context.Time_Periodic
                                   on a.id_Time equals d.id_Time.ToString()
+                                  where (a.Id_Cate == null)
                                   select new
                                   {
                                       idwallet = a.Id_Wallet,
@@ -129,16 +131,7 @@ namespace API_ExpenseManagement.Controllers
                                   };
                         var bill = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
 
-                        if (log == null)
-                        {
-                            ResponseModel res = new ResponseModel("Fail", null, "404");
-                            return res;
-                        }
-                        else
-                        {
-                            ResponseModel res = new ResponseModel("Periodic", bill, "200");
-                            return res;
-                        }
+                        list.Add(bill);
                     }
                     if (periodic.Id_Type == null)
                     {
@@ -147,6 +140,7 @@ namespace API_ExpenseManagement.Controllers
                                   on a.Id_Cate equals b.Id_Cate.ToString()
                                   join d in _context.Time_Periodic
                                   on a.id_Time equals d.id_Time.ToString()
+                                  where (a.Id_Type == null)
                                   select new
                                   {
                                       idwallet = a.Id_Wallet,
@@ -167,26 +161,11 @@ namespace API_ExpenseManagement.Controllers
                                   };
                         var bill = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
 
-                        if (log == null)
-                        {
-                            ResponseModel res = new ResponseModel("Fail", null, "404");
-                            return res;
-                        }
-                        else
-                        {
-                            ResponseModel res = new ResponseModel("Periodic", bill, "200");
-                            return res;
-                        }
+                        list.Add(bill);
                     }
                 }
-                ResponseModel res1 = new ResponseModel("Fail", null, "404");
+                ResponseModel res1 = new ResponseModel("Periodic", list, "404");
                 return res1;
-            }
-            catch
-            {
-                ResponseModel res = new ResponseModel("Fail", null, "404");
-                return res;
-            }
         }
 
         // PUT: api/getPeriodics/5

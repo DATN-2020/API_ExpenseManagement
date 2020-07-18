@@ -9,6 +9,7 @@ using API_ExpenseManagement.Context;
 using API_ExpenseManagement.Models;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore.Extensions.Internal;
+using System.Collections;
 
 namespace API_ExpenseManagement.Controllers
 {
@@ -34,6 +35,7 @@ namespace API_ExpenseManagement.Controllers
         [HttpGet("{id}")]
         public ResponseModel GetgetBudget([FromQuery] string id)
         {
+            var list = new ArrayList();
             var budget = _context.Budget
                 .Where(w => w.Id_Wallet == id);
             foreach (Budget budget1 in budget)
@@ -57,6 +59,7 @@ namespace API_ExpenseManagement.Controllers
                               on a.Id_type equals c.Id_type.ToString()
                               join d in _context.Time_Periodic
                               on a.id_Time equals d.id_Time.ToString()
+                              where (a.Id_Cate == null)
                               select new
                               {
                                   idwallet = a.Id_Wallet,
@@ -77,16 +80,17 @@ namespace API_ExpenseManagement.Controllers
                                   DateTime.Today.AddDays(365 - (a.time_s.DayOfYear - 1)))
                               };
                     var buget = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
-                    if (log == null)
-                    {
-                        ResponseModel res = new ResponseModel("Fail", null, "404");
-                        return res;
-                    }
-                    else
-                    {
-                        ResponseModel res = new ResponseModel("Budget", budget, "200");
-                        return res;
-                    }
+                    //if (log == null)
+                    //{
+                    //    ResponseModel res = new ResponseModel("Fail", null, "404");
+                    //    return res;
+                    //}
+                    //else
+                    //{
+                    //    ResponseModel res = new ResponseModel("Budget", budget, "200");
+                    //    return res;
+                    //}
+                    list.Add(budget);
                 }
                 if (budget1.Id_type == null)
                 {
@@ -95,6 +99,7 @@ namespace API_ExpenseManagement.Controllers
                               on a.Id_Cate equals b.Id_Cate.ToString()
                               join d in _context.Time_Periodic
                               on a.id_Time equals d.id_Time.ToString()
+                              where (a.Id_type == null)
                               select new
                               {
                                   idwallet = a.Id_Wallet,
@@ -115,19 +120,10 @@ namespace API_ExpenseManagement.Controllers
                                   DateTime.Today.AddDays(365 - (a.time_s.DayOfYear - 1)))
                               };
                     var buget = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
-                    if (log == null)
-                    {
-                        ResponseModel res = new ResponseModel("Fail", null, "404");
-                        return res;
-                    }
-                    else
-                    {
-                        ResponseModel res = new ResponseModel("Budget", buget, "200");
-                        return res;
-                    }
+                    list.Add(budget);
                 }
             }
-            ResponseModel res1 = new ResponseModel("Budget", null, "200");
+            ResponseModel res1 = new ResponseModel("Budget", list, "200");
             return res1;
 
 
