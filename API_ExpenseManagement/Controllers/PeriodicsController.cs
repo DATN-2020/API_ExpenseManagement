@@ -88,7 +88,7 @@ namespace API_ExpenseManagement.Controllers
             try
             {
                 _context.Entry(periodic).State = EntityState.Modified;
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Update success", null, "200");
                 return res;
             }
@@ -110,11 +110,11 @@ namespace API_ExpenseManagement.Controllers
         [HttpPost]
         public ResponseModel PostPeriodic([FromBody] Periodic periodic)
         {
-            if (!ModelState.IsValid)
-            {
-                ResponseModel res = new ResponseModel("Fail", null, "200");
-                return res;
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    ResponseModel res = new ResponseModel("Fail", null, "200");
+            //    return res;
+            //}
             float amount = periodic.Amount_Per;
             string desciption = periodic.Desciption;
             DateTime date_s = periodic.date_s;
@@ -140,14 +140,14 @@ namespace API_ExpenseManagement.Controllers
             //    periodic.id_Time = 1;
             //}
             periodic.isComeback = false;
-            try
+            if(periodic != null)
             {
                 _context.Periodic.Add(periodic);
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Create success", null, "200");
                 return res;
             }
-            catch
+            else
             {
                 ResponseModel res = new ResponseModel("Create fail", null, "200");
                 return res;
@@ -173,7 +173,7 @@ namespace API_ExpenseManagement.Controllers
             else
             {
                 _context.Periodic.Remove(per);
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Delete success", null, "200");
                 return res;
             }

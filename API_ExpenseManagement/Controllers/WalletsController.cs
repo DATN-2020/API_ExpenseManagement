@@ -83,7 +83,7 @@ namespace API_ExpenseManagement.Controllers
                 _context.Income_Outcomes.Add(income);
                 _context.Entry(wallet).State = EntityState.Modified;
                 _context.Wallets.Update(wallet);
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Update success", null, "404");
                 return res;
             }
@@ -201,7 +201,7 @@ namespace API_ExpenseManagement.Controllers
             if (wallet != null)
             {
                 _context.Wallets.Remove(wallet);
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Delete success", null, "404");
                 return res;
             }

@@ -202,13 +202,13 @@ namespace API_ExpenseManagement.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<float>("amount_Icome");
-
-                    b.Property<DateTime>("date_Income");
-
                     b.Property<int>("id_cate");
 
                     b.Property<int>("id_type");
+
+                    b.Property<float>("total_Icome");
+
+                    b.Property<float>("total_Outcome");
 
                     b.HasKey("id_getIncome");
 
@@ -363,8 +363,6 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<float>("endBalance");
 
-                    b.Property<string>("id_Come");
-
                     b.Property<string>("id_wallet");
 
                     b.Property<float>("netBalance");
@@ -372,6 +370,30 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.Property<float>("totalBorrow");
 
                     b.Property<float>("totalIncome");
+
+                    b.Property<float>("totalIncome_Outcome_1");
+
+                    b.Property<float>("totalIncome_Outcome_10");
+
+                    b.Property<float>("totalIncome_Outcome_11");
+
+                    b.Property<float>("totalIncome_Outcome_12");
+
+                    b.Property<float>("totalIncome_Outcome_2");
+
+                    b.Property<float>("totalIncome_Outcome_3");
+
+                    b.Property<float>("totalIncome_Outcome_4");
+
+                    b.Property<float>("totalIncome_Outcome_5");
+
+                    b.Property<float>("totalIncome_Outcome_6");
+
+                    b.Property<float>("totalIncome_Outcome_7");
+
+                    b.Property<float>("totalIncome_Outcome_8");
+
+                    b.Property<float>("totalIncome_Outcome_9");
 
                     b.Property<float>("totalLoan");
 

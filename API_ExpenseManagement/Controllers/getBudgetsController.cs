@@ -76,7 +76,7 @@ namespace API_ExpenseManagement.Controllers
                                   a.id_Time == "3" ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month) - DateTime.Today.Day) :
                                   DateTime.Today.AddDays(365 - (a.time_s.DayOfYear - 1)))
                               };
-                    var buget = log.Where(m => m.idwallet.Equals(id)).ToList();
+                    var buget = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
                     if (log == null)
                     {
                         ResponseModel res = new ResponseModel("Fail", null, "404");
@@ -84,7 +84,7 @@ namespace API_ExpenseManagement.Controllers
                     }
                     else
                     {
-                        ResponseModel res = new ResponseModel("Budget", buget, "200");
+                        ResponseModel res = new ResponseModel("Budget", budget, "200");
                         return res;
                     }
                 }
@@ -114,7 +114,7 @@ namespace API_ExpenseManagement.Controllers
                                   a.id_Time == "3" ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month) - DateTime.Today.Day) :
                                   DateTime.Today.AddDays(365 - (a.time_s.DayOfYear - 1)))
                               };
-                    var buget = log.Where(m => m.idwallet.Equals(id)).ToList();
+                    var buget = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
                     if (log == null)
                     {
                         ResponseModel res = new ResponseModel("Fail", null, "404");

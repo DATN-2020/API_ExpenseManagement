@@ -43,17 +43,17 @@ namespace API_ExpenseManagement.Controllers
             var income = _context.Income_Outcomes.Where(m => m.WalletId_Wallet == id); 
             foreach(Income_Outcome income_ in income)
             {
-                if (DateTime.Parse(date).Month == DateTime.Parse(income_.Date_come).Month &&
-                    DateTime.Parse(date).Year == DateTime.Parse(income_.Date_come).Year)
-                {
-                    date = income_.Date_come;
-                    ResponseModel res_date = new ResponseModel("Income", date, "200");
-                    foreach (Income_Outcome income_1 in income)
-                    {
+                //if (DateTime.Parse(date).Month == DateTime.Parse(income_.Date_come).Month &&
+                //    DateTime.Parse(date).Year == DateTime.Parse(income_.Date_come).Year)
+                //{
+                //    date = income_.Date_come;
+                //    ResponseModel res_date = new ResponseModel("Income", date, "200");
+                //    foreach (Income_Outcome income_1 in income)
+                //    {
                         ResponseModel res1 = new ResponseModel("Income",income, "200");
                         return res1;
-                    }
-                }  
+                //    }
+                //}  
             }
             ResponseModel res = new ResponseModel("Income", null, "200");
             return res;
@@ -96,7 +96,7 @@ namespace API_ExpenseManagement.Controllers
             {
                 _context.Income_Outcomes.Update(income_Outcome);
                 _context.Entry(income_Outcome).State = EntityState.Modified;
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Update success", null, "404");
                 return res;
             }
@@ -167,7 +167,7 @@ namespace API_ExpenseManagement.Controllers
                     wallet.Amount_now = wallet.Amount_now - budget.Amount_Budget;
                     _context.Wallets.Update(wallet);
                     _context.Budget.Update(budget);
-                    _context.SaveChangesAsync();
+                    _context.SaveChanges();
                 }    
                 if (id_bill != null)
                 {

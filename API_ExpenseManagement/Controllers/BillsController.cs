@@ -93,7 +93,7 @@ namespace API_ExpenseManagement.Controllers
                 }
                 _context.Bill.Update(bill);
                 _context.Entry(bill).State = EntityState.Modified;
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Update success", null, "404");
                 return res;
             }
@@ -151,8 +151,8 @@ namespace API_ExpenseManagement.Controllers
             try
             {
                 _context.Bill.Add(bill);
-                _context.SaveChangesAsync();
-                ResponseModel res = new ResponseModel("Create success", bill, "200");
+                _context.SaveChanges();
+                ResponseModel res = new ResponseModel("Create success", null, "200");
                 return res;
             }
             catch
@@ -181,7 +181,7 @@ namespace API_ExpenseManagement.Controllers
             else
             {
                 _context.Bill.Remove(bill);
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Delete success", null, "200");
                 return res;
             }

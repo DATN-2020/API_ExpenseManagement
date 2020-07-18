@@ -147,8 +147,8 @@ namespace API_ExpenseManagement.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     id_cate = table.Column<int>(nullable: false),
                     id_type = table.Column<int>(nullable: false),
-                    amount_Icome = table.Column<float>(nullable: false),
-                    date_Income = table.Column<DateTime>(nullable: false)
+                    total_Icome = table.Column<float>(nullable: false),
+                    total_Outcome = table.Column<float>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -282,8 +282,19 @@ namespace API_ExpenseManagement.Data.Migrations
                     totalLoan = table.Column<float>(nullable: false),
                     totalBorrow = table.Column<float>(nullable: false),
                     totalOther = table.Column<float>(nullable: false),
+                    totalIncome_Outcome_1 = table.Column<float>(nullable: false),
+                    totalIncome_Outcome_2 = table.Column<float>(nullable: false),
+                    totalIncome_Outcome_3 = table.Column<float>(nullable: false),
+                    totalIncome_Outcome_4 = table.Column<float>(nullable: false),
+                    totalIncome_Outcome_5 = table.Column<float>(nullable: false),
+                    totalIncome_Outcome_6 = table.Column<float>(nullable: false),
+                    totalIncome_Outcome_7 = table.Column<float>(nullable: false),
+                    totalIncome_Outcome_8 = table.Column<float>(nullable: false),
+                    totalIncome_Outcome_9 = table.Column<float>(nullable: false),
+                    totalIncome_Outcome_10 = table.Column<float>(nullable: false),
+                    totalIncome_Outcome_11 = table.Column<float>(nullable: false),
+                    totalIncome_Outcome_12 = table.Column<float>(nullable: false),
                     date = table.Column<string>(nullable: true),
-                    id_Come = table.Column<string>(nullable: true),
                     id_wallet = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

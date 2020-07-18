@@ -85,7 +85,7 @@ namespace API_ExpenseManagement.Controllers
             try
             {
                 _context.Entry(budget).State = EntityState.Modified;
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Update success", null, "200");
                 return res;
             }
@@ -162,7 +162,7 @@ namespace API_ExpenseManagement.Controllers
             else
             {
                 _context.Budget.Remove(budget);
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Delete success", null, "200");
                 return res;
             }
