@@ -129,10 +129,13 @@ namespace API_ExpenseManagement.Controllers
                                       a.id_Time == "3" ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month) - DateTime.Today.Day) :
                                       DateTime.Today.AddDays(365 - (a.date_s.DayOfYear - 1)))
                                   };
-                        var bill = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
+                        var get = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
 
-                        list.Add(bill);
+                    foreach (object l in get)
+                    {
+                        list.Add(l);
                     }
+                }
                     if (periodic.Id_Type == null)
                     {
                         var log = from a in _context.Periodic
@@ -159,10 +162,13 @@ namespace API_ExpenseManagement.Controllers
                                       a.id_Time == "3" ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month) - DateTime.Today.Day) :
                                       DateTime.Today.AddDays(365 - (a.date_s.DayOfYear - 1)))
                                   };
-                        var bill = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
+                        var get = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
 
-                        list.Add(bill);
+                    foreach (object l in get)
+                    {
+                        list.Add(l);
                     }
+                }
                 }
                 ResponseModel res1 = new ResponseModel("Periodic", list, "404");
                 return res1;

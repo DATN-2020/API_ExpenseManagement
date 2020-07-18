@@ -76,7 +76,10 @@ namespace API_ExpenseManagement.Controllers
                                   DateTime.Today.AddDays(365 - (a.date_s.DayOfYear - 1)))
                               };
                     var get = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
-                    list.Add(get);
+                    foreach (object l in get)
+                    {
+                        list.Add(l);
+                    }
                     //if (log == null)
                     //{
                     //    ResponseModel res = new ResponseModel("Fail", null, "404");
@@ -117,7 +120,10 @@ namespace API_ExpenseManagement.Controllers
                               };
                     var get = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
 
-                    list.Add(get);
+                    foreach (object l in get)
+                    {
+                        list.Add(l);
+                    }
                 }
                 //ResponseModel res = new ResponseModel("Bill", list, "200");
                 //return res;

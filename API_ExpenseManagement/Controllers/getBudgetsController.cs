@@ -90,7 +90,10 @@ namespace API_ExpenseManagement.Controllers
                     //    ResponseModel res = new ResponseModel("Budget", budget, "200");
                     //    return res;
                     //}
-                    list.Add(get);
+                    foreach(object l in get)
+                    {
+                        list.Add(l);
+                    }    
                 }
                 if (budget1.Id_type == null)
                 {
@@ -120,7 +123,10 @@ namespace API_ExpenseManagement.Controllers
                                   DateTime.Today.AddDays(365 - (a.time_s.DayOfYear - 1)))
                               };
                     var get = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
-                    list.Add(get);
+                    foreach (object l in get)
+                    {
+                        list.Add(l);
+                    }
                 }
             }
             ResponseModel res1 = new ResponseModel("Budget", list, "200");
