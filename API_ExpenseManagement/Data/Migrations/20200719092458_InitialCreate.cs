@@ -9,6 +9,20 @@ namespace API_ExpenseManagement.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Bank",
+                columns: table => new
+                {
+                    Id_Bank = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name_Bank = table.Column<string>(nullable: true),
+                    Interest = table.Column<float>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bank", x => x.Id_Bank);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Bill",
                 columns: table => new
                 {
@@ -453,6 +467,9 @@ namespace API_ExpenseManagement.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Bank");
+
             migrationBuilder.DropTable(
                 name: "Bill");
 

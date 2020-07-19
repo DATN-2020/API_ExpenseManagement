@@ -19,6 +19,21 @@ namespace API_ExpenseManagement.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("API_ExpenseManagement.Models.Bank", b =>
+                {
+                    b.Property<int>("Id_Bank")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("Interest");
+
+                    b.Property<string>("Name_Bank");
+
+                    b.HasKey("Id_Bank");
+
+                    b.ToTable("Bank");
+                });
+
             modelBuilder.Entity("API_ExpenseManagement.Models.Bill", b =>
                 {
                     b.Property<int>("Id_Bill")

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_ExpenseManagement.Data.Migrations
 {
     [DbContext(typeof(ExpenseManagementContext))]
-    [Migration("20200719073736_InitialCreate")]
+    [Migration("20200719092458_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,21 @@ namespace API_ExpenseManagement.Data.Migrations
                 .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("API_ExpenseManagement.Models.Bank", b =>
+                {
+                    b.Property<int>("Id_Bank")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("Interest");
+
+                    b.Property<string>("Name_Bank");
+
+                    b.HasKey("Id_Bank");
+
+                    b.ToTable("Bank");
+                });
 
             modelBuilder.Entity("API_ExpenseManagement.Models.Bill", b =>
                 {
