@@ -35,28 +35,22 @@ namespace API_ExpenseManagement.Controllers
             var log = _context.Trips.Where(m => m.id_user == id).AsEnumerable();
             ResponseModel res1 = new ResponseModel("Trip", log, "404");
             return res1;
-
         }
 
         // PUT: api/Trips/5
         [HttpPut("{id}")]
-        public ResponseModel PutTrip([FromRoute] int id, [FromBody] Trip trip)
+        public ResponseModel PutTrip([FromRoute] string id, [FromBody] Trip trip)
         {
             string name = trip.Name_Trip;
-            if (!ModelState.IsValid)
-            {
-                ResponseModel res1 = new ResponseModel("Update fail", null, "404");
-                return res1;
-            }
-
-            if (id != trip.Id_Trip)
+            trip = _context.Trips.Where(m => m.Id_Trip.ToString() == id).FirstOrDefault();
+            if (trip == null)
             {
                 ResponseModel res1 = new ResponseModel("Update fail", null, "404");
                 return res1;
             }
             trip.Name_Trip = name;
             _context.Trips.Update(trip);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
             ResponseModel res = new ResponseModel("Update successs", null, "404");
             return res;
 
@@ -103,7 +97,7 @@ namespace API_ExpenseManagement.Controllers
             else
             {
                 _context.Trips.Remove(trip);
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Delete success", null, "404");
                 return res;
             }

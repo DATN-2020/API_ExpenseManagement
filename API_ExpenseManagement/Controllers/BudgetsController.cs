@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using API_ExpenseManagement.Context;
 using API_ExpenseManagement.Models;
 using System.Security.Cryptography.X509Certificates;
+using System.Collections;
 
 namespace API_ExpenseManagement.Controllers
 {
@@ -31,19 +32,76 @@ namespace API_ExpenseManagement.Controllers
 
         // GET: api/Budgets/5
         [HttpGet("{id}")]
-        public ResponseModel GetBudget([FromQuery] int id)
+        public ResponseModel GetBudget([FromQuery] string id_wallet, string id_budget, string date)
         {
-            var log = _context.Budget.Where(m => m.Id_Wallet.Equals(id)).AsEnumerable();
-            if (log == null)
+            var list = new ArrayList();
+            var income = _context.Income_Outcomes
+                .Where(w => w.WalletId_Wallet == id_wallet).Where(t => t.Id_Budget == id_budget);
+            foreach (Income_Outcome income_ in income)
             {
-                ResponseModel res = new ResponseModel("Fail", null, "404");
-                return res;
+                if (income_.CategoryId_Cate == null)
+                {
+                    var log = from a in _context.Income_Outcomes
+                              join c in _context.TypeCategories
+                              on a.Id_type equals c.Id_type.ToString()
+                              where (a.CategoryId_Cate == null && DateTime.Parse(a.Date_come).Month == DateTime.Parse(date).Month
+                              && a.Id_come == income_.Id_come && DateTime.Parse(a.Date_come).Year == DateTime.Parse(date).Year
+                              && a.Id_Budget == id_budget)
+                              select new
+                              {
+                                  idwallet = a.WalletId_Wallet,
+                                  id_come = a.Id_come,
+                                  id_budget = a.Id_Budget,
+                                  name = c.Name_Type,
+                                  image = c.Image_Type,
+                                  amount = a.Amount,
+                                  date_come = a.Date_come,
+                                  desciption = a.Description_come,
+                                  is_come = a.Is_Come
+                              };
+                    var get = log.Where(m => m.idwallet.Equals(id_wallet)).AsEnumerable();
+                    foreach (object l in get)
+                    {
+                        list.Add(l);
+                    }
+                    //foreach (object l in get)
+                    //{
+                    //    list_date.Add(list);
+                    //}
+                }
+                if (income_.Id_type == null)
+                {
+                    var log = from a in _context.Income_Outcomes
+                              join c in _context.Categories
+                              on a.CategoryId_Cate equals c.Id_Cate.ToString()
+                              where (a.Id_type == null && DateTime.Parse(a.Date_come).Month == DateTime.Parse(date).Month
+                              && a.Id_come == income_.Id_come && a.Id_Budget == id_budget &&
+                              DateTime.Parse(a.Date_come).Year == DateTime.Parse(date).Year)
+                              select new
+                              {
+                                  idwallet = a.WalletId_Wallet,
+                                  id_come = a.Id_come,
+                                  id_budget = a.Id_Budget,
+                                  name = c.NameCate,
+                                  image = c.ImageCate,
+                                  amount = a.Amount,
+                                  date_come = a.Date_come,
+                                  desciption = a.Description_come,
+                                  is_come = a.Is_Come
+                              };
+                    var get = log.Where(m => m.idwallet.Equals(id_wallet)).AsEnumerable();
+                    foreach (object l in get)
+                    {
+                        list.Add(l);
+                    }
+                    //foreach (object l in get)
+                    //{
+                    //    list_date.Add(list);
+                    //}
+                }
             }
-            else
-            {
-                ResponseModel res = new ResponseModel("Budget", log, "200");
-                return res;
-            }
+            ResponseModel res = new ResponseModel("Income", list, "200");
+            return res;
         }
 
         // PUT: api/Budgets/5

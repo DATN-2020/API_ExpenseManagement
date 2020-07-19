@@ -37,11 +37,11 @@ namespace API_ExpenseManagement.Controllers
             var list = new ArrayList();
             var list_date = new ArrayList();
             var income = _context.Income_Outcomes.Where(m => m.WalletId_Wallet == id);
-            foreach(Income_Outcome income_1 in income)
-            {
-                string getdate = income_1.Date_come;
-                list_date.Add(getdate);
-            }    
+            //foreach(Income_Outcome income_1 in income)
+            //{
+            //    string getdate = income_1.Date_come;
+            //    list_date.Add(getdate);
+            //}    
             foreach (Income_Outcome income_ in income)
             {
                 if (income_.CategoryId_Cate == null)
@@ -50,7 +50,7 @@ namespace API_ExpenseManagement.Controllers
                               join c in _context.TypeCategories
                               on a.Id_type equals c.Id_type.ToString()
                               where (a.CategoryId_Cate == null && DateTime.Parse(a.Date_come).Month == DateTime.Parse(date).Month
-                              //&& a.Id_come == income_.Id_come 
+                              && a.Id_come == income_.Id_come 
                               && a.Date_come == income_.Date_come &&
                               DateTime.Parse(a.Date_come).Year == DateTime.Parse(date).Year)
                               select new
@@ -105,7 +105,7 @@ namespace API_ExpenseManagement.Controllers
                 }
                 list_date.Add(list);
             }
-            ResponseModel res = new ResponseModel("Income", list_date, "200");
+            ResponseModel res = new ResponseModel("Income", list, "200");
             return res;
         }
 
