@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API_ExpenseManagement.Context;
 using API_ExpenseManagement.Models;
+using System.Collections;
 
 namespace API_ExpenseManagement.Controllers
 {
@@ -30,21 +31,72 @@ namespace API_ExpenseManagement.Controllers
 
         // GET: api/Bills/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBill([FromRoute] string id)
+        public ResponseModel GetBill([FromQuery] string id_wallet, string id_bill, string date)
         {
-            if (!ModelState.IsValid)
+            var list = new ArrayList();
+            var income = _context.Income_Outcomes
+                .Where(w => w.WalletId_Wallet == id_wallet).Where(t => t.Id_Bill == id_bill);
+            foreach (Income_Outcome income_ in income)
             {
-                return BadRequest(ModelState);
+                if (income_.CategoryId_Cate == null)
+                {
+                    var log = from a in _context.Income_Outcomes
+                              join c in _context.TypeCategories
+                              on a.Id_type equals c.Id_type.ToString()
+                              where (a.CategoryId_Cate == null && DateTime.Parse(a.Date_come).Month == DateTime.Parse(date).Month
+                              && a.Id_come == income_.Id_come && DateTime.Parse(a.Date_come).Year == DateTime.Parse(date).Year
+                              && a.Id_Bill == id_bill)
+                              select new
+                              {
+                                  idwallet = a.WalletId_Wallet,
+                                  id_come = a.Id_come,
+                                  id_bill = a.Id_Bill,
+                                  name = c.Name_Type,
+                                  image = c.Image_Type,
+                                  amount = a.Amount,
+                                  date_come = a.Date_come,
+                                  desciption = a.Description_come,
+                                  is_come = a.Is_Come
+                              };
+                    var get = log.Where(m => m.idwallet.Equals(id_wallet)).AsEnumerable();
+                    foreach (object l in get)
+                    {
+                        list.Add(l);
+                    }
+                }
+                if (income_.Id_type == null)
+                {
+                    var log = from a in _context.Income_Outcomes
+                              join c in _context.Categories
+                              on a.CategoryId_Cate equals c.Id_Cate.ToString()
+                              where (a.Id_type == null && DateTime.Parse(a.Date_come).Month == DateTime.Parse(date).Month
+                              && a.Id_come == income_.Id_come && a.Id_Bill == id_bill &&
+                              DateTime.Parse(a.Date_come).Year == DateTime.Parse(date).Year)
+                              select new
+                              {
+                                  idwallet = a.WalletId_Wallet,
+                                  id_come = a.Id_come,
+                                  id_bill = a.Id_Bill,
+                                  name = c.NameCate,
+                                  image = c.ImageCate,
+                                  amount = a.Amount,
+                                  date_come = a.Date_come,
+                                  desciption = a.Description_come,
+                                  is_come = a.Is_Come
+                              };
+                    var get = log.Where(m => m.idwallet.Equals(id_wallet)).AsEnumerable();
+                    foreach (object l in get)
+                    {
+                        list.Add(l);
+                    }
+                    //foreach (object l in get)
+                    //{
+                    //    list_date.Add(list);
+                    //}
+                }
             }
-
-            var bill = await _context.Bill.FindAsync(id);
-
-            if (bill == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(bill);
+            ResponseModel res = new ResponseModel("Income", list, "200");
+            return res;
         }
 
         // PUT: api/Bills/5
