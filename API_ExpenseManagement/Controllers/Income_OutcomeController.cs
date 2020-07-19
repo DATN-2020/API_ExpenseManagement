@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API_ExpenseManagement.Context;
 using API_ExpenseManagement.Models;
+using System.Collections;
 
 namespace API_ExpenseManagement.Controllers
 {
@@ -32,30 +33,79 @@ namespace API_ExpenseManagement.Controllers
         [HttpGet("{id}")]
         public ResponseModel GetIncome_Outcome([FromQuery] string id, string date)
         {
-            //string date = income_Outcome.Date_come;
-            //string id_wallet = income_Outcome.WalletId_Wallet;
-            //string id_cate = income_Outcome.CategoryId_Cate;
-            //string id_type = income_Outcome.Id_type;
-            //string id_bill = income_Outcome.Id_Bill;
-            //string id_budget = income_Outcome.Id_Budget;
-            //string id_per = income_Outcome.Id_Per;
-            int t = DateTime.Parse(date).Month;
-            var income = _context.Income_Outcomes.Where(m => m.WalletId_Wallet == id); 
-            foreach(Income_Outcome income_ in income)
+            //int t = DateTime.Parse(date).Month;
+            var list = new ArrayList();
+            var list_date = new ArrayList();
+            var income = _context.Income_Outcomes.Where(m => m.WalletId_Wallet == id);
+            foreach(Income_Outcome income_1 in income)
             {
-                //if (DateTime.Parse(date).Month == DateTime.Parse(income_.Date_come).Month &&
-                //    DateTime.Parse(date).Year == DateTime.Parse(income_.Date_come).Year)
-                //{
-                //    date = income_.Date_come;
-                //    ResponseModel res_date = new ResponseModel("Income", date, "200");
-                //    foreach (Income_Outcome income_1 in income)
-                //    {
-                        ResponseModel res1 = new ResponseModel("Income",income, "200");
-                        return res1;
-                //    }
-                //}  
+                string getdate = income_1.Date_come;
+                list_date.Add(getdate);
+            }    
+            foreach (Income_Outcome income_ in income)
+            {
+                if (income_.CategoryId_Cate == null)
+                {
+                    var log = from a in _context.Income_Outcomes
+                              join c in _context.TypeCategories
+                              on a.Id_type equals c.Id_type.ToString()
+                              where (a.CategoryId_Cate == null && DateTime.Parse(a.Date_come).Month == DateTime.Parse(date).Month
+                              //&& a.Id_come == income_.Id_come 
+                              && a.Date_come == income_.Date_come &&
+                              DateTime.Parse(a.Date_come).Year == DateTime.Parse(date).Year)
+                              select new
+                              {
+                                  idwallet = a.WalletId_Wallet,
+                                  id_come = a.Id_come,
+                                  name = c.Name_Type,
+                                  image = c.Image_Type,
+                                  amount = a.Amount,
+                                  date_come = a.Date_come,
+                                  desciption = a.Description_come,
+                                  is_come = a.Is_Come
+                              };
+                    var get = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
+                    foreach (object l in get)
+                    {
+                        list.Add(l);
+                    }
+                    //foreach (object l in get)
+                    //{
+                    //    list_date.Add(list);
+                    //}
+                }
+                if (income_.Id_type == null)
+                {
+                    var log = from a in _context.Income_Outcomes
+                              join c in _context.Categories
+                              on a.CategoryId_Cate equals c.Id_Cate.ToString()
+                              where (a.Id_type == null && DateTime.Parse(a.Date_come).Month == DateTime.Parse(date).Month
+                              && a.Id_come == income_.Id_come && a.Date_come == income_.Date_come &&
+                              DateTime.Parse(a.Date_come).Year == DateTime.Parse(date).Year)
+                              select new
+                              {
+                                  idwallet = a.WalletId_Wallet,
+                                  id_come = a.Id_come,
+                                  name = c.NameCate,
+                                  image = c.ImageCate,
+                                  amount = a.Amount,
+                                  date_come = a.Date_come,
+                                  desciption = a.Description_come,
+                                  is_come = a.Is_Come
+                              };
+                    var get = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
+                    foreach (object l in get)
+                    {
+                        list.Add(l);
+                    }
+                    //foreach (object l in get)
+                    //{
+                    //    list_date.Add(list);
+                    //}
+                }
+                list_date.Add(list);
             }
-            ResponseModel res = new ResponseModel("Income", null, "200");
+            ResponseModel res = new ResponseModel("Income", list_date, "200");
             return res;
         }
 

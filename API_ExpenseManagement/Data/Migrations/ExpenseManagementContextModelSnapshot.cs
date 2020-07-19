@@ -450,6 +450,8 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<string>("Name_Trip");
 
+                    b.Property<string>("id_user");
+
                     b.HasKey("Id_Trip");
 
                     b.ToTable("Trips");

@@ -30,71 +30,58 @@ namespace API_ExpenseManagement.Controllers
 
         // GET: api/Trips/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTrip([FromRoute] int id)
+        public ResponseModel GetTrip([FromQuery] string id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            var log = _context.Trips.Where(m => m.id_user == id).AsEnumerable();
+            ResponseModel res1 = new ResponseModel("Trip", log, "404");
+            return res1;
 
-            var trip = await _context.Trips.FindAsync(id);
-
-            if (trip == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(trip);
         }
 
         // PUT: api/Trips/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTrip([FromRoute] int id, [FromBody] Trip trip)
+        public ResponseModel PutTrip([FromRoute] int id, [FromBody] Trip trip)
         {
+            string name = trip.Name_Trip;
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                ResponseModel res1 = new ResponseModel("Update fail", null, "404");
+                return res1;
             }
 
             if (id != trip.Id_Trip)
             {
-                return BadRequest();
+                ResponseModel res1 = new ResponseModel("Update fail", null, "404");
+                return res1;
             }
+            trip.Name_Trip = name;
+            _context.Trips.Update(trip);
+            _context.SaveChangesAsync();
+            ResponseModel res = new ResponseModel("Update successs", null, "404");
+            return res;
 
-            _context.Entry(trip).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TripExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
         }
 
         // POST: api/Trips
         [HttpPost]
-        public async Task<IActionResult> PostTrip([FromBody] Trip trip)
+        public ResponseModel PostTrip([FromBody] Trip trip)
         {
-            if (!ModelState.IsValid)
+            string id_user = trip.id_user;
+            string name = trip.Name_Trip;
+            if(trip != null)
             {
-                return BadRequest(ModelState);
-            }
-
-            _context.Trips.Add(trip);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTrip", new { id = trip.Id_Trip }, trip);
+                trip.id_user = id_user;
+                trip.Name_Trip = name;
+                _context.Trips.Add(trip);
+                _context.SaveChanges();
+                ResponseModel res = new ResponseModel("Create success", null, "404");
+                return res;
+            }    
+            else
+            {
+                ResponseModel res = new ResponseModel("Create fail", null, "404");
+                return res;
+            }    
         }
 
         // DELETE: api/Trips/5

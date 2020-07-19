@@ -80,16 +80,6 @@ namespace API_ExpenseManagement.Controllers
                                   DateTime.Today.AddDays(365 - (a.time_s.DayOfYear - 1)))
                               };
                     var get = log.Where(m => m.idwallet.Equals(id)).AsEnumerable();
-                    //if (log == null)
-                    //{
-                    //    ResponseModel res = new ResponseModel("Fail", null, "404");
-                    //    return res;
-                    //}
-                    //else
-                    //{
-                    //    ResponseModel res = new ResponseModel("Budget", budget, "200");
-                    //    return res;
-                    //}
                     foreach(object l in get)
                     {
                         list.Add(l);

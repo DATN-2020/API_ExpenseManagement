@@ -339,7 +339,8 @@ namespace API_ExpenseManagement.Data.Migrations
                 {
                     Id_Trip = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name_Trip = table.Column<string>(nullable: true)
+                    Name_Trip = table.Column<string>(nullable: true),
+                    id_user = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
