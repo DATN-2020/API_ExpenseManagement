@@ -96,8 +96,8 @@ namespace API_ExpenseManagement.Controllers
             {
                     if (wallet_chuyen != null && wallet_nhan != null)
                     {
-                        wallet_chuyen.Amount_Wallet = wallet_chuyen.Amount_Wallet - amount;
-                        wallet_nhan.Amount_Wallet = wallet_nhan.Amount_Wallet + amount;
+                        wallet_chuyen.Amount_now = wallet_chuyen.Amount_now - amount;
+                        wallet_nhan.Amount_now = wallet_nhan.Amount_now + amount;
                         transfers.id_chuyen = id_chuyen;
                         transfers.id_nhan = id_nhan;
                         transfers.amount = amount;

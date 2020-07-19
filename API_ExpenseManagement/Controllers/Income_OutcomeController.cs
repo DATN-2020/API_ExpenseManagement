@@ -163,7 +163,10 @@ namespace API_ExpenseManagement.Controllers
                 if(id_budget != null)
                 {
                     Budget budget = _context.Budget.Where(m => m.Id_Budget.ToString() == id_budget).FirstOrDefault();
-                    budget.Remain = budget.Remain + amount;
+                    if (id_type != "12" || id_type != "13" || id_type != "14" || id_type != "15" || id_type != "16" || id_type != "18")
+                    {
+                        budget.Remain = budget.Remain + amount;
+                    }
                     wallet.Amount_now = wallet.Amount_now - budget.Amount_Budget;
                     _context.Wallets.Update(wallet);
                     _context.Budget.Update(budget);
