@@ -160,6 +160,19 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.ToTable("Custom");
                 });
 
+            modelBuilder.Entity("API_ExpenseManagement.Models.EndSavingWallet", b =>
+                {
+                    b.Property<int>("id_end")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("id_saving");
+
+                    b.HasKey("id_end");
+
+                    b.ToTable("EndSavingWallet");
+                });
+
             modelBuilder.Entity("API_ExpenseManagement.Models.getBill", b =>
                 {
                     b.Property<int>("id_getBill")
@@ -470,6 +483,8 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.Property<string>("date_trans");
 
                     b.Property<string>("id_saving");
+
+                    b.Property<bool>("is_End");
 
                     b.Property<bool>("is_Income");
 

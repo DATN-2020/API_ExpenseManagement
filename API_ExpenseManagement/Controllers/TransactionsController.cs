@@ -104,12 +104,6 @@ namespace API_ExpenseManagement.Controllers
             transactions.date_trans = date;
             transactions.id_saving = id_saving;
             transactions.is_Income = is_Income;
-            double t = 6.00;
-            int x = (int)t;
-            float test = (DateTime.Parse(savingWallet.date_s).Year == DateTime.Parse(date).Year) ? savingWallet.price :
-                              ((365 - (DateTime.Parse(savingWallet.date_s).DayOfYear)) + (DateTime.Parse(date).DayOfYear)
-                              + ((DateTime.Parse(date).Year) - (DateTime.Parse(savingWallet.date_s).Year - 1)) * 365) / 365 *
-                              ((float)t / 100) * (savingWallet.price);
             if (is_End == true)
             {
                 savingWallet.is_Finnish = true;
@@ -122,14 +116,16 @@ namespace API_ExpenseManagement.Controllers
                           {
                               id_saving = a.id_saving,
                               is_Finnish = true,
-                              price_end =(DateTime.Parse(a.date_s).Year == DateTime.Parse(date).Year) ? 
-                              a.price :
-                              ((365 - (DateTime.Parse(a.date_s).DayOfYear)) + (DateTime.Parse(date).DayOfYear) 
-                              + ((DateTime.Parse(date).Year) - (DateTime.Parse(a.date_s).Year - 1))*365)/365 * 
-                              ((float)b.Interest / 100) * (a.price)
+                              price_end = (DateTime.Parse(a.date_s).Year == DateTime.Parse(date).Year) ? a.price :
+                              ((365 - DateTime.Parse(a.date_s).DayOfYear) + DateTime.Parse(date).DayOfYear) < 365 ? a.price :
+                              ((DateTime.Parse(date).Year) - (DateTime.Parse(a.date_s).Year)) * 
+                              ((float)b.Interest) * (a.price) +a.price
                           };
                 SavingWallet saving = log.Where(m => m.id_saving.ToString() == id_saving).FirstOrDefault();
-                _context.SavingWallet.Update(saving);
+                SavingWallet saving1 = _context.SavingWallet.Where(m => m.id_saving.ToString() == id_saving).FirstOrDefault();
+                saving1.price_end = saving.price_end;
+                saving1.is_Finnish = saving.is_Finnish;
+                _context.SavingWallet.Update(saving1);
                 _context.SaveChanges();
                 ResponseModel res1 = new ResponseModel("Transactions success", null, "404");
                 return res1;

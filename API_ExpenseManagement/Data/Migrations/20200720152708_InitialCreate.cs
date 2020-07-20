@@ -109,6 +109,19 @@ namespace API_ExpenseManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EndSavingWallet",
+                columns: table => new
+                {
+                    id_end = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    id_saving = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EndSavingWallet", x => x.id_end);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "getBill",
                 columns: table => new
                 {
@@ -359,6 +372,7 @@ namespace API_ExpenseManagement.Data.Migrations
                     price_trans = table.Column<float>(nullable: false),
                     date_trans = table.Column<string>(nullable: true),
                     is_Income = table.Column<bool>(nullable: false),
+                    is_End = table.Column<bool>(nullable: false),
                     id_saving = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -524,6 +538,9 @@ namespace API_ExpenseManagement.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Custom");
+
+            migrationBuilder.DropTable(
+                name: "EndSavingWallet");
 
             migrationBuilder.DropTable(
                 name: "getBill");

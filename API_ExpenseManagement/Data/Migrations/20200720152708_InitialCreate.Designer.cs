@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_ExpenseManagement.Data.Migrations
 {
     [DbContext(typeof(ExpenseManagementContext))]
-    [Migration("20200720114727_InitialCreate")]
+    [Migration("20200720152708_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -160,6 +160,19 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasKey("Id_Custom");
 
                     b.ToTable("Custom");
+                });
+
+            modelBuilder.Entity("API_ExpenseManagement.Models.EndSavingWallet", b =>
+                {
+                    b.Property<int>("id_end")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("id_saving");
+
+                    b.HasKey("id_end");
+
+                    b.ToTable("EndSavingWallet");
                 });
 
             modelBuilder.Entity("API_ExpenseManagement.Models.getBill", b =>
@@ -472,6 +485,8 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.Property<string>("date_trans");
 
                     b.Property<string>("id_saving");
+
+                    b.Property<bool>("is_End");
 
                     b.Property<bool>("is_Income");
 
