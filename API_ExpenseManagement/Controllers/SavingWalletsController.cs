@@ -52,6 +52,7 @@ namespace API_ExpenseManagement.Controllers
                     var log = from a in _context.SavingWallet
                               join b in _context.Bank
                               on a.id_bank equals b.Id_Bank.ToString()
+                              where(a.id_saving == savingWallet.id_saving)
                               select new
                               {
                                   id_saving = a.id_saving,
@@ -72,9 +73,6 @@ namespace API_ExpenseManagement.Controllers
                     }
                 }
                 _context.SaveChanges();
-                //var log = _context.SavingWallet.
-                //Where(x => x.id_user.Equals(id)).AsEnumerable();
-                //var queryUrl = "/api/GetWallets/5?userId=" + id;  
                 ResponseModel res = new ResponseModel("Saving wallets", list, "200");
                 return res;
             }    

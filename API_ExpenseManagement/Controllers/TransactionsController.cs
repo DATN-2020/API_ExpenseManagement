@@ -104,16 +104,37 @@ namespace API_ExpenseManagement.Controllers
             transactions.date_trans = date;
             transactions.id_saving = id_saving;
             transactions.is_Income = is_Income;
-            //if(is_End == true)
-            //{
-            //    savingWallet.is_Finnish = true;
-            //    if(savingWallet.id_bank == "1")
-            //    {
-            //        savingWallet.price_end = ((DateTime.Today.DayOfYear + DateTime.Parse(savingWallet.date_s).DayOfYear)/365)
-            //            *6.00*savingWallet.price; 
-            //    }    
-            //}    
-            if(is_Income == true)
+            double t = 6.00;
+            int x = (int)t;
+            float test = (DateTime.Parse(savingWallet.date_s).Year == DateTime.Parse(date).Year) ? savingWallet.price :
+                              ((365 - (DateTime.Parse(savingWallet.date_s).DayOfYear)) + (DateTime.Parse(date).DayOfYear)
+                              + ((DateTime.Parse(date).Year) - (DateTime.Parse(savingWallet.date_s).Year - 1)) * 365) / 365 *
+                              ((float)t / 100) * (savingWallet.price);
+            if (is_End == true)
+            {
+                savingWallet.is_Finnish = true;
+                //var saving = _context.SavingWallet.Where(m => m.id_saving.ToString() == id_saving);
+                var log = from a in _context.SavingWallet
+                          join b in _context.Bank
+                          on a.id_bank equals b.Id_Bank.ToString()
+                          where(a.id_saving.ToString() == id_saving)
+                          select new SavingWallet
+                          {
+                              id_saving = a.id_saving,
+                              is_Finnish = true,
+                              price_end =(DateTime.Parse(a.date_s).Year == DateTime.Parse(date).Year) ? 
+                              a.price :
+                              ((365 - (DateTime.Parse(a.date_s).DayOfYear)) + (DateTime.Parse(date).DayOfYear) 
+                              + ((DateTime.Parse(date).Year) - (DateTime.Parse(a.date_s).Year - 1))*365)/365 * 
+                              ((float)b.Interest / 100) * (a.price)
+                          };
+                SavingWallet saving = log.Where(m => m.id_saving.ToString() == id_saving).FirstOrDefault();
+                _context.SavingWallet.Update(saving);
+                _context.SaveChanges();
+                ResponseModel res1 = new ResponseModel("Transactions success", null, "404");
+                return res1;
+            }
+            if (is_Income == true)
             {
                 savingWallet.price = savingWallet.price + price;
             }    
