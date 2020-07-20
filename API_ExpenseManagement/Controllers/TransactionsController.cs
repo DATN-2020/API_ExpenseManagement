@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using API_ExpenseManagement.Context;
 using API_ExpenseManagement.Models;
 using Newtonsoft.Json.Linq;
+using System.Collections;
 
 namespace API_ExpenseManagement.Controllers
 {
@@ -31,21 +32,21 @@ namespace API_ExpenseManagement.Controllers
 
         // GET: api/Transactions/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTransactions([FromRoute] int id)
+        public ResponseModel GetTransactions([FromQuery] string id)
         {
-            if (!ModelState.IsValid)
+            var log = _context.Transactions.
+            Where(x => x.id_saving.Equals(id)).AsEnumerable();
+            //var queryUrl = "/api/GetWallets/5?userId=" + id;  
+            if (log == null)
             {
-                return BadRequest(ModelState);
+                ResponseModel res = new ResponseModel("Fail", null, "404");
+                return res;
             }
-
-            var transactions = await _context.Transactions.FindAsync(id);
-
-            if (transactions == null)
+            else
             {
-                return NotFound();
+                ResponseModel res = new ResponseModel("Transactions", log, "200");
+                return res;
             }
-
-            return Ok(transactions);
         }
 
         // PUT: api/Transactions/5
@@ -91,6 +92,8 @@ namespace API_ExpenseManagement.Controllers
             string name = transactions.name_trans;
             string date = transactions.date_trans;
             string id_saving = transactions.id_saving;
+            bool is_Income = transactions.is_Income;
+            bool is_End = transactions.is_End;
             SavingWallet savingWallet = _context.SavingWallet.Where(m => m.id_saving.ToString() == id_saving).FirstOrDefault();
             if(savingWallet == null)
             {
@@ -100,11 +103,21 @@ namespace API_ExpenseManagement.Controllers
             transactions.price_trans = price;
             transactions.date_trans = date;
             transactions.id_saving = id_saving;
-            if(name == "Gửi vào")
+            transactions.is_Income = is_Income;
+            //if(is_End == true)
+            //{
+            //    savingWallet.is_Finnish = true;
+            //    if(savingWallet.id_bank == "1")
+            //    {
+            //        savingWallet.price_end = ((DateTime.Today.DayOfYear + DateTime.Parse(savingWallet.date_s).DayOfYear)/365)
+            //            *6.00*savingWallet.price; 
+            //    }    
+            //}    
+            if(is_Income == true)
             {
                 savingWallet.price = savingWallet.price + price;
             }    
-            if(name == "Rút ra")
+            if(is_Income == false)
             {
                 savingWallet.price = savingWallet.price - price;
             }

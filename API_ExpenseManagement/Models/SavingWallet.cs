@@ -17,5 +17,6 @@ namespace API_ExpenseManagement.Models
         public string date_e { get; set; }
         public string id_bank { get; set; }
         public bool is_Finnish { get; set; }
+        public string id_user { get; set; }
     }
 }

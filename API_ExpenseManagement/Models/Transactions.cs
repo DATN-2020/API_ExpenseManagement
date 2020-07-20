@@ -13,6 +13,8 @@ namespace API_ExpenseManagement.Models
         public string name_trans { get; set; }
         public float price_trans { get; set; }
         public string date_trans { get; set; }
+        public bool is_Income { get; set; }
+        public bool is_End { get; set; }
         public string id_saving { get; set; }
     }
 }

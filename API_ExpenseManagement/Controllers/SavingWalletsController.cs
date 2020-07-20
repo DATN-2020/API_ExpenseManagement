@@ -33,41 +33,51 @@ namespace API_ExpenseManagement.Controllers
         [HttpGet("{id}")]
         public ResponseModel GetSavingWallet([FromQuery] string id)
         {
-            var saving = _context.SavingWallet.Where(w => w.id_saving.ToString() == id);
+            var saving = _context.SavingWallet.Where(w => w.id_user.ToString() == id);
             var list = new ArrayList();
-            foreach (SavingWallet savingWallet in saving)
+            if(saving == null)
             {
-                if (DateTime.Parse(savingWallet.date_e) <= DateTime.Today)
-                {
-                    savingWallet.is_Finnish = true;
-                    _context.SavingWallet.Update(savingWallet);
-                }
-            }
-            _context.SaveChanges();
-            foreach (SavingWallet savingWallet in saving)
+                ResponseModel res1 = new ResponseModel("Saving wallets", null, "200");
+                return res1;
+            }    
+            else
             {
-                var log = from a in _context.SavingWallet
-                          join b in _context.Bank
-                          on a.id_bank equals b.Id_Bank.ToString()
-                          select new
-                          {
-                              id_saving = a.id_saving,
-                              name = a.name_saving,
-                              price = a.price,
-                              date_s = a.date_s,
-                              date_e = a.date_e,
-                              is_finnish = a.is_Finnish,
-                              name_bank = b.Name_Bank,
-                              interest = b.Interest
-                          };
-                var get = log.Where(m => m.id_saving.Equals(id)).AsEnumerable();
-                foreach (object l in get)
+                foreach (SavingWallet savingWallet in saving)
                 {
-                    list.Add(l);
+                    if (DateTime.Parse(savingWallet.date_e) <= DateTime.Today)
+                    {
+                        savingWallet.is_Finnish = true;
+                        _context.SavingWallet.Update(savingWallet);
+                    }
+                    var log = from a in _context.SavingWallet
+                              join b in _context.Bank
+                              on a.id_bank equals b.Id_Bank.ToString()
+                              select new
+                              {
+                                  id_saving = a.id_saving,
+                                  name = a.name_saving,
+                                  date_e = a.date_e,
+                                  date_s = a.date_s,
+                                  price = a.price,
+                                  price_end = a.price_end,
+                                  is_Finish = a.is_Finnish,
+                                  name_bank = b.Name_Bank,
+                                  interest = b.Interest,
+                                  id_user = a.id_user
+                              };
+                    var get = log.Where(m => m.id_user.Equals(id)).AsEnumerable();
+                    foreach (object l in get)
+                    {
+                        list.Add(l);
+                    }
                 }
-            }
-            ResponseModel res1 = new ResponseModel("Saving Wallet", list, "200");
-            return res1;
+                _context.SaveChanges();
+                //var log = _context.SavingWallet.
+                //Where(x => x.id_user.Equals(id)).AsEnumerable();
+                //var queryUrl = "/api/GetWallets/5?userId=" + id;  
+                ResponseModel res = new ResponseModel("Saving wallets", list, "200");
+                return res;
+            }    
         }
 
         // PUT: api/SavingWallets/5
@@ -124,11 +134,16 @@ namespace API_ExpenseManagement.Controllers
             string date_e = savingWallet.date_e;
             float price = savingWallet.price;
             string id_bank = savingWallet.id_bank;
+            string id_user = savingWallet.id_user;
             if(savingWallet == null)
             {
                 ResponseModel res1 = new ResponseModel("Create fail", null, "404");
                 return res1;
             }
+            if(id_user == null)
+            {
+                savingWallet.id_user = "1";
+            }    
             savingWallet.name_saving = name;
             savingWallet.date_e = date_e;
             savingWallet.date_s = date_s;
@@ -136,6 +151,7 @@ namespace API_ExpenseManagement.Controllers
             savingWallet.price_end = 0;
             savingWallet.is_Finnish = false;
             savingWallet.id_bank = id_bank;
+            savingWallet.id_user = id_user;
             _context.SavingWallet.Add(savingWallet);
             _context.SaveChanges();
             ResponseModel res = new ResponseModel("Create success", null, "404");

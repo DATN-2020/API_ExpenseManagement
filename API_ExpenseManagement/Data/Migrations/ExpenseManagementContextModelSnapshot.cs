@@ -378,6 +378,8 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<string>("id_bank");
 
+                    b.Property<string>("id_user");
+
                     b.Property<bool>("is_Finnish");
 
                     b.Property<string>("name_saving");
@@ -468,6 +470,8 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.Property<string>("date_trans");
 
                     b.Property<string>("id_saving");
+
+                    b.Property<bool>("is_Income");
 
                     b.Property<string>("name_trans");
 

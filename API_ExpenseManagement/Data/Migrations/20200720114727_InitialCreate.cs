@@ -294,7 +294,8 @@ namespace API_ExpenseManagement.Data.Migrations
                     price_end = table.Column<float>(nullable: false),
                     date_e = table.Column<string>(nullable: true),
                     id_bank = table.Column<string>(nullable: true),
-                    is_Finnish = table.Column<bool>(nullable: false)
+                    is_Finnish = table.Column<bool>(nullable: false),
+                    id_user = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -357,6 +358,7 @@ namespace API_ExpenseManagement.Data.Migrations
                     name_trans = table.Column<string>(nullable: true),
                     price_trans = table.Column<float>(nullable: false),
                     date_trans = table.Column<string>(nullable: true),
+                    is_Income = table.Column<bool>(nullable: false),
                     id_saving = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
