@@ -366,6 +366,31 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.ToTable("Periodic");
                 });
 
+            modelBuilder.Entity("API_ExpenseManagement.Models.SavingWallet", b =>
+                {
+                    b.Property<int>("id_saving")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("date_e");
+
+                    b.Property<string>("date_s");
+
+                    b.Property<string>("id_bank");
+
+                    b.Property<bool>("is_Finnish");
+
+                    b.Property<string>("name_saving");
+
+                    b.Property<float>("price");
+
+                    b.Property<float>("price_end");
+
+                    b.HasKey("id_saving");
+
+                    b.ToTable("SavingWallet");
+                });
+
             modelBuilder.Entity("API_ExpenseManagement.Models.Summary", b =>
                 {
                     b.Property<int>("id_Summary")
@@ -432,6 +457,25 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.HasKey("id_Time");
 
                     b.ToTable("Time_Periodic");
+                });
+
+            modelBuilder.Entity("API_ExpenseManagement.Models.Transactions", b =>
+                {
+                    b.Property<int>("id_trans")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("date_trans");
+
+                    b.Property<string>("id_saving");
+
+                    b.Property<string>("name_trans");
+
+                    b.Property<float>("price_trans");
+
+                    b.HasKey("id_trans");
+
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("API_ExpenseManagement.Models.Transfers", b =>

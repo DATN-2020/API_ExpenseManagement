@@ -283,6 +283,25 @@ namespace API_ExpenseManagement.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "SavingWallet",
+                columns: table => new
+                {
+                    id_saving = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    name_saving = table.Column<string>(nullable: true),
+                    date_s = table.Column<string>(nullable: true),
+                    price = table.Column<float>(nullable: false),
+                    price_end = table.Column<float>(nullable: false),
+                    date_e = table.Column<string>(nullable: true),
+                    id_bank = table.Column<string>(nullable: true),
+                    is_Finnish = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SavingWallet", x => x.id_saving);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Summary",
                 columns: table => new
                 {
@@ -327,6 +346,22 @@ namespace API_ExpenseManagement.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Time_Periodic", x => x.id_Time);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Transactions",
+                columns: table => new
+                {
+                    id_trans = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    name_trans = table.Column<string>(nullable: true),
+                    price_trans = table.Column<float>(nullable: false),
+                    date_trans = table.Column<string>(nullable: true),
+                    id_saving = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transactions", x => x.id_trans);
                 });
 
             migrationBuilder.CreateTable(
@@ -522,10 +557,16 @@ namespace API_ExpenseManagement.Data.Migrations
                 name: "Periodic");
 
             migrationBuilder.DropTable(
+                name: "SavingWallet");
+
+            migrationBuilder.DropTable(
                 name: "Summary");
 
             migrationBuilder.DropTable(
                 name: "Time_Periodic");
+
+            migrationBuilder.DropTable(
+                name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "Transfers");
