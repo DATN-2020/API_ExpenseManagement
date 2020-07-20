@@ -372,7 +372,6 @@ namespace API_ExpenseManagement.Data.Migrations
                     price_trans = table.Column<float>(nullable: false),
                     date_trans = table.Column<string>(nullable: true),
                     is_Income = table.Column<bool>(nullable: false),
-                    is_End = table.Column<bool>(nullable: false),
                     id_saving = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

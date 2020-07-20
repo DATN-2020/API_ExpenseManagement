@@ -484,8 +484,6 @@ namespace API_ExpenseManagement.Data.Migrations
 
                     b.Property<string>("id_saving");
 
-                    b.Property<bool>("is_End");
-
                     b.Property<bool>("is_Income");
 
                     b.Property<string>("name_trans");

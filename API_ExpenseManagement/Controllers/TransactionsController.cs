@@ -93,7 +93,6 @@ namespace API_ExpenseManagement.Controllers
             string date = transactions.date_trans;
             string id_saving = transactions.id_saving;
             bool is_Income = transactions.is_Income;
-            bool is_End = transactions.is_End;
             SavingWallet savingWallet = _context.SavingWallet.Where(m => m.id_saving.ToString() == id_saving).FirstOrDefault();
             if(savingWallet == null)
             {
@@ -104,32 +103,7 @@ namespace API_ExpenseManagement.Controllers
             transactions.date_trans = date;
             transactions.id_saving = id_saving;
             transactions.is_Income = is_Income;
-            if (is_End == true)
-            {
-                savingWallet.is_Finnish = true;
-                //var saving = _context.SavingWallet.Where(m => m.id_saving.ToString() == id_saving);
-                var log = from a in _context.SavingWallet
-                          join b in _context.Bank
-                          on a.id_bank equals b.Id_Bank.ToString()
-                          where(a.id_saving.ToString() == id_saving)
-                          select new SavingWallet
-                          {
-                              id_saving = a.id_saving,
-                              is_Finnish = true,
-                              price_end = (DateTime.Parse(a.date_s).Year == DateTime.Parse(date).Year) ? a.price :
-                              ((365 - DateTime.Parse(a.date_s).DayOfYear) + DateTime.Parse(date).DayOfYear) < 365 ? a.price :
-                              ((DateTime.Parse(date).Year) - (DateTime.Parse(a.date_s).Year)) * 
-                              ((float)b.Interest) * (a.price) +a.price
-                          };
-                SavingWallet saving = log.Where(m => m.id_saving.ToString() == id_saving).FirstOrDefault();
-                SavingWallet saving1 = _context.SavingWallet.Where(m => m.id_saving.ToString() == id_saving).FirstOrDefault();
-                saving1.price_end = saving.price_end;
-                saving1.is_Finnish = saving.is_Finnish;
-                _context.SavingWallet.Update(saving1);
-                _context.SaveChanges();
-                ResponseModel res1 = new ResponseModel("Transactions success", null, "404");
-                return res1;
-            }
+            
             if (is_Income == true)
             {
                 savingWallet.price = savingWallet.price + price;

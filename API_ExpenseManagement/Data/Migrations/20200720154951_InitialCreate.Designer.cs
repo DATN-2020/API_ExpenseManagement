@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_ExpenseManagement.Data.Migrations
 {
     [DbContext(typeof(ExpenseManagementContext))]
-    [Migration("20200720152708_InitialCreate")]
+    [Migration("20200720154951_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -485,8 +485,6 @@ namespace API_ExpenseManagement.Data.Migrations
                     b.Property<string>("date_trans");
 
                     b.Property<string>("id_saving");
-
-                    b.Property<bool>("is_End");
 
                     b.Property<bool>("is_Income");
 
