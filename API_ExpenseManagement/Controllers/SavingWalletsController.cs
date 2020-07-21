@@ -39,17 +39,22 @@ namespace API_ExpenseManagement.Controllers
             {
                 ResponseModel res1 = new ResponseModel("Saving wallets", null, "200");
                 return res1;
-            }    
-            else
+            }
+            foreach(SavingWallet saving1 in saving)
             {
-                foreach (SavingWallet savingWallet in saving)
+                if (DateTime.Parse(saving1.date_e) <= DateTime.Today)
                 {
-                    if (DateTime.Parse(savingWallet.date_e) <= DateTime.Today)
-                    {
-                        savingWallet.is_Finnish = true;
-                        _context.SavingWallet.Update(savingWallet);
-                    }
-                    var log = from a in _context.SavingWallet
+                    saving1.is_Finnish = true;
+                    _context.SavingWallet.Update(saving1);
+                }
+                
+            }
+            _context.SaveChanges();
+            var saving_ = _context.SavingWallet.Where(w => w.id_user.ToString() == id);
+            foreach (SavingWallet savingWallet in saving_)
+                {
+                    
+                var log = from a in _context.SavingWallet
                               join b in _context.Bank
                               on a.id_bank equals b.Id_Bank.ToString()
                               where(a.id_saving == savingWallet.id_saving)
@@ -71,41 +76,40 @@ namespace API_ExpenseManagement.Controllers
                     {
                         list.Add(l);
                     }
-                }
-                _context.SaveChanges();
-                ResponseModel res = new ResponseModel("Saving wallets", list, "200");
-                return res;
-            }    
+            }
+            ResponseModel res = new ResponseModel("Saving wallets", list, "200");
+            return res;
         }
 
         // PUT: api/SavingWallets/5
         [HttpPut("{id}")]
-        public ResponseModel PutSavingWallet([FromRoute] string id, [FromBody] SavingWallet savingWallet)
+        public ResponseModel PutSavingWallet([FromQuery] string id, [FromBody] SavingWallet savingWallet)
         {
-            string id_saving = savingWallet.id_saving.ToString();
-            string date = savingWallet.date_s;
+            //string id_saving = savingWallet.id_saving.ToString();
+            //string date = savingWallet.date_s;
             savingWallet.is_Finnish = true;
             var log = from a in _context.SavingWallet
                       join b in _context.Bank
                       on a.id_bank equals b.Id_Bank.ToString()
-                      where (a.id_saving.ToString() == id_saving)
+                      where (a.id_saving.ToString() == id)
                       select new SavingWallet
                       {
                           id_saving = a.id_saving,
                           is_Finnish = true,
-                          date_s = DateTime.Today.ToString(),
-                          price_end = (DateTime.Parse(a.date_s).Year == DateTime.Parse(date).Year) ? a.price :
-                          ((365 - DateTime.Parse(a.date_s).DayOfYear) + DateTime.Parse(date).DayOfYear) < 365 ? a.price :
-                          ((DateTime.Parse(date).Year) - (DateTime.Parse(a.date_s).Year)) *
+                          date_e = DateTime.Today.ToString(),
+                          price_end = (DateTime.Parse(a.date_s).Year == DateTime.Today.Year) ? a.price :
+                          ((365 - DateTime.Parse(a.date_s).DayOfYear) + DateTime.Today.DayOfYear) < 365 ? a.price :
+                          (DateTime.Today.Year - (DateTime.Parse(a.date_s).Year)) *
                           ((float)b.Interest) * (a.price) + a.price
                       };   
-            SavingWallet saving = log.Where(m => m.id_saving.ToString() == id_saving).FirstOrDefault();
-            savingWallet = _context.SavingWallet.Where(m => m.id_saving.ToString() == id_saving).FirstOrDefault();
+            SavingWallet saving = log.Where(m => m.id_saving.ToString() == id).FirstOrDefault();
+            savingWallet = _context.SavingWallet.Where(m => m.id_saving.ToString() == id).FirstOrDefault();
             if (savingWallet == null)
             {
                 ResponseModel res = new ResponseModel("Fail", null, "404");
                 return res;
             }
+            savingWallet.date_e = saving.date_e;
             savingWallet.price_end = saving.price_end;
             savingWallet.is_Finnish = saving.is_Finnish;
             _context.SavingWallet.Update(savingWallet);
