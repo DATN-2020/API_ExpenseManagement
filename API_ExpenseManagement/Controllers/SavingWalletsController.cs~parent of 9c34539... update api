@@ -82,36 +82,45 @@ namespace API_ExpenseManagement.Controllers
         [HttpPut("{id}")]
         public ResponseModel PutSavingWallet([FromRoute] string id, [FromBody] SavingWallet savingWallet)
         {
-            string id_saving = savingWallet.id_saving.ToString();
-            string date = savingWallet.date_s;
-            savingWallet.is_Finnish = true;
-            var log = from a in _context.SavingWallet
-                      join b in _context.Bank
-                      on a.id_bank equals b.Id_Bank.ToString()
-                      where (a.id_saving.ToString() == id_saving)
-                      select new SavingWallet
-                      {
-                          id_saving = a.id_saving,
-                          is_Finnish = true,
-                          date_s = DateTime.Today.ToString(),
-                          price_end = (DateTime.Parse(a.date_s).Year == DateTime.Parse(date).Year) ? a.price :
-                          ((365 - DateTime.Parse(a.date_s).DayOfYear) + DateTime.Parse(date).DayOfYear) < 365 ? a.price :
-                          ((DateTime.Parse(date).Year) - (DateTime.Parse(a.date_s).Year)) *
-                          ((float)b.Interest) * (a.price) + a.price
-                      };   
-            SavingWallet saving = log.Where(m => m.id_saving.ToString() == id_saving).FirstOrDefault();
-            savingWallet = _context.SavingWallet.Where(m => m.id_saving.ToString() == id_saving).FirstOrDefault();
-            if (savingWallet == null)
+            string name = savingWallet.name_saving;
+            string date_s = savingWallet.date_s;
+            string date_e = savingWallet.date_e;
+            float price = savingWallet.price;
+            string id_bank = savingWallet.id_bank;
+            if (!ModelState.IsValid)
             {
-                ResponseModel res = new ResponseModel("Fail", null, "404");
+                ResponseModel res = new ResponseModel("Update fail", null, "404");
                 return res;
             }
-            savingWallet.price_end = saving.price_end;
-            savingWallet.is_Finnish = saving.is_Finnish;
-            _context.SavingWallet.Update(savingWallet);
-            _context.SaveChanges();
-            ResponseModel res1 = new ResponseModel("Success", null, "404");
-            return res1;
+
+            //if (id != savingWallet.id_saving.ToString())
+            //{
+            //    ResponseModel res = new ResponseModel("Update fail", null, "404");
+            //    return res;
+            //}
+            savingWallet = _context.SavingWallet.Where(m => m.id_saving.ToString() == id).FirstOrDefault();
+            if(savingWallet == null)
+            {
+                ResponseModel res = new ResponseModel("Update fail", null, "404");
+                return res;
+            }    
+            savingWallet.name_saving = name;
+            savingWallet.date_e = date_e;
+            savingWallet.date_s = date_s;
+            savingWallet.price = price;
+            savingWallet.id_bank = id_bank;
+            try
+            {
+                _context.SavingWallet.Update(savingWallet);
+                _context.SaveChanges();
+                ResponseModel res = new ResponseModel("Update success", null, "404");
+                return res;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                ResponseModel res = new ResponseModel("Not found", null, "404");
+                return res;
+            }
         }
 
         // POST: api/SavingWallets
