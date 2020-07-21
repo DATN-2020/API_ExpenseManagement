@@ -39,20 +39,17 @@ namespace API_ExpenseManagement.Controllers
             {
                 ResponseModel res1 = new ResponseModel("Saving wallets", null, "200");
                 return res1;
-            }
-            foreach (SavingWallet saving1 in saving)
+            }    
+            else
             {
-                if (DateTime.Parse(saving1.date_e) <= DateTime.Today)
+                foreach (SavingWallet savingWallet in saving)
                 {
-                    saving1.is_Finnish = true;
-                    _context.SavingWallet.Update(saving1);
-                }
-            }
-            _context.SaveChanges();
-            var saving_ = _context.SavingWallet.Where(w => w.id_user.ToString() == id);
-            foreach (SavingWallet savingWallet in saving_)
-                {
-                var log = from a in _context.SavingWallet
+                    if (DateTime.Parse(savingWallet.date_e) <= DateTime.Today)
+                    {
+                        savingWallet.is_Finnish = true;
+                        _context.SavingWallet.Update(savingWallet);
+                    }
+                    var log = from a in _context.SavingWallet
                               join b in _context.Bank
                               on a.id_bank equals b.Id_Bank.ToString()
                               where(a.id_saving == savingWallet.id_saving)
@@ -75,14 +72,15 @@ namespace API_ExpenseManagement.Controllers
                         list.Add(l);
                     }
                 }
-                
+                _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Saving wallets", list, "200");
                 return res;
+            }    
         }
 
         // PUT: api/SavingWallets/5
         [HttpPut("{id}")]
-        public ResponseModel PutSavingWallet(/*[FromRoute] string id, */[FromBody] SavingWallet savingWallet)
+        public ResponseModel PutSavingWallet([FromRoute] string id, [FromBody] SavingWallet savingWallet)
         {
             string id_saving = savingWallet.id_saving.ToString();
             string date = savingWallet.date_s;
