@@ -95,6 +95,7 @@ namespace API_ExpenseManagement.Controllers
                       {
                           id_saving = a.id_saving,
                           is_Finnish = true,
+                          date_s = DateTime.Today.ToString(),
                           price_end = (DateTime.Parse(a.date_s).Year == DateTime.Parse(date).Year) ? a.price :
                           ((365 - DateTime.Parse(a.date_s).DayOfYear) + DateTime.Parse(date).DayOfYear) < 365 ? a.price :
                           ((DateTime.Parse(date).Year) - (DateTime.Parse(a.date_s).Year)) *
