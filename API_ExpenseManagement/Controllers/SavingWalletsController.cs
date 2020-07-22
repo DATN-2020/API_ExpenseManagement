@@ -85,13 +85,13 @@ namespace API_ExpenseManagement.Controllers
         [HttpPut("{id}")]
         public ResponseModel PutSavingWallet([FromQuery] string id, [FromBody] SavingWallet savingWallet)
         {
-            //string id_saving = savingWallet.id_saving.ToString();
+            string id_saving = savingWallet.id_saving.ToString();
             //string date = savingWallet.date_s;
             savingWallet.is_Finnish = true;
             var log = from a in _context.SavingWallet
                       join b in _context.Bank
                       on a.id_bank equals b.Id_Bank.ToString()
-                      where (a.id_saving.ToString() == id)
+                      where (a.id_saving.ToString() == id_saving)
                       select new SavingWallet
                       {
                           id_saving = a.id_saving,
@@ -102,8 +102,8 @@ namespace API_ExpenseManagement.Controllers
                           (DateTime.Today.Year - (DateTime.Parse(a.date_s).Year)) *
                           ((float)b.Interest) * (a.price) + a.price
                       };   
-            SavingWallet saving = log.Where(m => m.id_saving.ToString() == id).FirstOrDefault();
-            savingWallet = _context.SavingWallet.Where(m => m.id_saving.ToString() == id).FirstOrDefault();
+            SavingWallet saving = log.Where(m => m.id_saving.ToString() == id_saving).FirstOrDefault();
+            savingWallet = _context.SavingWallet.Where(m => m.id_saving.ToString() == id_saving).FirstOrDefault();
             if (savingWallet == null)
             {
                 ResponseModel res = new ResponseModel("Fail", null, "404");
