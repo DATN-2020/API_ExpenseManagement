@@ -217,8 +217,8 @@ namespace API_ExpenseManagement.Controllers
                     {
                         budget.Remain = budget.Remain + amount;
                     }
-                    wallet.Amount_now = wallet.Amount_now - budget.Amount_Budget;
-                    _context.Wallets.Update(wallet);
+                    //wallet.Amount_now = wallet.Amount_now - budget.Amount_Budget;
+                    //_context.Wallets.Update(wallet);
                     _context.Budget.Update(budget);
                     _context.SaveChanges();
                 }    
