@@ -50,9 +50,9 @@ namespace API_ExpenseManagement.Controllers
                               join c in _context.TypeCategories
                               on a.Id_type equals c.Id_type.ToString()
                               where (a.CategoryId_Cate == null && DateTime.Parse(a.Date_come).Month == DateTime.Parse(date).Month
-                              && a.Id_come == income_.Id_come 
-                              && a.Date_come == income_.Date_come &&
-                              DateTime.Parse(a.Date_come).Year == DateTime.Parse(date).Year)
+                              && DateTime.Parse(a.Date_come).Year == DateTime.Parse(date).Year
+                              && a.Id_come == income_.Id_come
+                              && DateTime.Parse(a.Date_come).Year == DateTime.Parse(date).Year)
                               select new
                               {
                                   idwallet = a.WalletId_Wallet,
@@ -193,16 +193,13 @@ namespace API_ExpenseManagement.Controllers
             income.Id_Budget = id_budget;
             income.Id_Per = id_per;
             income.Id_type = id_type;
-            if(id_wallet == null)
-            {
-                id_wallet = "1";
-            }    
             Wallet wallet = _context.Wallets.Where(m => m.Id_Wallet.ToString() == id_wallet).FirstOrDefault();
 
-            //if (id_bill != "1" || id_budget != "1" || id_per != "1")
-            //{
-            //    wallet.Amount_Wallet = wallet.Amount_Wallet - amount;
-            //}
+
+            if (wallet.Id_Type_Wallet != "1" && amount > wallet.Amount_now && income_Outcome.Id_type != "12" && income_Outcome.Id_type != "13" && income_Outcome.Id_type != "14" && income_Outcome.Id_type != "15" && income_Outcome.Id_type != "16" && income_Outcome.Id_type != "18") {
+                ResponseModel res = new ResponseModel("Ví tiền hiện tại của bạn không đủ thực hiện thao tác này", null, "404");
+                return res;
+            }
    
             try
             {
@@ -210,17 +207,21 @@ namespace API_ExpenseManagement.Controllers
                 {
                     income.Date_come = DateTime.Today.ToString();
                 }    
+
                 if(id_budget != null)
                 {
                     Budget budget = _context.Budget.Where(m => m.Id_Budget.ToString() == id_budget).FirstOrDefault();
-                    if (id_type != "12" || id_type != "13" || id_type != "14" || id_type != "15" || id_type != "16" || id_type != "18")
-                    {
-                        budget.Remain = budget.Remain + amount;
+                    if (budget.time_s.Ticks < DateTime.Parse(income.Date_come).Ticks && budget.time_e.Ticks > DateTime.Parse(income.Date_come).Ticks) {
+                        if (id_type != "12" || id_type != "13" || id_type != "14" || id_type != "15" || id_type != "16" || id_type != "18")
+                        {
+                            budget.Remain = budget.Remain + amount;
+                        }
+                        else
+                        {
+                            budget.Remain = budget.Remain - amount;
+                        }
+                        _context.Budget.Update(budget);
                     }
-                    //wallet.Amount_now = wallet.Amount_now - budget.Amount_Budget;
-                    //_context.Wallets.Update(wallet);
-                    _context.Budget.Update(budget);
-                    _context.SaveChanges();
                 }    
                 if (id_bill != null)
                 {
@@ -231,18 +232,19 @@ namespace API_ExpenseManagement.Controllers
                     income.Date_come = DateTime.Today.ToString();
                     wallet.Amount_now = wallet.Amount_now - bill.Amount_Bill;
                     income.Amount = bill.Amount_Bill;
-                    _context.Wallets.Update(wallet);
                     _context.Bill.Update(bill);
                 }
+
                 if (id_type == "12" || id_type == "13" || id_type == "14" || id_type == "15" || id_type == "16" || id_type == "18")
                 {
                     income.Is_Come = true;
                     wallet.Amount_now = wallet.Amount_now + amount;
                 }
-                if (id_bill == null || id_budget == null || id_per == null)
-                {
+                else {
                     wallet.Amount_now = wallet.Amount_now - amount;
                 }
+
+                _context.Wallets.Update(wallet);
                 _context.Income_Outcomes.Add(income);
                 _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Create success", null, "200");

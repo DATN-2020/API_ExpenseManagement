@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using API_ExpenseManagement.Context;
 using API_ExpenseManagement.Models;
+using System.Collections;
 
 namespace API_ExpenseManagement.Controllers
 {
@@ -55,24 +56,32 @@ namespace API_ExpenseManagement.Controllers
             string name = wallet.Name_Wallet;
             float amount = wallet.Amount_Wallet;
             string disciption = wallet.Description;
-            wallet = _context.Wallets.Where(m => m.Id_Wallet == id).FirstOrDefault();
+            Wallet walletFind = _context.Wallets.Where(m => m.Id_Wallet == id).FirstOrDefault();
             if (!ModelState.IsValid)
             {
                 ResponseModel res = new ResponseModel("Update fail", null, "404");
                 return res;
             }
 
-            if (id != wallet.Id_Wallet)
+            if (walletFind == null)
             {
                 ResponseModel res = new ResponseModel("Update fail", null, "404");
                 return res;
             }
-            
-
-            wallet.Name_Wallet = name;
-            wallet.Amount_Wallet = amount;
-            wallet.Description = disciption;
             Income_Outcome income = new Income_Outcome();
+            walletFind.Name_Wallet = name;
+            walletFind.Description = disciption;
+            if (amount < walletFind.Amount_Wallet)
+            {
+                income.Is_Come = false;
+                walletFind.Amount_now = walletFind.Amount_Wallet - amount;
+            }
+            else {
+                income.Is_Come = true;
+                walletFind.Amount_now = amount - walletFind.Amount_Wallet;
+            }
+            walletFind.Amount_Wallet = amount;
+            
             income.Amount = amount;
             income.Description_come = "Cập nhật ví " + name;
             income.Id_type = "16";
@@ -81,10 +90,9 @@ namespace API_ExpenseManagement.Controllers
             try
             {
                 _context.Income_Outcomes.Add(income);
-                _context.Entry(wallet).State = EntityState.Modified;
-                _context.Wallets.Update(wallet);
+                _context.Wallets.Update(walletFind);
                 _context.SaveChanges();
-                ResponseModel res = new ResponseModel("Update success", null, "404");
+                ResponseModel res = new ResponseModel("Update success", null, "200");
                 return res;
             }
             catch (DbUpdateConcurrencyException)

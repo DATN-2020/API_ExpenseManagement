@@ -89,10 +89,6 @@ namespace API_ExpenseManagement.Controllers
                     {
                         list.Add(l);
                     }
-                    //foreach (object l in get)
-                    //{
-                    //    list_date.Add(list);
-                    //}
                 }
             }
             ResponseModel res = new ResponseModel("Income", list, "200");
@@ -121,22 +117,6 @@ namespace API_ExpenseManagement.Controllers
             bill.date_s = date_s;
             bill.isEdit = isEdit;
             bill.id_Time = id_time;
-            //if (bill.Id_Wallet == 0)
-            //{
-            //    bill.Id_Wallet = 1;
-            //}
-            //if (bill.Id_Category == 0)
-            //{
-            //    bill.Id_Category = 1;
-            //}
-            //if (bill.Id_Type == 0)
-            //{
-            //    bill.Id_Type = 1;
-            //}
-            //if (bill.id_Time == 0)
-            //{
-            //    bill.id_Time = 1;
-            //}
             try
             {
                 if(bill.isEdit == false)
@@ -172,32 +152,6 @@ namespace API_ExpenseManagement.Controllers
                 ResponseModel res = new ResponseModel("Fail", null, "200");
                 return res;
             }
-            float amount = bill.Amount_Bill;
-            string desciption = bill.Desciption;
-            DateTime date_s = bill.date_s;
-            DateTime date_e = bill.date_e;
-            string id_cate = bill.Id_Category;
-            string id_tpye = bill.Id_Type;
-            string id_wallet = bill.Id_Wallet;
-            bool isPay = bill.isPay;
-            bool isFinnish = bill.isFinnish;
-            string time = bill.id_Time;
-            //if (bill.Id_Wallet == 0)
-            //{
-            //    bill.Id_Wallet = 1;
-            //}
-            //if (bill.Id_Category == 0)
-            //{
-            //    bill.Id_Category = 1;
-            //}
-            //if (bill.Id_Type == 0)
-            //{
-            //    bill.Id_Type = 1;
-            //}
-            //if (bill.id_Time == 0)
-            //{
-            //    bill.id_Time = 1;
-            //}
             bill.isPay = false;
             bill.isFinnish = false;
             try

@@ -98,44 +98,52 @@ namespace API_ExpenseManagement.Controllers
                     {
                         wallet_chuyen.Amount_now = wallet_chuyen.Amount_now - amount;
                         wallet_nhan.Amount_now = wallet_nhan.Amount_now + amount;
-                        transfers.id_chuyen = id_chuyen;
-                        transfers.id_nhan = id_nhan;
-                        transfers.amount = amount;
+                    if (transfers.desciption == "") {
                         transfers.desciption = "Chuyển khoản";
+                    }
                         transfers.date = DateTime.Today;
                     Income_Outcome income_chuyen = new Income_Outcome();
                     Income_Outcome income_nhan = new Income_Outcome();
                     income_chuyen.Amount = amount;
                     income_chuyen.Date_come = DateTime.Today.ToString();
-                    income_chuyen.Description_come = "Chuyển khoản " + dis;
+                    if (transfers.desciption == "")
+                    {
+                        income_chuyen.Description_come = "Chuyển khoản ";
+                    }
+                    else {
+                        income_chuyen.Description_come = transfers.desciption;
+                    }
+                   
                     income_chuyen.WalletId_Wallet = id_chuyen.ToString();
                     income_chuyen.Is_Come = false;
                     income_chuyen.Id_type = "16";
-                    income_chuyen.CategoryId_Cate = "1";
-                    income_chuyen.LoanId_Loan = "1";
-                    income_chuyen.TripId_Trip = "1";
+                    income_chuyen.CategoryId_Cate = null;
+                    income_chuyen.LoanId_Loan = null;
+                    income_chuyen.TripId_Trip = null;
                     _context.Income_Outcomes.Add(income_chuyen);
+
                     income_nhan.Amount = amount;
                     income_nhan.Date_come = DateTime.Today.ToString();
-                    income_nhan.Description_come = "Nhận chuyển khoản " +dis;
+                    income_nhan.Description_come = "Nhận chuyển khoản ";
                     income_nhan.WalletId_Wallet = id_nhan.ToString();
                     income_nhan.Is_Come = true;
                     income_nhan.Id_type = "16";
-                    income_nhan.CategoryId_Cate = "1";
-                    income_nhan.LoanId_Loan = "1";
-                    income_nhan.TripId_Trip = "1";
+                    income_nhan.CategoryId_Cate = null;
+                    income_nhan.LoanId_Loan = null;
+                    income_nhan.TripId_Trip = null;
                     _context.Income_Outcomes.Add(income_nhan);
+
                     _context.Transfers.Add(transfers);
                     _context.Wallets.Update(wallet_chuyen);
                     _context.Wallets.Update(wallet_nhan);
                     _context.SaveChanges();
-                    ResponseModel res = new ResponseModel("Transfers success", null, "404");
+                    ResponseModel res = new ResponseModel("Transfers success", null, "200");
                     return res;
                     }
                     else
                     {
-                        ResponseModel res = new ResponseModel("Does not exits wallet", null, "404");
-                        return res;
+                    ResponseModel res = new ResponseModel("Transfers fail", null, "404");
+                    return res;
                     }
             }
             catch
