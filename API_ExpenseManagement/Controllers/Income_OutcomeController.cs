@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using API_ExpenseManagement.Context;
 using API_ExpenseManagement.Models;
 using System.Collections;
+using System.Net.Http.Headers;
 
 namespace API_ExpenseManagement.Controllers
 {
@@ -50,7 +51,6 @@ namespace API_ExpenseManagement.Controllers
                               join c in _context.TypeCategories
                               on a.Id_type equals c.Id_type.ToString()
                               where (a.CategoryId_Cate == null && DateTime.Parse(a.Date_come).Month == DateTime.Parse(date).Month
-                              && DateTime.Parse(a.Date_come).Year == DateTime.Parse(date).Year
                               && a.Id_come == income_.Id_come
                               && DateTime.Parse(a.Date_come).Year == DateTime.Parse(date).Year)
                               select new
@@ -227,12 +227,99 @@ namespace API_ExpenseManagement.Controllers
                 {
                     income.Is_Come = false;
                     Bill bill = _context.Bill.Where(m => m.Id_Bill.ToString() == id_bill).FirstOrDefault();
-                    bill.isPay = true;
-                    income.Description_come = "Thanh toán hóa đơn";
-                    income.Date_come = DateTime.Today.ToString();
-                    wallet.Amount_now = wallet.Amount_now - bill.Amount_Bill;
-                    income.Amount = bill.Amount_Bill;
-                    _context.Bill.Update(bill);
+                    if(bill.date_s.Ticks == DateTime.Today.Ticks)
+                    {
+                        if (bill.id_Time == "1")
+                        {
+                            if (DateTime.Now.AddDays(1).Ticks > bill.date_e.Ticks)
+                            {
+                                bill.isPay = true;
+                            }
+                            else
+                            {
+                                bill.isPay = false;
+                                bill.date_s = bill.date_s.AddDays(1);
+                            }
+                        }
+                        if (bill.id_Time == "2") {
+                            if (DateTime.Now.AddDays(7).Ticks > bill.date_e.Ticks)
+                            {
+                                bill.isPay = true;
+                            }
+                            else
+                            {
+                                bill.isPay = false;
+                                bill.date_s = bill.date_s.AddDays(7);
+                            }
+                        }
+                        if (bill.id_Time == "3")
+                        {
+                            if (DateTime.Now.AddDays(getDayOfMonth()).Ticks > bill.date_e.Ticks)
+                            {
+                                bill.isPay = true;
+                            }
+                            else
+                            {
+                                bill.isPay = false;
+                                int month = DateTime.Now.Month;
+                                switch (month)
+                                {
+                                    case 1:
+                                    case 3:
+                                    case 5:
+                                    case 7:
+                                    case 8:
+                                    case 10:
+                                    case 12:
+                                        bill.date_s = bill.date_s.AddDays(31);
+                                        break;
+
+                                    case 2:
+                                        int year = DateTime.Now.Year;
+                                        if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0))
+                                        {
+                                            bill.date_s = bill.date_s.AddDays(29);
+                                        }
+                                        else {
+                                            bill.date_s = bill.date_s.AddDays(28);
+                                        }
+                                        break;
+                                    case 4:
+                                    case 6:
+                                    case 9:
+                                    case 11:
+                                        bill.date_s = bill.date_s.AddDays(30);
+                                        break;
+
+                                }
+                            }
+                        }
+                        if (bill.id_Time == "4")
+                        {
+                            if (DateTime.Now.AddYears(1).Ticks > bill.date_e.Ticks)
+                            {
+                                bill.isPay = true;
+                            }
+                            else
+                            {
+                                bill.isPay = false;
+                                bill.date_s = bill.date_s.AddYears(1);
+                            }
+                        }
+                        income.Description_come = "Thanh toán hóa đơn";
+                        income.Date_come = DateTime.Today.ToString();
+                        income.CategoryId_Cate = bill.Id_Category;
+                        income.Id_type = bill.Id_Type;
+                        wallet.Amount_now = wallet.Amount_now - bill.Amount_Bill;
+                        income.Amount = bill.Amount_Bill;
+                        _context.Bill.Update(bill);
+                    }
+                    else
+                    {
+                        ResponseModel result = new ResponseModel("Chưa tới hạn thanh toán", null, "404");
+                        return result;
+                    }
+                    
                 }
 
                 if (id_type == "12" || id_type == "13" || id_type == "14" || id_type == "15" || id_type == "16" || id_type == "18")
@@ -255,6 +342,40 @@ namespace API_ExpenseManagement.Controllers
                 return res;
             }
         }
+
+        public int getDayOfMonth()
+        {
+            int month = DateTime.Now.Month;
+            switch (month)
+            {
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
+                case 12:
+                    return 31;
+                case 2:
+                    int year = DateTime.Now.Year;
+                    if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0))
+                    {
+                        return 29;
+                    }
+                    else
+                    {
+                        return 28;
+                    }
+                case 4:
+                case 6:
+                case 9:
+                case 11:
+                    return 30;
+
+            }
+            return 30;
+        }
+
 
         // DELETE: api/Income_Outcome/5
         [HttpDelete("{id}")]

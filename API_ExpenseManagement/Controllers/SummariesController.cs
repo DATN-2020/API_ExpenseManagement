@@ -35,8 +35,7 @@ namespace API_ExpenseManagement.Controllers
         {
             //string id_wallet = summary.id_wallet;
             Summary summary = new Summary();
-            string date_set = date;
-            //int month = int.Parse(date.Substring(5, 2));
+            int year = int.Parse(date);
             float total_income_old = 0;
             float total_income_new = 0;
             Wallet wallet = _context.Wallets.Where(m => m.Id_Wallet.ToString() == id).FirstOrDefault();
@@ -46,68 +45,70 @@ namespace API_ExpenseManagement.Controllers
             {
                 foreach (Income_Outcome incomes in income)
                 {
-                    //Tổng chi trong tháng
-                    if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Is_Come == false && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                    //Tổng chi trong nam
+                    if (incomes.Is_Come == false
+                        && DateTime.Parse(incomes.Date_come).Year == year)
                     {
-                        summary.totalOutcome = summary.totalOutcome + incomes.Amount;
+                        summary.totalOutcome += incomes.Amount;
                     }
-                    //Tổng thu trong tháng
-                    if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Is_Come == true && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                    //Tổng thu trong nam
+                    if (incomes.Is_Come == true 
+                        && DateTime.Parse(incomes.Date_come).Year == year)
                     {
-                        summary.totalIncome = summary.totalIncome + incomes.Amount;
+                        summary.totalIncome += incomes.Amount;
                     }
                     //Tổng chi từ trước đến ngày đầu của tháng
-                    if (DateTime.Parse(incomes.Date_come).Millisecond < DateTime.Parse(date).Millisecond && incomes.Is_Come == false)
+                    if (DateTime.Parse(incomes.Date_come).Year < year && incomes.Is_Come == false)
                     {
                         summary.beginBalance = summary.beginBalance + incomes.Amount;
                     }
                     //Tổng Thu từ trước đến ngày đầu của tháng
-                    if (DateTime.Parse(incomes.Date_come).Millisecond < DateTime.Parse(date).Millisecond && incomes.Is_Come == true)
+                    if (DateTime.Parse(incomes.Date_come).Year < year && incomes.Is_Come == true)
                     {
                         total_income_old = total_income_old + incomes.Amount;
                     }
                     //Tổng thu từ trước đến ngày cuối của tháng
-                    if (DateTime.Parse(incomes.Date_come).Millisecond <= DateTime.Parse(date).Millisecond && incomes.Is_Come == true)
+                    if (DateTime.Parse(incomes.Date_come).Year <= year && incomes.Is_Come == true)
                     {
                         total_income_new = total_income_new + incomes.Amount;
                     }
                     //Tổng chi từ trước đến ngày cuối của tháng
-                    if (DateTime.Parse(incomes.Date_come).Millisecond <= DateTime.Parse(date).Millisecond && incomes.Is_Come == false)
+                    if (DateTime.Parse(incomes.Date_come).Year <= year && incomes.Is_Come == false)
                     {
                         summary.endBalance = summary.endBalance + incomes.Amount;
                     }
-                    //Tổng thu, chi trong tháng đang set
-                    if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                    //Tổng thu, chi trong năm đang set
+                    if (DateTime.Parse(incomes.Date_come).Year == year)
                     {
                         summary.netBalance = summary.netBalance + incomes.Amount;
                     }
                     //Tổng đi vay
-                    if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Id_type == "18" && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                    if (DateTime.Parse(incomes.Date_come).Year == year && incomes.Id_type == "18")
                     {
                         summary.totalLoan = summary.totalLoan + incomes.Amount;
                     }
                     //Tổng cho vay
-                    if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Id_type == "17" && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                    if (DateTime.Parse(incomes.Date_come).Year == year && incomes.Id_type == "17")
                     {
                         summary.totalBorrow = summary.totalBorrow + incomes.Amount;
                     }
                     //Tổng khác
-                    if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && incomes.Id_type == "16" && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                    if (DateTime.Parse(incomes.Date_come).Year == year && incomes.Id_type == "16")
                     {
                         summary.totalOther = summary.totalOther + incomes.Amount;
                     }
 
-                    if (DateTime.Parse(incomes.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                    if (DateTime.Parse(incomes.Date_come).Year == year)
                     {
                         float t = 0;
                         float t2 = 0;
                         foreach (Income_Outcome incomes_t in income)
                         {
-                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 1 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 1 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t = t + incomes_t.Amount;
                             }
-                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 1 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 1 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t2 = t2 + incomes_t.Amount;
                             }
@@ -117,11 +118,11 @@ namespace API_ExpenseManagement.Controllers
                         t2 = 0;
                         foreach (Income_Outcome incomes_t in income)
                         {
-                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 2 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 2 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t = t + incomes_t.Amount;
                             }
-                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 2 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 2 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t2 = t2 + incomes_t.Amount;
                             }
@@ -131,11 +132,11 @@ namespace API_ExpenseManagement.Controllers
                         t2 = 0;
                         foreach (Income_Outcome incomes_t in income)
                         {
-                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 3 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 3 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t = t + incomes_t.Amount;
                             }
-                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 3 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 3 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t2 = t2 + incomes_t.Amount;
                             }
@@ -145,11 +146,11 @@ namespace API_ExpenseManagement.Controllers
                         t2 = 0;
                         foreach (Income_Outcome incomes_t in income)
                         {
-                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 4 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 4 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t = t + incomes_t.Amount;
                             }
-                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 4 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 4 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t2 = t2 + incomes_t.Amount;
                             }
@@ -159,11 +160,11 @@ namespace API_ExpenseManagement.Controllers
                         t2 = 0;
                         foreach (Income_Outcome incomes_t in income)
                         {
-                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 5 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 5 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t = t + incomes_t.Amount;
                             }
-                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 5 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 5 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t2 = t2 + incomes_t.Amount;
                             }
@@ -173,11 +174,11 @@ namespace API_ExpenseManagement.Controllers
                         t2 = 0;
                         foreach (Income_Outcome incomes_t in income)
                         {
-                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 6 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 6 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t = t + incomes_t.Amount;
                             }
-                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 6 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 6 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t2 = t2 + incomes_t.Amount;
                             }
@@ -187,11 +188,11 @@ namespace API_ExpenseManagement.Controllers
                         t2 = 0;
                         foreach (Income_Outcome incomes_t in income)
                         {
-                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 7 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 7 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t = t + incomes_t.Amount;
                             }
-                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 7 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 7 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t2 = t2 + incomes_t.Amount;
                             }
@@ -201,11 +202,11 @@ namespace API_ExpenseManagement.Controllers
                         t2 = 0;
                         foreach (Income_Outcome incomes_t in income)
                         {
-                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 8 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 8 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t = t + incomes_t.Amount;
                             }
-                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 8 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 8 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t2 = t2 + incomes_t.Amount;
                             }
@@ -215,11 +216,11 @@ namespace API_ExpenseManagement.Controllers
                         t2 = 0;
                         foreach (Income_Outcome incomes_t in income)
                         {
-                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 9 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 9 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t = t + incomes_t.Amount;
                             }
-                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 9 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 9 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t2 = t2 + incomes_t.Amount;
                             }
@@ -229,11 +230,11 @@ namespace API_ExpenseManagement.Controllers
                         t2 = 0;
                         foreach (Income_Outcome incomes_t in income)
                         {
-                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 10 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 10 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t = t + incomes_t.Amount;
                             }
-                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 10 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 10 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t2 = t2 + incomes_t.Amount;
                             }
@@ -243,11 +244,11 @@ namespace API_ExpenseManagement.Controllers
                         t2 = 0;
                         foreach (Income_Outcome incomes_t in income)
                         {
-                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 11 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 11 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t = t + incomes_t.Amount;
                             }
-                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 11 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 11 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t2 = t2 + incomes_t.Amount;
                             }
@@ -257,11 +258,11 @@ namespace API_ExpenseManagement.Controllers
                         t2 = 0;
                         foreach (Income_Outcome incomes_t in income)
                         {
-                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 12 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == false && DateTime.Parse(incomes_t.Date_come).Month == 12 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t = t + incomes_t.Amount;
                             }
-                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 12 && DateTime.Parse(incomes_t.Date_come).Month == DateTime.Parse(date).Month && DateTime.Parse(incomes.Date_come).Year == DateTime.Parse(date).Year)
+                            if (incomes_t.Is_Come == true && DateTime.Parse(incomes_t.Date_come).Month == 12 && DateTime.Parse(incomes_t.Date_come).Year == year)
                             {
                                 t2 = t2 + incomes_t.Amount;
                             }

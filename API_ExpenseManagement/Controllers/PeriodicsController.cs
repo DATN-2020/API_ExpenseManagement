@@ -43,8 +43,8 @@ namespace API_ExpenseManagement.Controllers
                     var log = from a in _context.Income_Outcomes
                               join c in _context.TypeCategories
                               on a.Id_type equals c.Id_type.ToString()
-                              where (a.CategoryId_Cate == null && DateTime.Parse(a.Date_come).Month == DateTime.Parse(date).Month
-                              && a.Id_come == income_.Id_come && DateTime.Parse(a.Date_come).Year == DateTime.Parse(date).Year
+                              where (a.CategoryId_Cate == null
+                              && a.Id_come == income_.Id_come
                               && a.Id_Per == id_per)
                               select new
                               {
@@ -69,9 +69,9 @@ namespace API_ExpenseManagement.Controllers
                     var log = from a in _context.Income_Outcomes
                               join c in _context.Categories
                               on a.CategoryId_Cate equals c.Id_Cate.ToString()
-                              where (a.Id_type == null && DateTime.Parse(a.Date_come).Month == DateTime.Parse(date).Month
-                              && a.Id_come == income_.Id_come && a.Id_Per == id_per &&
-                              DateTime.Parse(a.Date_come).Year == DateTime.Parse(date).Year)
+                              where (a.Id_type == null
+                              && a.Id_come == income_.Id_come 
+                              && a.Id_Per == id_per)
                               select new
                               {
                                   idwallet = a.WalletId_Wallet,

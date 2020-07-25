@@ -80,16 +80,6 @@ namespace API_ExpenseManagement.Controllers
                     {
                         list.Add(l);
                     }
-                    //if (log == null)
-                    //{
-                    //    ResponseModel res = new ResponseModel("Fail", null, "404");
-                    //    return res;
-                    //}
-                    //else
-                    //{
-                    //    ResponseModel res = new ResponseModel("Bill", get, "200");
-                    //    return res;
-                    //}
                 }
                 if (bill2.Id_Type == null)
                 {
@@ -114,7 +104,7 @@ namespace API_ExpenseManagement.Controllers
                                   date_time_s = a.date_s,
                                   date_time_e =
                                   (a.id_Time == "1" ? a.date_s.AddDays(1) :
-                                  a.id_Time == "2" ? a.date_s.AddDays(7) :
+                                  a.id_Time == "2" ? a.date_s.AddDays(7) : 
                                   a.id_Time == "3" ? DateTime.Today.AddDays(DateTime.DaysInMonth(2020, DateTime.Today.Month) - DateTime.Today.Day) :
                                   DateTime.Today.AddDays(365 - (a.date_s.DayOfYear - 1)))
                               };
