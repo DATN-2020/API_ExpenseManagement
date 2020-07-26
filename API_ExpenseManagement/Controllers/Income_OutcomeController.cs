@@ -38,11 +38,7 @@ namespace API_ExpenseManagement.Controllers
             var list = new ArrayList();
             var list_date = new ArrayList();
             var income = _context.Income_Outcomes.Where(m => m.WalletId_Wallet == id);
-            //foreach(Income_Outcome income_1 in income)
-            //{
-            //    string getdate = income_1.Date_come;
-            //    list_date.Add(getdate);
-            //}    
+ 
             foreach (Income_Outcome income_ in income)
             {
                 if (income_.CategoryId_Cate == null)
@@ -69,10 +65,6 @@ namespace API_ExpenseManagement.Controllers
                     {
                         list.Add(l);
                     }
-                    //foreach (object l in get)
-                    //{
-                    //    list_date.Add(list);
-                    //}
                 }
                 if (income_.Id_type == null)
                 {
