@@ -162,35 +162,12 @@ namespace API_ExpenseManagement.Controllers
         [HttpPost]
         public ResponseModel PostPeriodic([FromBody] Periodic periodic)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    ResponseModel res = new ResponseModel("Fail", null, "200");
-            //    return res;
-            //}
-            float amount = periodic.Amount_Per;
-            string desciption = periodic.Desciption;
-            DateTime date_s = periodic.date_s;
-            DateTime date_e = periodic.date_e;
-            bool isComeBack = periodic.isComeback;
-            string id_cate = periodic.Id_Cate;
-            string id_wallet = periodic.Id_Wallet;
-            string id_time = periodic.id_Time;
-            //if (periodic.Id_Wallet == 0)
-            //{
-            //    periodic.Id_Wallet = 1;
-            //}
-            //if (periodic.Id_Cate == 0)
-            //{
-            //    periodic.Id_Cate = 1;
-            //}
-            //if (periodic.Id_Type == 0)
-            //{
-            //    periodic.Id_Type = 1;
-            //}
-            //if (periodic.id_Time == 0)
-            //{
-            //    periodic.id_Time = 1;
-            //}
+            if (!ModelState.IsValid)
+            {
+                ResponseModel res = new ResponseModel("Fail", null, "200");
+                return res;
+            }
+         
             periodic.isComeback = false;
             if(periodic != null)
             {
