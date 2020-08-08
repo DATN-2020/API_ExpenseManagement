@@ -203,19 +203,25 @@ namespace API_ExpenseManagement.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ResponseModel res = new ResponseModel("Delete fail", null, "200");
+                ResponseModel res = new ResponseModel("Delete fail", null, "404");
                 return res;
             }
 
             var budget = _context.Budget.Find(id);
             if (budget == null)
             {
-                ResponseModel res = new ResponseModel("Not found", null, "200");
+                ResponseModel res = new ResponseModel("Not found", null, "404");
                 return res;
             }
             else
             {
                 _context.Budget.Remove(budget);
+                var income = _context.Income_Outcomes
+                .Where(w => w.Id_Budget == id.ToString());
+                foreach (Income_Outcome incomes in income)
+                {
+                    _context.Income_Outcomes.Remove(incomes);
+                }
                 _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Delete success", null, "200");
                 return res;

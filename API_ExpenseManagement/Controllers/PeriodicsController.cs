@@ -208,23 +208,29 @@ namespace API_ExpenseManagement.Controllers
 
         // DELETE: api/Periodics/5
         [HttpDelete("{id}")]
-        public ResponseModel DeletePeriodic([FromRoute] int id)
+        public ResponseModel DeletePeriodic([FromQuery] int id)
         {
             if (!ModelState.IsValid)
             {
-                ResponseModel res = new ResponseModel("Delete fail", null, "200");
+                ResponseModel res = new ResponseModel("Delete fail", null, "404");
                 return res;
             }
 
             var per = _context.Periodic.Find(id);
             if (per == null)
             {
-                ResponseModel res = new ResponseModel("Not found", null, "200");
+                ResponseModel res = new ResponseModel("Not found", null, "404");
                 return res;
             }
             else
             {
                 _context.Periodic.Remove(per);
+                var income = _context.Income_Outcomes
+                .Where(w => w.Id_Per == id.ToString());
+                foreach (Income_Outcome incomes in income)
+                {
+                    _context.Income_Outcomes.Remove(incomes);
+                }
                 _context.SaveChanges();
                 ResponseModel res = new ResponseModel("Delete success", null, "200");
                 return res;
